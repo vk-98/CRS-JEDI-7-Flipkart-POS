@@ -31,7 +31,6 @@ public class StudentClient {
                 case 3: feePayment(studentId);
                         break;
                 case 4: {
-                    //TODO bug , have to enter 4 twice to logout
                     menuBreakFlag=true;
                     UserInterfaceImpl.logout();
                     break;
@@ -99,8 +98,9 @@ public class StudentClient {
                     break;
 
                 case 5: {
-                    semRegister.submitCourseChoices(studentId);
-                    breakFlag = true;
+                    boolean isSuccess= semRegister.submitCourseChoices(studentId);
+                    if(isSuccess)
+                        breakFlag = true;
                     break;
                 }
 
@@ -112,8 +112,6 @@ public class StudentClient {
             }
 
         }
-
-        showMenu(studentId);
 
     }
 

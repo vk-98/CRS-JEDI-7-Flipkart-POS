@@ -106,14 +106,15 @@ public class SemesterRegistrationImpl implements SemesterRegistrationInterface{
     }
 
     @Override
-    public void submitCourseChoices(String studentId) {
+    public boolean submitCourseChoices(String studentId) {
 
         if(primaryCourses.size()!=4 || secondaryCourses.size()!=2)
         {
             System.out.println("Please register required courses");
-            return;
+            return false;
         }
         System.out.println("Courses successfully registered");
+        return true;
     }
 
     @Override

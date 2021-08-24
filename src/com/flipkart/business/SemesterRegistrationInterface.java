@@ -7,7 +7,7 @@ public interface SemesterRegistrationInterface {
     boolean dropCourse(String studentId, String courseId);
     void viewRegisteredCourses(String studentId);
     double calculateFee(String studentId);
-    void submitCourseChoices(String studentId);
+    boolean submitCourseChoices(String studentId);
     boolean getRegistrationStatus(String studentId);
     void setRegistrationStatus(String studentId, boolean status);
 }

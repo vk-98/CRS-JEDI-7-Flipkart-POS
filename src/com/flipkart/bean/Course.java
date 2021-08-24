@@ -7,6 +7,14 @@ public class Course {
     private double courseFee;
     private int studentCount;
 
+    public Course(String courseId, String professorId, String courseName, double courseFee, int studentCount) {
+        this.courseId = courseId;
+        this.professorId = professorId;
+        this.courseName = courseName;
+        this.courseFee = courseFee;
+        this.studentCount = studentCount;
+    }
+
     public String getCourseId() {
         return courseId;
     }

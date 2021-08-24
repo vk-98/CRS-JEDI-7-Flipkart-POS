@@ -15,7 +15,7 @@ public class Student extends User{
         super(userName, userEmailId, userPassword, phoneNo, Roles.Student);
         this.studentId = String.valueOf(nextId);
         nextId++;
-        this.isApproved = false;
+        this.isApproved = true;
         this.branch = branch;
     }
 

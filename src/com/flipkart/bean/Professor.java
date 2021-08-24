@@ -12,8 +12,8 @@ public class Professor extends User{
         return professorId;
     }
 
-    public Professor(String userName, String userEmailId, String userPassword, String phoneNo, String professorId, String department, String designation) {
-        super(userName, userEmailId, userPassword, phoneNo);
+    public Professor(String userName, String userEmailId, String userPassword, String role, String phoneNo, String professorId, String department, String designation) {
+        super(userName, userEmailId, userPassword, role, phoneNo);
         this.professorId = professorId;
         this.department = department;
         this.designation = designation;

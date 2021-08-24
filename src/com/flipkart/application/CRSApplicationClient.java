@@ -1,6 +1,10 @@
 package com.flipkart.application;
 
 import com.flipkart.bean.Student;
+import com.flipkart.business.StudentInterface;
+import com.flipkart.business.StudentInterfaceImpl;
+import com.flipkart.business.UserInterface;
+import com.flipkart.business.UserInterfaceImpl;
 import com.flipkart.constants.Roles;
 
 import java.util.Scanner;
@@ -10,27 +14,28 @@ public class CRSApplicationClient {
     static AdminClient adminClient = new AdminClient();
     static ProfessorClient professorClient = new ProfessorClient();
     static StudentClient studentClient = new StudentClient();
+    static StudentInterface studentInterface = new StudentInterfaceImpl();
+    static UserInterface userInterface = new UserInterfaceImpl();
 
     public static void main(String[] args) {
         System.out.println("--------------------Welcome to Course Registration System--------------------");
-        for (; ; ) {
+        while (true) {
             showMenu();
             int userInput = sc.nextInt();
             if (userInput == 3) {
                 break;
             }
-            if (userInput == 1) {
-                // Login
-                System.out.println("login");
-                login();
-            } else if (userInput == 2) {
-                // Student Registration
-                System.out.println("student registration");
-                studentRegistration();
-            } else {
-                // Invalid userInput
-                System.out.println("Invalid User Input");
+            switch (userInput) {
+                case 1:
+                    login();
+                    break;
+                case 2:
+                    studentRegistration();
+                    break;
+                default:
+                    System.out.println("Invalid User Input");
             }
+
         }
 
     }
@@ -46,10 +51,11 @@ public class CRSApplicationClient {
         System.out.print("Enter EmailId: ");
         String emailId = sc.next();
 
-        System.out.println("Enter Password");
+        System.out.print("Enter Password: ");
         String password = sc.next();
 
         boolean verified = userInterface.validateUser(emailId, password);
+
         if (verified) {
             System.out.println("User Logged in Successfully");
             String role = userInterface.getRole(emailId);
@@ -60,8 +66,6 @@ public class CRSApplicationClient {
             } else {
                 studentClient.showMenu();
             }
-        } else {
-            System.out.println("Either EmailId or Password are Incorrect, Try Again");
         }
     }
 
@@ -83,6 +87,16 @@ public class CRSApplicationClient {
 
         Student student;
         student = studentInterface.register(studentName, studentEmailId, studentPassword, studentPhoneNo, studentBranch);
-        System.out.println(studentName + " you are successfully registered, please wait for Admin's Approval");
+
+        if(student==null) {
+            return;
+        }
+
+        System.out.println(studentName + "you are successfully registered with CRS, your registered details are as follows");
+        System.out.println("Name: " + studentName);
+        System.out.println("EmailId: " + studentEmailId);
+        System.out.println("PhoneNo: "+ studentPhoneNo);
+        System.out.println("Student Branch: " + studentBranch);
+//        System.out.println(studentName + " you are successfully registered, please wait for Admin's Approval");
     }
 }

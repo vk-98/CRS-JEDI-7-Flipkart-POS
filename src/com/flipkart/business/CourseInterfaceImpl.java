@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.flipkart.bean.Course;
 
 public class CourseInterfaceImpl implements CourseInterface {
-    ArrayList<Course> courses = new ArrayList<Course>();
+    static ArrayList<Course> courses = new ArrayList<Course>();
 
     public CourseInterfaceImpl(int courseCount) {
         for (int i = 0; i < courseCount; i++) {

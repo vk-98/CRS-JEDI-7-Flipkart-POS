@@ -55,7 +55,7 @@ public class CRSApplicationClient {
         String password = sc.next();
 
         boolean verified = userInterface.validateUser(emailId, password);
-
+        String studentId= String.valueOf(1);
         if (verified) {
             System.out.println("User Logged in Successfully");
             String role = userInterface.getRole(emailId);
@@ -64,7 +64,7 @@ public class CRSApplicationClient {
             } else if (role == Roles.Professor) {
                 professorClient.showMenu();
             } else {
-                studentClient.showMenu();
+                studentClient.showMenu(studentId);
             }
         }
     }

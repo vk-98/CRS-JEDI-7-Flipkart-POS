@@ -14,8 +14,6 @@ public class User {
         this.role = role;
     }
 
-
-
     public String getPhoneNo() {
         return phoneNo;
     }
@@ -35,6 +33,7 @@ public class User {
         this.userPassword = userPassword;
         this.role = role;
         this.phoneNo = phoneNo;
+
     }
 
     public String getUserName() {

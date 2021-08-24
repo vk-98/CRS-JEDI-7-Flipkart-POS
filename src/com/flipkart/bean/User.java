@@ -5,6 +5,9 @@ public class User {
     private String userEmailId;
     private String userPassword;
     private String role;
+    private String id;
+    static int nextId = 1;
+
 
     public String getRole() {
         return role;
@@ -35,6 +38,10 @@ public class User {
         this.userPassword = userPassword;
         this.role = role;
         this.phoneNo = phoneNo;
+        this.id = String.valueOf(nextId);
+        nextId++;
+
+
     }
 
     public String getUserName() {

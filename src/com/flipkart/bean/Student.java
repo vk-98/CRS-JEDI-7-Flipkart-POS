@@ -1,17 +1,21 @@
 package com.flipkart.bean;
 
+import com.flipkart.constants.Roles;
+
 public class Student extends User{
     private String studentId;
     private boolean isApproved;
     private String branch;
+    static int nextId = 1;
 
     public Student() {
     }
 
-    public Student(String userName, String userEmailId, String userPassword, String phoneNo, String studentId, boolean isApproved, String branch) {
-        super(userName, userEmailId, userPassword, phoneNo);
-        this.studentId = studentId;
-        this.isApproved = isApproved;
+    public Student(String userName, String userEmailId, String userPassword, String phoneNo, String branch) {
+        super(userName, userEmailId, userPassword, phoneNo, Roles.Student);
+        this.studentId = String.valueOf(nextId);
+        nextId++;
+        this.isApproved = false;
         this.branch = branch;
     }
 

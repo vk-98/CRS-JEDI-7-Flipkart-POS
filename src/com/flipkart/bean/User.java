@@ -1,9 +1,20 @@
 package com.flipkart.bean;
 
-public abstract class User {
+public class User {
     private String userName;
     private String userEmailId;
     private String userPassword;
+    private String role;
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+
 
     public String getPhoneNo() {
         return phoneNo;
@@ -18,13 +29,13 @@ public abstract class User {
     public User() {
     }
 
-    public User(String userName, String userEmailId, String userPassword, String phoneNo) {
+    public User(String userName, String userEmailId, String userPassword, String role, String phoneNo) {
         this.userName = userName;
         this.userEmailId = userEmailId;
         this.userPassword = userPassword;
+        this.role = role;
         this.phoneNo = phoneNo;
     }
-
 
     public String getUserName() {
         return userName;

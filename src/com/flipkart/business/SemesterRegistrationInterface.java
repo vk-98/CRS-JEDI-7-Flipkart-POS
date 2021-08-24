@@ -1,6 +1,6 @@
 package com.flipkart.business;
 
-public interface StudentRegistrationInterface {
+public interface SemesterRegistrationInterface {
     boolean addCourse(String studentId, String courseId);
     boolean dropCourse(String studentId, String courseId);
     void viewCourses(String studentId);

@@ -9,6 +9,7 @@ public class UserInterfaceImpl implements UserInterface {
 
     @Override
     public boolean validateUser(String emailId, String password) {
+        //Also to Write validation for Professor As well
         if (!StudentInterfaceImpl.registeredStudents.containsKey(emailId)) {
             System.out.println("Incorrect Email Id, Try Again");
             return false;

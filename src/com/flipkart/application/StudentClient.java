@@ -1,20 +1,25 @@
 package com.flipkart.application;
 
 import com.flipkart.business.*;
+import com.flipkart.dao.StudentDaoInterface;
+import com.flipkart.dao.StudentDaoOperation;
 
+import java.sql.SQLException;
 import java.util.Scanner;
 
 
 public class StudentClient {
 
     Scanner sc = new Scanner(System.in);
-    CourseInterface courseInterface = new CourseInterfaceImpl(10);
+    CourseInterface courseInterface = new CourseInterfaceImpl();
     SemesterRegistrationInterface semRegister = new SemesterRegistrationImpl();
     UserInterface userInterface = new UserInterfaceImpl();
-
-    public void showMenu(String studentId) {
+    StudentDaoInterface studentDaoInterface= new StudentDaoOperation();
+    NotificationInterface notificationInterface= new NotificationImpl();
+    public void showMenu() throws SQLException {
         boolean menuBreakFlag = false;
 
+        int studentId= studentDaoInterface.getStudentById(UserInterfaceImpl.user.getId());
         while (!menuBreakFlag) {
 
             showStudentMenu();
@@ -36,6 +41,9 @@ public class StudentClient {
                     userInterface.updateUserPassword(newPassword);
                     break;
                 case 5:
+                    notificationInterface.showNotifications(studentId);
+                    break;
+                case 6:
                     menuBreakFlag = true;
                     UserInterfaceImpl.logout();
                     break;
@@ -53,11 +61,12 @@ public class StudentClient {
         System.out.println("2. View Courses");
         System.out.println("3. Pay Fees");
         System.out.println("4. Update Password");
-        System.out.println("5. Logout");
+        System.out.println("5. Show Notifications");
+        System.out.println("6. Logout");
         System.out.print("Enter User Input :");
     }
 
-    public void semesterRegistration(String studentId) {
+    public void semesterRegistration(int studentId) {
         boolean breakFlag = false;
 
 
@@ -79,21 +88,21 @@ public class StudentClient {
             switch (userChoice) {
                 case 1: {
                     System.out.println("Enter primary courseID:");
-                    String courseId = sc.next();
+                    int courseId = sc.nextInt();
                     semRegister.addPrimaryCourse(studentId, courseId);
                     break;
                 }
 
                 case 2: {
                     System.out.println("Enter secondary courseID:");
-                    String courseId = sc.next();
+                    int courseId = sc.nextInt();
                     semRegister.addSecondaryCourse(studentId, courseId);
                     break;
                 }
 
                 case 3: {
                     System.out.println("Enter courseID to be dropped:");
-                    String courseId = sc.next();
+                    int courseId = sc.nextInt();
                     semRegister.dropCourse(studentId, courseId);
                     break;
                 }
@@ -126,11 +135,9 @@ public class StudentClient {
         // show all the courses
     }
 
-    public void feePayment(String studentId) {
+    public void feePayment(int studentId) throws SQLException {
 
         double totalFee = semRegister.calculateFee(studentId);
-        //System.out.println("Please proceed with the payment of this amount : " + totalFee);
-
         System.out.println("## Total Fees : " + totalFee);
 
         // get the corresponding student object

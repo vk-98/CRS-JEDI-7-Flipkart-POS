@@ -9,14 +9,14 @@ import com.flipkart.bean.Professor;
 import java.util.ArrayList;
 
 public class AdminInterfaceImpl implements AdminInterface {
-    ArrayList<Course> courses = CourseInterfaceImpl.courses;
+//    ArrayList<Course> courses = CourseInterfaceImpl.courses;
     static Admin admin = new Admin("b", "admin", "b", "Admin", "b", "b", "b");
 
     @Override
     public boolean addCourse(String courseId, String courseName, int studentCount, double courseFee) {
 
         Course course = new Course(courseId, "random", courseName, courseFee, studentCount);
-        courses.add(course);
+//        courses.add(course);
         System.out.println("Course added !");
         return true;
 
@@ -25,13 +25,13 @@ public class AdminInterfaceImpl implements AdminInterface {
     @Override
     public boolean removeCourse(String courseId) {
 
-        for (Course course : courses) {
-            if (course.getCourseId() == courseId) {
-                courses.remove(course);
-                System.out.println("Course removed !");
-                return true;
-            }
-        }
+//        for (Course course : courses) {
+//            if (course.getCourseId() == courseId) {
+//                courses.remove(course);
+//                System.out.println("Course removed !");
+//                return true;
+//            }
+//        }
         System.out.println("Course not found removed !");
 
         return false;

@@ -3,51 +3,57 @@ package com.flipkart.business;
 //import com.flipkart.constants.Courses;
 
 import com.flipkart.bean.Course;
+import com.flipkart.dao.SemesterRegistrationDaoInterface;
+import com.flipkart.dao.SemesterRegistrationDaoOperation;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Scanner;
 
 public class SemesterRegistrationImpl implements SemesterRegistrationInterface {
 
     HashSet<String> primaryCourses = new HashSet<String>();
     HashSet<String> secondaryCourses = new HashSet<String>();
 
+    SemesterRegistrationDaoInterface semesterRegistrationDaoInterface= new SemesterRegistrationDaoOperation();
+
     @Override
-    public boolean addPrimaryCourse(String studentId, String courseId) {
-        if (primaryCourses.size() < 4) {
-            primaryCourses.add(courseId);
+    public boolean addPrimaryCourse(int studentId, int courseId) {
+
+        if(semesterRegistrationDaoInterface.addCourse(courseId,studentId,0))
+        {
             System.out.println("Successfully added primary course");
             return true;
         }
 
+
         System.out.println("Limit reached");
 
         return false;
     }
 
     @Override
-    public boolean addSecondaryCourse(String studentId, String courseId) {
-        if (secondaryCourses.size() < 2) {
-            secondaryCourses.add(courseId);
+    public boolean addSecondaryCourse(int studentId, int courseId) {
+        if(semesterRegistrationDaoInterface.addCourse(courseId,studentId,1))
+        {
             System.out.println("Successfully added secondary course");
             return true;
         }
 
+
         System.out.println("Limit reached");
 
         return false;
     }
 
     @Override
-    public boolean dropCourse(String studentId, String courseId) {
+    public boolean dropCourse(int studentId, int courseId) {
 
-        if (primaryCourses.contains(courseId)) {
-            primaryCourses.remove(courseId);
-            System.out.println("Successfully removed primary course");
-            return true;
-        }
-        if (secondaryCourses.contains(courseId)) {
-            secondaryCourses.remove(courseId);
-            System.out.println("Successfully removed secondary course");
+        if(semesterRegistrationDaoInterface.dropCourse(courseId,studentId))
+        {
+            System.out.println("Course Deleted");
             return true;
         }
 
@@ -58,62 +64,67 @@ public class SemesterRegistrationImpl implements SemesterRegistrationInterface {
 
 
     @Override
-    public void viewRegisteredCourses(String studentId) {
+    public void viewRegisteredCourses(int studentId) {
         System.out.println("** Registered courses **");
+        List<Course> courses = semesterRegistrationDaoInterface.viewRegisteredCourses(studentId);
 
-
-        if (primaryCourses.size() > 0) {
-            System.out.println("You have opted for " + primaryCourses.size() + " primary courses.");
-            for (String course : primaryCourses) {
-                System.out.println("-- " + course);
-            }
+        if(courses.size()==0)
+        {
+            System.out.println("### No registered courses to show");
+            return;
         }
 
-        if (secondaryCourses.size() > 0) {
-            System.out.println("You have opted for " + secondaryCourses.size() + " secondary courses.");
-            for (String course : secondaryCourses) {
-                System.out.println("-- " + course);
-            }
+        System.out.println("CourseId | ProfessorId | CourseName | CourseFee | Student Count");
+        for (int i = 0; i < courses.size(); i++) {
+            System.out.println(
+                    courses.get(i).getCourseId() +
+                            " | " +
+                            courses.get(i).getProfessorId()
+                            + " | " +
+                            courses.get(i).getCourseName() +
+                            " | " +
+                            courses.get(i).getCourseFee() +
+                            " | " +
+                            courses.get(i).getStudentCount()
+            );
         }
-
-        if (primaryCourses.size() == 0 && secondaryCourses.size() == 0)
-            System.out.println("No registered courses to show");
 
     }
 
     @Override
-    public double calculateFee(String studentId) {
+    public double calculateFee(int studentId) throws SQLException {
         double totalFee = 0;
-        for (Course course : CourseInterfaceImpl.courses) {
-            if (primaryCourses.contains(course.getCourseId())) {
-                totalFee += course.getCourseFee();
-            }
-
-            if (secondaryCourses.contains(course.getCourseId())) {
-                totalFee += course.getCourseFee();
-            }
-        }
+        totalFee= semesterRegistrationDaoInterface.calculateFee(studentId);
         return totalFee;
     }
 
     @Override
-    public boolean submitCourseChoices(String studentId) {
+    public boolean submitCourseChoices(int studentId) {
+        viewRegisteredCourses(studentId);
+        System.out.println("Do you want to proceed?  ");
+        System.out.println("Enter 1 for yes");
+        System.out.println("Enter 2 for no");
 
-        if (primaryCourses.size() != 4 || secondaryCourses.size() != 2) {
-            System.out.println("Please register required courses");
-            return false;
+        Scanner sc= new Scanner(System.in);
+        int x= sc.nextInt();
+
+        if(x==1)
+        {
+           if(semesterRegistrationDaoInterface.submitChoices(studentId)) {
+               System.out.println("Courses submitted successfully");return true;
+           }
+            System.out.println("Invalid selection");
         }
-        System.out.println("Courses successfully registered");
-        return true;
-    }
-
-    @Override
-    public boolean getRegistrationStatus(String studentId) {
         return false;
     }
 
     @Override
-    public void setRegistrationStatus(String studentId, boolean status) {
+    public boolean getRegistrationStatus(int studentId) {
+        return false;
+    }
+
+    @Override
+    public void setRegistrationStatus(int studentId, boolean status) {
 
     }
 }

@@ -7,6 +7,7 @@ import com.flipkart.business.UserInterface;
 import com.flipkart.business.UserInterfaceImpl;
 import com.flipkart.constants.Roles;
 
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class CRSApplicationClient {
@@ -17,7 +18,7 @@ public class CRSApplicationClient {
     static StudentInterface studentInterface = new StudentInterfaceImpl();
     static UserInterface userInterface = new UserInterfaceImpl();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         System.out.println("#######################################################################################");
         System.out.println("#------------------------Welcome to Course Registration System------------------------#");
         System.out.println("#######################################################################################");
@@ -50,7 +51,7 @@ public class CRSApplicationClient {
         System.out.print("Enter User Input: ");
     }
 
-    static void login() {
+    static void login() throws SQLException {
         // Taking credentials as input.
         System.out.print("Enter EmailId: ");
         String emailId = sc.next();
@@ -60,7 +61,7 @@ public class CRSApplicationClient {
 
         boolean verified = userInterface.validateUser(emailId, password);
 
-        String studentId = "1";
+
         if (verified) {
             System.out.println("User Logged in Successfully");
             String role = UserInterfaceImpl.user.getRole();
@@ -69,7 +70,7 @@ public class CRSApplicationClient {
             } else if (role == Roles.Professor) {
                 professorClient.showMenu();
             } else {
-                studentClient.showMenu(studentId);
+                studentClient.showMenu();
             }
         } else {
             System.out.println("Email or Password is incorrect, Try Again");

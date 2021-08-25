@@ -5,13 +5,28 @@ public class User {
     private String userEmailId;
     private String userPassword;
     private String role;
-    private String id;
-    static int nextId = 1;
+    private int id;
+    private String phoneNo;
 
-    public String getId() {
+    public User() {
+    }
+
+    public User(String userName, String userEmailId, String userPassword, String role, String phoneNo) {
+        this.userName = userName;
+        this.userEmailId = userEmailId;
+        this.userPassword = userPassword;
+        this.role = role;
+        this.phoneNo = phoneNo;
+    }
+
+
+    public int getId() {
         return id;
     }
 
+    public void setId(int id) {
+        this.id= id;
+    }
 
     public String getRole() {
         return role;
@@ -29,22 +44,9 @@ public class User {
         this.phoneNo = phoneNo;
     }
 
-    private String phoneNo;
-
-    public User() {
-    }
-
-    public User(String userName, String userEmailId, String userPassword, String role, String phoneNo) {
-        this.userName = userName;
-        this.userEmailId = userEmailId;
-        this.userPassword = userPassword;
-        this.role = role;
-        this.phoneNo = phoneNo;
-        this.id = String.valueOf(nextId);
-        nextId++;
 
 
-    }
+
 
     public String getUserName() {
         return userName;

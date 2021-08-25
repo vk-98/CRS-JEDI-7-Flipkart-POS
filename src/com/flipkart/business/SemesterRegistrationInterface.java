@@ -1,20 +1,22 @@
 package com.flipkart.business;
 
+import java.sql.SQLException;
+
 public interface SemesterRegistrationInterface {
 
-    boolean addPrimaryCourse(String studentId, String courseId);
+    boolean addPrimaryCourse(int studentId, int courseId);
 
-    boolean addSecondaryCourse(String studentId, String courseId);
+    boolean addSecondaryCourse(int studentId, int courseId);
 
-    boolean dropCourse(String studentId, String courseId);
+    boolean dropCourse(int studentId, int courseId);
 
-    void viewRegisteredCourses(String studentId);
+    void viewRegisteredCourses(int studentId);
 
-    double calculateFee(String studentId);
+    double calculateFee(int studentId) throws SQLException;
 
-    boolean submitCourseChoices(String studentId);
+    boolean submitCourseChoices(int studentId);
 
-    boolean getRegistrationStatus(String studentId);
+    boolean getRegistrationStatus(int studentId);
 
-    void setRegistrationStatus(String studentId, boolean status);
+    void setRegistrationStatus(int studentId, boolean status);
 }

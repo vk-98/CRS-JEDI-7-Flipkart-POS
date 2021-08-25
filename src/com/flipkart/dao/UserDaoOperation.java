@@ -29,6 +29,7 @@ public class UserDaoOperation implements UserDaoInterface {
                         rs.getString("role"),
                         rs.getString("phone")
                 );
+                user.setId(rs.getInt("id"));
                 return user;
             }
         } catch (SQLException e) {

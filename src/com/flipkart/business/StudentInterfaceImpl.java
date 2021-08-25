@@ -7,8 +7,6 @@ import com.flipkart.dao.StudentDaoOperation;
 import java.util.HashMap;
 
 public class StudentInterfaceImpl implements StudentInterface {
-    //static HashMap<String, Student> registeredStudents = new HashMap<String, Student>();
-
     @Override
     public Student register(String studentName, String studentEmailId, String studentPassword, String studentPhoneNo) {
 

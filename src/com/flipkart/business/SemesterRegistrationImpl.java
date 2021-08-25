@@ -83,17 +83,7 @@ public class SemesterRegistrationImpl implements SemesterRegistrationInterface {
 
     @Override
     public double calculateFee(String studentId) {
-        double totalFee = 0;
-        for (Course course : CourseInterfaceImpl.courses) {
-            if (primaryCourses.contains(course.getCourseId())) {
-                totalFee += course.getCourseFee();
-            }
-
-            if (secondaryCourses.contains(course.getCourseId())) {
-                totalFee += course.getCourseFee();
-            }
-        }
-        return totalFee;
+        return 0.0;
     }
 
     @Override

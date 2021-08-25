@@ -64,9 +64,10 @@ public class CRSApplicationClient {
         if (verified) {
             System.out.println("User Logged in Successfully");
             String role = UserInterfaceImpl.user.getRole();
-            if (role == Roles.Admin) {
+
+            if (Roles.Admin.equals(role)) {
                 adminClient.showMenu();
-            } else if (role == Roles.Professor) {
+            } else if (Roles.Professor.equals(role)) {
                 professorClient.showMenu();
             } else {
                 studentClient.showMenu(studentId);

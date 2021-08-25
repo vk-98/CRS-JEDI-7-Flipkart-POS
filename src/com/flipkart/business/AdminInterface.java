@@ -3,14 +3,16 @@ package com.flipkart.business;
 import com.flipkart.bean.Professor;
 
 public interface AdminInterface {
-    boolean addCourse(String courseId, String courseName, int studentCount, double courseFee);
+    void addCourse(String courseName, String courseDescription, double courseFee);
 
-    boolean removeCourse(String courseId);
+    void removeCourse(int courseId);
 
-    boolean approveStudentRequest(String studentId);
+    void approveStudentRequest(int studentId);
 
-    boolean addProfessor(Professor professor);
+    void addProfessor(String name, String emailId, String password, String phoneNo, String department, String designation);
 
-    void generateResult();
+    void listAdmissionRequests();
+
+    void viewProfessors();
 
 }

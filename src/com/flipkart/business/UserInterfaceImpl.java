@@ -19,9 +19,7 @@ public class UserInterfaceImpl implements UserInterface {
 
     @Override
     public String getRole(String emailId) {
-        if (emailId.equals("admin"))
-            return AdminInterfaceImpl.admin.getRole();
-        // return StudentInterfaceImpl.registeredStudents.get(emailId).getRole();
+
         return Roles.Student;
     }
 

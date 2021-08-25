@@ -10,15 +10,13 @@ import java.util.List;
 public interface AdminDaoInterface {
     public void addCourse(Course course);
 
+    public int removeCourse(int courseId);
+
     public List<Student> viewPendingAdmissions();
 
-    public void approveStudent(int studentId);
+    public boolean approveStudent(int studentId);
 
-    public void addProfessor(Professor professor);
-
-    public void addUser(User user);
-
-    public void assignCourse(String courseCode, String professorId);
+    public boolean addProfessor(String name, String emailId, String password, String phoneNo, String department, String designation);
 
     public List<Course> viewCourses();
 

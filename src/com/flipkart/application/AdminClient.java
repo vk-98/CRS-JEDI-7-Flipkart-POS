@@ -3,16 +3,15 @@ package com.flipkart.application;
 import java.util.Scanner;
 
 import com.flipkart.bean.Professor;
-import com.flipkart.business.AdminInterface;
-import com.flipkart.business.AdminInterfaceImpl;
-import com.flipkart.business.UserInterfaceImpl;
+import com.flipkart.business.*;
 
 import javax.management.relation.Role;
 
 public class AdminClient {
 
     Scanner sc = new Scanner(System.in);
-    AdminInterface admin = new AdminInterfaceImpl();
+    AdminInterface adminInterface = new AdminInterfaceImpl();
+    CourseInterface courseInterface = new CourseInterfaceImpl();
 
     public void showMenu() {
 
@@ -24,28 +23,32 @@ public class AdminClient {
 
             switch (userInput) {
                 case 1:
-                    addCourse();
+                    courseInterface.viewCourses();
                     break;
                 case 2:
-                    removeCourse();
+                    addCourse();
                     break;
                 case 3:
-                    addProfessor();
+                    removeCourse();
                     break;
                 case 4:
-                    approveStudentRequest();
+                    addProfessor();
                     break;
                 case 5:
-                    generateResult();
+                    adminInterface.viewProfessors();
                     break;
-                case 6: {
+                case  6:
+                    adminInterface.listAdmissionRequests();
+                    break;
+                case 7:
+                    approveStudentRequest();
+                    break;
+                case 8:
                     menuBreakFlag = true;
                     UserInterfaceImpl.logout();
                     break;
-                }
                 default:
-                    menuBreakFlag = true;
-
+                    System.out.println("Invalid User Input");
             }
 
         }
@@ -53,97 +56,70 @@ public class AdminClient {
 
     static void showAdminMenu() {
         System.out.println("`Admin Menu`");
-        System.out.println("1. Add Course");
-        System.out.println("2. Remove Course");
-        System.out.println("3. Add Professor");
-        System.out.println("4. Approve Student");
-        System.out.println("5. Generate Grades");
-        System.out.println("6. Logout");
-        System.out.println("Enter Your Preference :");
+        System.out.println("1. View Courses");
+        System.out.println("2. Add Course");
+        System.out.println("3. Remove Course");
+        System.out.println("4. Add Professor");
+        System.out.println("5. List Professors");
+        System.out.println("6. List Admission Requests");
+        System.out.println("7. Approve Student");
+        System.out.println("8. Logout");
+        System.out.print("Enter User Input: ");
     }
 
     public void addCourse() {
         System.out.println("Enter details of the course to be added :");
 
-        System.out.println("Course Id - ");
-        String courseId = sc.next();
-
-        System.out.println("Course Name - ");
+        System.out.print("Course Name: ");
         String courseName = sc.next();
 
-        System.out.println("Student Count - ");
-        int studentCount = sc.nextInt();
+        System.out.print("Course Description: ");
+        String description = sc.next();
 
-        System.out.println("Course Fee - ");
+        System.out.print("Course Fee: ");
         double courseFee = sc.nextDouble();
 
-        admin.addCourse(courseId, courseName, studentCount, courseFee);
+        adminInterface.addCourse(courseName, description, courseFee);
     }
 
 
     public void removeCourse() {
-        System.out.println("Enter ID of the course to be deleted :");
+        System.out.print("Enter ID of the course to be deleted: ");
+        int courseId = sc.nextInt();
 
-        System.out.println("Course Id - ");
-        String courseId = sc.next();
-
-        admin.removeCourse(courseId);
+        adminInterface.removeCourse(courseId);
 
     }
 
 
     public void addProfessor() {
-        System.out.println("Enter details of the Professor to be added :");
+        System.out.println("Enter details of the Professor to be added: ");
 
-        Professor professor = new Professor();
-
-        System.out.println("Enter Name");
+        System.out.print("Enter Name - ");
         String professorName = sc.next();
-        professor.setUserName(professorName);
 
-        System.out.println("Enter Email Id:");
-        String userId = sc.next();
-        professor.setUserEmailId(userId);
+        System.out.print("Enter Email Id - ");
+        String emailId = sc.next();
 
-        System.out.println("Enter Password:");
+        System.out.print("Enter Password - ");
         String password = sc.next();
-        professor.setUserPassword(password);
 
-        System.out.println("Enter Phone No:");
+        System.out.print("Enter Phone No - ");
         String phoneNo = sc.next();
-        professor.setPhoneNo(password);
 
-        professor.setRole("Professor");
-
-        System.out.println("Enter Department:");
+        System.out.print("Enter Department - ");
         String department = sc.next();
-        professor.setDepartment(department);
 
-        System.out.println("Enter Designation:");
+        System.out.print("Enter Designation - ");
         String designation = sc.next();
-        professor.setDesignation(designation);
 
-        System.out.println("Enter Professor Id - ");
-        String professorId = sc.next();
-        professor.setProfessorId(professorId);
-
-
-        admin.addProfessor(professor);
+        adminInterface.addProfessor(professorName, emailId, password, phoneNo, department, designation);
     }
 
     public void approveStudentRequest() {
-        System.out.println("Enter details of the student to be approved :");
+        System.out.print("Enter Student Id - ");
+        int studentId = sc.nextInt();
 
-        System.out.println("Student Id - ");
-        String studentId = sc.next();
-
-        admin.approveStudentRequest(studentId);
+        adminInterface.approveStudentRequest(studentId);
     }
-
-    public void generateResult() {
-        System.out.println("Generating results .... ..... .....");
-
-    }
-
-
 }

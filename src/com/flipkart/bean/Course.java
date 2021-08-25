@@ -1,33 +1,53 @@
 package com.flipkart.bean;
 
 public class Course {
-    private String courseId;
-    private String professorId;
+    private int courseId;
+    private int professorId;
     private String courseName;
+    private String courseDescription;
     private double courseFee;
     private int studentCount;
 
-    public Course(String courseId, String professorId, String courseName, double courseFee, int studentCount) {
-        this.courseId = courseId;
-        this.professorId = professorId;
-        this.courseName = courseName;
-        this.courseFee = courseFee;
-        this.studentCount = studentCount;
+    public String getCourseDescription() {
+        return courseDescription;
     }
 
-    public String getCourseId() {
+    public void setCourseDescription(String courseDescription) {
+        this.courseDescription = courseDescription;
+    }
+
+    public Course() {
+    }
+
+    public Course(String courseName, String courseDescription, double courseFee) {
+        this.courseName = courseName;
+        this.courseDescription = courseDescription;
+        this.courseFee = courseFee;
+        this.studentCount = 0;
+    }
+
+    public Course(int professorId, String courseName, String courseDescription, double courseFee) {
+        this.professorId = professorId;
+        this.courseName = courseName;
+        this.courseDescription = courseDescription;
+        this.courseFee = courseFee;
+        this.studentCount = 0;
+    }
+
+
+    public int getCourseId() {
         return courseId;
     }
 
-    public void setCourseId(String courseId) {
+    public void setCourseId(int courseId) {
         this.courseId = courseId;
     }
 
-    public String getProfessorId() {
+    public int getProfessorId() {
         return professorId;
     }
 
-    public void setProfessorId(String professorId) {
+    public void setProfessorId(int professorId) {
         this.professorId = professorId;
     }
 

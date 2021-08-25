@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class StudentClient {
 
     Scanner sc = new Scanner(System.in);
-    CourseInterface courseInterface = new CourseInterfaceImpl(10);
+    CourseInterface courseInterface = new CourseInterfaceImpl();
     SemesterRegistrationInterface semRegister = new SemesterRegistrationImpl();
     UserInterface userInterface = new UserInterfaceImpl();
 

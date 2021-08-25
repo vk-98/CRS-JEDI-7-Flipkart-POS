@@ -1,34 +1,34 @@
 package com.flipkart.business;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.flipkart.bean.Course;
+import com.flipkart.dao.AdminDaoInterface;
+import com.flipkart.dao.AdminDaoOperation;
 
 public class CourseInterfaceImpl implements CourseInterface {
-    static ArrayList<Course> courses = new ArrayList<Course>();
-
-    public CourseInterfaceImpl(int courseCount) {
-        for (int i = 0; i < courseCount; i++) {
-            Course c = new Course(String.valueOf(i), String.valueOf(i), "Course " + i, i * Math.random(), 0);
-            courses.add(c);
-        }
-    }
+    AdminDaoInterface adminDaoInterface = new AdminDaoOperation();
 
     @Override
     public void viewCourses() {
-        System.out.println("CourseId | ProfessorId | CourseName | CourseFee | Student Count");
-        for (int i = 0; i < courses.size(); i++) {
-            System.out.println(
-                    courses.get(i).getCourseId() +
-                            " | " +
-                            courses.get(i).getProfessorId()
-                            + " | " +
-                            courses.get(i).getCourseName() +
-                            " | " +
-                            courses.get(i).getCourseFee() +
-                            " | " +
-                            courses.get(i).getStudentCount()
-            );
+        List<Course> courses = adminDaoInterface.viewCourses();
+        if (courses == null || courses.size() == 0) {
+            System.out.println("No Available Courses");
+        } else {
+            System.out.println("Course Id | Course Name | Course Description | ProfessorID | CourseFee | StudentCount ");
+            for (Course c : courses) {
+                System.out.println(
+                        c.getCourseId()
+                                + " | " + c.getCourseName()
+                                + " | " + c.getCourseDescription()
+                                + " | " + c.getProfessorId()
+                                + " | " + c.getCourseFee()
+                                + " | " + c.getStudentCount()
+                );
+            }
         }
     }
+
+
 }

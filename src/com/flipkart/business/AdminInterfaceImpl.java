@@ -5,10 +5,8 @@ package com.flipkart.business;
 import com.flipkart.bean.Admin;
 import com.flipkart.bean.Course;
 import com.flipkart.bean.Professor;
-import com.flipkart.bean.Student;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class AdminInterfaceImpl implements AdminInterface {
     ArrayList<Course> courses= CourseInterfaceImpl.courses;
@@ -54,6 +52,6 @@ public class AdminInterfaceImpl implements AdminInterface {
 
     @Override
     public void generateResult() {
-       //TODO after student db
+       //TODO: after student db
     }
 }

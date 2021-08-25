@@ -4,7 +4,6 @@ package com.flipkart.business;
 
 import com.flipkart.bean.Course;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 
 public class SemesterRegistrationImpl implements SemesterRegistrationInterface{

@@ -9,9 +9,10 @@ import java.util.Scanner;
 public class ProfessorClient {
     static Scanner sc = new Scanner(System.in);
     ProfessorInterface professorInterface = new ProfessorInterfaceImpl();
+    static String professorId = null;
 
-    public void showMenu() {
-
+    public void showMenu(String emailId) {
+        professorId = professorInterface.getProfessorIdByEmail(emailId);
         while (true) {
             showMenuItems();
             int userInput = sc.nextInt();
@@ -44,34 +45,28 @@ public class ProfessorClient {
     }
 
     private void inputForViewEnrolledStudents() {
-        System.out.println("Professor, Input your Id ");
-        String professorId = sc.next();
         professorInterface.viewEnrolledStudents(professorId);
     }
 
     private void inputsForViewSelectedCourses() {
-        System.out.println("Professor, Input your Id ");
-        String professorId = sc.next();
         professorInterface.getCourses(professorId);
     }
 
     private void inputsForDeSelectCourse() {
         System.out.println("Input courseId you like to Deselect : ");
         String courseId = sc.next();
-        if (!professorInterface.deselectCourse(courseId)) {
-            System.out.println("CourseId is Invalid");
+        if (!professorInterface.deselectCourse(professorId, courseId)) {
+            System.out.println("You didn't select this course to unselect");
         } else {
-            System.out.println("Successfully Selected the course");
+            System.out.println("Successfully DeSelected the course");
         }
     }
 
     private void inputsForSelectCourse() {
-        System.out.println("Professor, Enter your Id : ");
-        String professorId = sc.next();
         System.out.println("Input courseId you like to select : ");
         String courseId = sc.next();
         if (!professorInterface.selectCourse(professorId, courseId)) {
-            System.out.println("CourseId is Invalid");
+            System.out.println("Unable to select because already selected by others");
         } else {
             System.out.println("Successfully Selected the course");
         }

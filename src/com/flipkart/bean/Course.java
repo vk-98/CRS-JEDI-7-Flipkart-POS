@@ -5,14 +5,33 @@ public class Course {
     private String professorId;
     private String courseName;
     private double courseFee;
+    private String courseDescription;
     private int studentCount;
+    private int studentId;
 
-    public Course(String courseId, String professorId, String courseName, double courseFee, int studentCount) {
+    public String getCourseDescription() {
+        return courseDescription;
+    }
+
+    public void setCourseDescription(String courseDescription) {
+        this.courseDescription = courseDescription;
+    }
+    public int getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(int studentId) {
+        this.studentId = studentId;
+    }
+
+    public Course(String courseId, String professorId, String courseName, double courseFee, int studentCount, String courseDescription, int studentId) {
         this.courseId = courseId;
         this.professorId = professorId;
         this.courseName = courseName;
         this.courseFee = courseFee;
         this.studentCount = studentCount;
+        this.courseDescription = courseDescription;
+        this.studentId = studentId;
     }
 
     public String getCourseId() {

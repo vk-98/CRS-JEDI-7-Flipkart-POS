@@ -9,6 +9,7 @@ public interface ProfessorInterface {
 
     boolean selectCourse(String professorId, String courseId);
 
-    boolean deselectCourse(String courseId);
+    boolean deselectCourse(String professorId, String courseId);
 
+    String getProfessorIdByEmail(String emailId);
 }

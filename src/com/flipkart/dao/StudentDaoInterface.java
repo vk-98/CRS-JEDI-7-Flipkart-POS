@@ -8,4 +8,6 @@ public interface StudentDaoInterface {
     public int getStudentById(int userId);
 
     public boolean isApproved(int studentId);
+
+    public Student getStudent(int studentId);
 }

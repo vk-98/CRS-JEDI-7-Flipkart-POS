@@ -88,4 +88,30 @@ public class UserDaoOperation implements UserDaoInterface {
         }
         return -1;
     }
+
+    @Override
+    public User getUserByUserId(int userId) {
+        try {
+            PreparedStatement ps = conn.prepareStatement(SqlQueries.GET_USER_BY_USER_ID);
+            ps.setInt(1, userId);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                User user = new User(
+                        rs.getString("name"),
+                        rs.getString("email"),
+                        rs.getString("password"),
+                        rs.getString("role"),
+                        rs.getString("phone")
+                );
+                return user;
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+
+        return null;
+    }
 }

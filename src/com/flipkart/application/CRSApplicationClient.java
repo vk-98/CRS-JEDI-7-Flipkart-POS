@@ -67,7 +67,7 @@ public class CRSApplicationClient {
             if (role == Roles.Admin) {
                 adminClient.showMenu();
             } else if (role == Roles.Professor) {
-                professorClient.showMenu();
+                professorClient.showMenu(emailId);
             } else {
                 studentClient.showMenu(studentId);
             }

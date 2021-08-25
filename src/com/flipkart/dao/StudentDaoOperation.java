@@ -2,9 +2,11 @@ package com.flipkart.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.flipkart.bean.Student;
+import com.flipkart.bean.User;
 import com.flipkart.constants.SqlQueries;
 import com.flipkart.utils.DBUtil;
 
@@ -42,9 +44,37 @@ public class StudentDaoOperation implements StudentDaoInterface {
         return 0;
     }
 
+
+
     @Override
     public boolean isApproved(int studentId) {
         return false;
+    }
+
+    @Override
+    public Student getStudent(int studentId) {
+        try {
+            PreparedStatement ps = con.prepareStatement(SqlQueries.GET_USER_ID_BY_STUDENT_ID);
+            ps.setInt(1, studentId);
+            ResultSet result= ps.executeQuery();
+            Student student = null;
+            UserDaoInterface userDaoInterface = new UserDaoOperation();
+            if(result.next()) {
+                int userId = result.getInt("userId");
+                User user = userDaoInterface.getUserByUserId(userId);
+                student = new Student(
+                        user.getUserName(),
+                        user.getUserEmailId(),
+                        null,
+                        user.getPhoneNo()
+                );
+            }
+            return student;
+
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        return null;
     }
 
 }

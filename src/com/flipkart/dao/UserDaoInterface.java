@@ -12,4 +12,6 @@ public interface UserDaoInterface {
     public boolean createUser(String name, String email, String password, String role, String phoneNo);
 
     public int getUserIdByEmail(String email);
+
+    public User getUserByUserId(int userId);
 }

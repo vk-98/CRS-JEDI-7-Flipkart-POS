@@ -1,28 +1,42 @@
 package com.flipkart.business;
 
 import com.flipkart.bean.Course;
+import com.flipkart.bean.Student;
+import com.flipkart.dao.ProfessorDaoInterface;
+import com.flipkart.dao.ProfessorDaoOperation;
+
+import java.util.List;
 
 public class ProfessorInterfaceImpl implements ProfessorInterface {
+    static ProfessorDaoInterface professorDaoInterface = new ProfessorDaoOperation();
+
     @Override
     public boolean addGrad(String studentId, String courseId, String grade) {
-
-        return false;
+        return professorDaoInterface.addGrade(Integer.parseInt(studentId), Integer.parseInt(courseId), grade);
     }
 
     @Override
     public void viewEnrolledStudents(String professorId) {
-        for (Course course : CourseInterfaceImpl.courses) {
-            if (course.getProfessorId().equals(professorId)) {
-                //Need to retrieve Student List based on CourseId and to be displayed
-            }
+        List<Student> students = professorDaoInterface.getEnrolledStudents(Integer.parseInt(professorId));
+        System.out.println("=====Enrolled Students=====");
+        System.out.println("Id | Email | Name | PhoneNo");
+        for(Student student : students) {
+            System.out.println(student.getId() + " | " +
+                    student.getUserEmailId() + " | " +
+                    student.getUserName() + " | " +
+                    student.getPhoneNo()
+            );
+
         }
+
 
     }
 
     @Override
     public void getCourses(String professorId) {
         boolean selectedCourses = false;
-        for (Course course : CourseInterfaceImpl.courses) {
+        List<Course> courses = professorDaoInterface.getCoursesByProfessorId(Integer.valueOf(professorId));
+        for (Course course : courses) {
             if (course.getProfessorId().equals(professorId)) {
                 if (!selectedCourses) {
                     selectedCourses = true;
@@ -40,27 +54,16 @@ public class ProfessorInterfaceImpl implements ProfessorInterface {
 
     @Override
     public boolean selectCourse(String professorId, String courseId) {
-        boolean isPresent = false;
-        for (Course course : CourseInterfaceImpl.courses) {
-            if (course.getCourseId().equals(courseId)) {
-                course.setProfessorId(professorId);
-                isPresent = true;
-                break;
-            }
-        }
-        return isPresent;
+        return professorDaoInterface.selectCourse(Integer.valueOf(professorId), Integer.valueOf(courseId));
     }
 
     @Override
-    public boolean deselectCourse(String courseId) {
-        boolean isPresent = false;
-        for (Course course : CourseInterfaceImpl.courses) {
-            if (course.getCourseId().equals(courseId)) {
-                course.setProfessorId(null);
-                isPresent = true;
-                break;
-            }
-        }
-        return isPresent;
+    public boolean deselectCourse(String professorId, String courseId) {
+        return professorDaoInterface.deselectCourse(Integer.valueOf(professorId), Integer.valueOf(courseId));
+    }
+
+    @Override
+    public String getProfessorIdByEmail(String emailId) {
+        return professorDaoInterface.getProfessorIdByEmailId(emailId);
     }
 }

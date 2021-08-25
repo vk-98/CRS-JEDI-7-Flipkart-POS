@@ -88,7 +88,7 @@ public class CRSApplicationClient {
         String studentPhoneNo = sc.next();
 
         Student student;
-        student = studentInterface.register(studentName, studentEmailId, studentPassword, studentPhoneNo, null);
+        student = studentInterface.register(studentName, studentEmailId, studentPassword, studentPhoneNo);
 
         if (student == null) {
             return;

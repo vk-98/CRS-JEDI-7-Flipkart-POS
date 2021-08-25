@@ -3,7 +3,7 @@ package com.flipkart.business;
 import com.flipkart.bean.Student;
 
 public interface StudentInterface {
-    Student register(String studentName, String studentEmailId, String studentPassword, String studentPhoneNo, String studentBranch);
+    Student register(String studentName, String studentEmailId, String studentPassword, String studentPhoneNo);
 
     String registerForSemester(String studentId);
 

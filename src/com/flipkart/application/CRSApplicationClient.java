@@ -55,6 +55,8 @@ public class CRSApplicationClient {
         String password = sc.next();
 
         boolean verified = userInterface.validateUser(emailId, password);
+
+        //TODO replace dummy id
         String studentId= String.valueOf(1);
         if (verified) {
             System.out.println("User Logged in Successfully");

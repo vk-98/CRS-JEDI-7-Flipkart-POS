@@ -10,6 +10,12 @@ public class UserInterfaceImpl implements UserInterface {
     @Override
     public boolean validateUser(String emailId, String password) {
         //Also to Write validation for Professor As well
+
+        if(emailId.equals("admin") && password.equals("b"))
+        {
+            user= AdminInterfaceImpl.admin;
+            return true;
+        }
         if (!StudentInterfaceImpl.registeredStudents.containsKey(emailId)) {
             System.out.println("Incorrect Email Id, Try Again");
             return false;
@@ -25,6 +31,8 @@ public class UserInterfaceImpl implements UserInterface {
 
     @Override
     public String getRole(String emailId) {
+        if(emailId.equals("admin"))
+            return AdminInterfaceImpl.admin.getRole();
         return StudentInterfaceImpl.registeredStudents.get(emailId).getRole();
     }
 

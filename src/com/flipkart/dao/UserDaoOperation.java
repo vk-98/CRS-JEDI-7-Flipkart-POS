@@ -6,6 +6,7 @@ import com.flipkart.utils.DBUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserDaoOperation implements UserDaoInterface {
@@ -29,7 +30,7 @@ public class UserDaoOperation implements UserDaoInterface {
     @Override
     public boolean createUser(String name, String email, String password, String role, String phoneNo) {
         try{
-            PreparedStatement ps= con.prepareStatement(SqlQueries.ADD_USER_QUERY);
+            PreparedStatement ps = con.prepareStatement(SqlQueries.ADD_USER_QUERY);
             ps.setString(1,name);
             ps.setString(2,email);
             ps.setString(3,password);
@@ -37,10 +38,31 @@ public class UserDaoOperation implements UserDaoInterface {
             ps.setString(5,phoneNo);
 
             int rowAffected= ps.executeUpdate();
+
+            System.out.println("rowa:"+rowAffected);
             return rowAffected==1;
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public int getUserIdByEmail(String email) {
+        try {
+            PreparedStatement ps = con.prepareStatement(SqlQueries.GET_USER_ID);
+            ps.setString(1, email);
+
+            ResultSet result = ps.executeQuery();
+
+            if( result.next() ) {
+                return result.getInt("id");
+            }
+
+            return -1;
+
         }catch (SQLException e){
 
         }
-        return false;
+        return -1;
     }
 }

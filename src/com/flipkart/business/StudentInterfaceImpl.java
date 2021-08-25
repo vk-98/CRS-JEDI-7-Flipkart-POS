@@ -1,6 +1,8 @@
 package com.flipkart.business;
 
 import com.flipkart.bean.Student;
+import com.flipkart.dao.StudentDaoInterface;
+import com.flipkart.dao.StudentDaoOperation;
 
 import java.util.HashMap;
 
@@ -9,14 +11,25 @@ public class StudentInterfaceImpl implements StudentInterface {
 
     @Override
     public Student register(String studentName, String studentEmailId, String studentPassword, String studentPhoneNo) {
-        boolean isPresent = registeredStudents.containsKey(studentEmailId);
 
-        if (isPresent) {
-            System.out.println("Student with emailId " + studentEmailId + " already exists");
-            return null;
-        }
+        StudentDaoInterface studentDao = new StudentDaoOperation();
+
+
+        //TODO : perform existing user check
+//        boolean isPresent = registeredStudents.containsKey(studentEmailId);
+//
+//        if (isPresent) {
+//            System.out.println("Student with emailId " + studentEmailId + " already exists");
+//            return null;
+//        }
+
+
+
         Student student = new Student(studentName, studentEmailId, studentPassword, studentPhoneNo);
-        registeredStudents.put(studentEmailId, student);
+
+
+        studentDao.addStudent(student);
+
         return student;
     }
 

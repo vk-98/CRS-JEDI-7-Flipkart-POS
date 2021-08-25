@@ -4,21 +4,44 @@ import com.flipkart.bean.User;
 import com.flipkart.constants.SqlQueries;
 import com.flipkart.utils.DBUtil;
 
+import javax.jws.soap.SOAPBinding;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserDaoOperation implements UserDaoInterface {
-    static Connection con= DBUtil.getConnection();
+    static Connection conn = DBUtil.getConnection();
 
     @Override
-    public boolean verifyCredentials(String emailId, String password) {
-        return false;
+    public User authenticate(String emailId, String password) {
+        try {
+            PreparedStatement ps = conn.prepareStatement(SqlQueries.GET_USER_EMAIL_PASSWORD);
+            ps.setString(1, emailId);
+            ps.setString(2, password);
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                User user = new User(
+                        rs.getString("name"),
+                        rs.getString("email"),
+                        rs.getString("password"),
+                        rs.getString("role"),
+                        rs.getString("phone")
+                );
+                return user;
+            }
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        return null;
     }
 
     @Override
     public boolean updatePassword(int userId, String newPassword) {
+//        try {
+//            PreparedStatement
+//        }
         return false;
     }
 
@@ -29,38 +52,38 @@ public class UserDaoOperation implements UserDaoInterface {
 
     @Override
     public boolean createUser(String name, String email, String password, String role, String phoneNo) {
-        try{
-            PreparedStatement ps = con.prepareStatement(SqlQueries.ADD_USER_QUERY);
-            ps.setString(1,name);
-            ps.setString(2,email);
-            ps.setString(3,password);
-            ps.setString(4,role);
-            ps.setString(5,phoneNo);
+        try {
+            PreparedStatement ps = conn.prepareStatement(SqlQueries.ADD_USER_QUERY);
+            ps.setString(1, name);
+            ps.setString(2, email);
+            ps.setString(3, password);
+            ps.setString(4, role);
+            ps.setString(5, phoneNo);
 
-            int rowAffected= ps.executeUpdate();
+            int rowAffected = ps.executeUpdate();
 
-            System.out.println("rowa:"+rowAffected);
-            return rowAffected==1;
-        }catch (SQLException e){
-            e.printStackTrace();
+            System.out.println("rowa:" + rowAffected);
+            return rowAffected == 1;
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
         }
         return false;
     }
 
     public int getUserIdByEmail(String email) {
         try {
-            PreparedStatement ps = con.prepareStatement(SqlQueries.GET_USER_ID);
+            PreparedStatement ps = conn.prepareStatement(SqlQueries.GET_USER_ID);
             ps.setString(1, email);
 
             ResultSet result = ps.executeQuery();
 
-            if( result.next() ) {
+            if (result.next()) {
                 return result.getInt("id");
             }
 
             return -1;
 
-        }catch (SQLException e){
+        } catch (SQLException e) {
 
         }
         return -1;

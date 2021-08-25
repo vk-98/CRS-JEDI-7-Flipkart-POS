@@ -3,7 +3,7 @@ package com.flipkart.dao;
 import com.flipkart.bean.User;
 
 public interface UserDaoInterface {
-    public boolean verifyCredentials(String emailId, String password);
+    public User authenticate(String emailId, String password);
 
     public boolean updatePassword(int userId, String newPassword);
 

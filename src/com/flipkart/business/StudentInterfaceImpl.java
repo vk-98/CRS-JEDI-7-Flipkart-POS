@@ -14,23 +14,9 @@ public class StudentInterfaceImpl implements StudentInterface {
 
         StudentDaoInterface studentDao = new StudentDaoOperation();
 
-
-        //TODO : perform existing user check
-//        boolean isPresent = registeredStudents.containsKey(studentEmailId);
-//
-//        if (isPresent) {
-//            System.out.println("Student with emailId " + studentEmailId + " already exists");
-//            return null;
-//        }
-
-
-
         Student student = new Student(studentName, studentEmailId, studentPassword, studentPhoneNo);
-
-
-        studentDao.addStudent(student);
-
-        return student;
+        boolean added = studentDao.addStudent(student);
+        return added ? student : null;
     }
 
     @Override

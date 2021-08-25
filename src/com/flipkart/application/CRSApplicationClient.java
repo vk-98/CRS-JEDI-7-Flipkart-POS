@@ -51,6 +51,7 @@ public class CRSApplicationClient {
     }
 
     static void login() {
+        // Taking credentials as input.
         System.out.print("Enter EmailId: ");
         String emailId = sc.next();
 
@@ -59,11 +60,10 @@ public class CRSApplicationClient {
 
         boolean verified = userInterface.validateUser(emailId, password);
 
-        //TODO replace dummy id
-        String studentId = String.valueOf(1);
+        String studentId = "1";
         if (verified) {
             System.out.println("User Logged in Successfully");
-            String role = userInterface.getRole(emailId);
+            String role = UserInterfaceImpl.user.getRole();
             if (role == Roles.Admin) {
                 adminClient.showMenu();
             } else if (role == Roles.Professor) {
@@ -71,10 +71,13 @@ public class CRSApplicationClient {
             } else {
                 studentClient.showMenu(studentId);
             }
+        } else {
+            System.out.println("Email or Password is incorrect, Try Again");
         }
     }
 
     static void studentRegistration() {
+        // Taking user input
         System.out.print("Enter Student Name: ");
         String studentName = sc.next();
 
@@ -91,13 +94,9 @@ public class CRSApplicationClient {
         student = studentInterface.register(studentName, studentEmailId, studentPassword, studentPhoneNo);
 
         if (student == null) {
+            System.out.println("Something went wrong, Try Again");
             return;
         }
-
-        System.out.println(studentName + "you are successfully registered with CRS, your registered details are as follows");
-        System.out.println("Name: " + studentName);
-        System.out.println("EmailId: " + studentEmailId);
-        System.out.println("PhoneNo: " + studentPhoneNo);
-//        System.out.println(studentName + " you are successfully registered, please wait for Admin's Approval");
+        System.out.println(studentName + " you are successfully registered, please wait for Admin's Approval");
     }
 }

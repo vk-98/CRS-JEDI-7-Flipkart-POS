@@ -10,14 +10,15 @@ public class StudentClient {
     Scanner sc = new Scanner(System.in);
     CourseInterface courseInterface = new CourseInterfaceImpl(10);
     SemesterRegistrationInterface semRegister = new SemesterRegistrationImpl();
+    UserInterface userInterface = new UserInterfaceImpl();
 
     public void showMenu(String studentId) {
         boolean menuBreakFlag = false;
 
         while (!menuBreakFlag) {
+
             showStudentMenu();
             int userInput = sc.nextInt();
-
 
             switch (userInput) {
                 case 1:
@@ -30,28 +31,30 @@ public class StudentClient {
                 case 3:
                     feePayment(studentId);
                     break;
-                case 4: {
+                case 4:
+                    String newPassword = sc.next();
+                    userInterface.updateUserPassword(newPassword);
+                    break;
+                case 5:
                     menuBreakFlag = true;
                     UserInterfaceImpl.logout();
                     break;
-                }
-                default: {
+                default:
                     System.out.println("Invalid User Input");
-                }
-
             }
-
         }
-
     }
 
     static void showStudentMenu() {
-        System.out.println("`Student Menu`");
+        System.out.println("*********************************************************************************");
+        System.out.println("********************************* Student Menu **********************************");
+        System.out.println("*********************************************************************************");
         System.out.println("1. Semester Registration");
         System.out.println("2. View Courses");
         System.out.println("3. Pay Fees");
-        System.out.println("4. Logout");
-        System.out.println("Enter Your Preference :");
+        System.out.println("4. Update Password");
+        System.out.println("5. Logout");
+        System.out.print("Enter User Input :");
     }
 
     public void semesterRegistration(String studentId) {

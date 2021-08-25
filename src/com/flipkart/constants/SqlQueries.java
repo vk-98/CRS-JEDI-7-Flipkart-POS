@@ -11,7 +11,7 @@ public class SqlQueries {
 
     public static final String GET_USER_ID = "select id from user where email = ? ";
 
-
+    public static final String GET_USER_EMAIL_PASSWORD = "SELECT * FROM user WHERE email = ? AND password = ?";
 
 
 }

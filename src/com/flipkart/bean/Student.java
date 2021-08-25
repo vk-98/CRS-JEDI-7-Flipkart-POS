@@ -2,7 +2,7 @@ package com.flipkart.bean;
 
 import com.flipkart.constants.Roles;
 
-public class Student extends User{
+public class Student extends User {
     private String studentId;
     private boolean isApproved;
     private String branch;

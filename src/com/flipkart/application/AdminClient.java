@@ -12,34 +12,39 @@ import javax.management.relation.Role;
 public class AdminClient {
 
     Scanner sc = new Scanner(System.in);
-    AdminInterface admin  = new AdminInterfaceImpl();
+    AdminInterface admin = new AdminInterfaceImpl();
 
     public void showMenu() {
 
         boolean menuBreakFlag = false;
 
-        while(!menuBreakFlag) {
+        while (!menuBreakFlag) {
             showAdminMenu();
             int userInput = sc.nextInt();
 
-            switch (userInput)
-            {
-                case 1: addCourse();
+            switch (userInput) {
+                case 1:
+                    addCourse();
                     break;
-                case 2: removeCourse();
+                case 2:
+                    removeCourse();
                     break;
-                case 3: addProfessor();
+                case 3:
+                    addProfessor();
                     break;
-                case 4: approveStudentRequest();
+                case 4:
+                    approveStudentRequest();
                     break;
-                case 5: generateResult();
+                case 5:
+                    generateResult();
                     break;
                 case 6: {
-                    menuBreakFlag=true;
+                    menuBreakFlag = true;
                     UserInterfaceImpl.logout();
                     break;
                 }
-                default: menuBreakFlag = true;
+                default:
+                    menuBreakFlag = true;
 
             }
 

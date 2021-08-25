@@ -18,7 +18,10 @@ public class CRSApplicationClient {
     static UserInterface userInterface = new UserInterfaceImpl();
 
     public static void main(String[] args) {
-        System.out.println("--------------------Welcome to Course Registration System--------------------");
+        System.out.println("#######################################################################################");
+        System.out.println("#------------------------Welcome to Course Registration System------------------------#");
+        System.out.println("#######################################################################################");
+
         while (true) {
             showMenu();
             int userInput = sc.nextInt();
@@ -44,7 +47,7 @@ public class CRSApplicationClient {
         System.out.println("1. Login");
         System.out.println("2. Student Registration");
         System.out.println("3. Exit");
-        System.out.println("Enter User Input");
+        System.out.print("Enter User Input: ");
     }
 
     static void login() {
@@ -57,7 +60,7 @@ public class CRSApplicationClient {
         boolean verified = userInterface.validateUser(emailId, password);
 
         //TODO replace dummy id
-        String studentId= String.valueOf(1);
+        String studentId = String.valueOf(1);
         if (verified) {
             System.out.println("User Logged in Successfully");
             String role = userInterface.getRole(emailId);
@@ -84,21 +87,17 @@ public class CRSApplicationClient {
         System.out.print("Enter Student Phone number: ");
         String studentPhoneNo = sc.next();
 
-        System.out.print("Enter Student Branch: ");
-        String studentBranch = sc.next();
-
         Student student;
-        student = studentInterface.register(studentName, studentEmailId, studentPassword, studentPhoneNo, studentBranch);
+        student = studentInterface.register(studentName, studentEmailId, studentPassword, studentPhoneNo, null);
 
-        if(student==null) {
+        if (student == null) {
             return;
         }
 
         System.out.println(studentName + "you are successfully registered with CRS, your registered details are as follows");
         System.out.println("Name: " + studentName);
         System.out.println("EmailId: " + studentEmailId);
-        System.out.println("PhoneNo: "+ studentPhoneNo);
-        System.out.println("Student Branch: " + studentBranch);
+        System.out.println("PhoneNo: " + studentPhoneNo);
 //        System.out.println(studentName + " you are successfully registered, please wait for Admin's Approval");
     }
 }

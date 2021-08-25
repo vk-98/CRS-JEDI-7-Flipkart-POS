@@ -5,7 +5,6 @@ import com.flipkart.business.*;
 import java.util.Scanner;
 
 
-
 public class StudentClient {
 
     Scanner sc = new Scanner(System.in);
@@ -15,27 +14,30 @@ public class StudentClient {
     public void showMenu(String studentId) {
         boolean menuBreakFlag = false;
 
-        while(!menuBreakFlag) {
+        while (!menuBreakFlag) {
             showStudentMenu();
             int userInput = sc.nextInt();
 
 
-
-            switch (userInput)
-            {
-                case 1: semesterRegistration(studentId);
-                        break;
-                case 2: System.out.println("View Courses");
-                        courseInterface.viewCourses();
-                        break;
-                case 3: feePayment(studentId);
-                        break;
+            switch (userInput) {
+                case 1:
+                    semesterRegistration(studentId);
+                    break;
+                case 2:
+                    System.out.println("View Courses");
+                    courseInterface.viewCourses();
+                    break;
+                case 3:
+                    feePayment(studentId);
+                    break;
                 case 4: {
-                    menuBreakFlag=true;
+                    menuBreakFlag = true;
                     UserInterfaceImpl.logout();
                     break;
-                    }
-                default: menuBreakFlag = true;
+                }
+                default: {
+                    System.out.println("Invalid User Input");
+                }
 
             }
 
@@ -56,7 +58,7 @@ public class StudentClient {
         boolean breakFlag = false;
 
 
-        while(!breakFlag) {
+        while (!breakFlag) {
 
             System.out.println("`##### Registration Menu #######`");
             System.out.println("1. Add Primary Course");
@@ -71,8 +73,7 @@ public class StudentClient {
             int userChoice = sc.nextInt();
 
 
-
-            switch(userChoice) {
+            switch (userChoice) {
                 case 1: {
                     System.out.println("Enter primary courseID:");
                     String courseId = sc.next();
@@ -94,20 +95,23 @@ public class StudentClient {
                     break;
                 }
 
-                case 4: semRegister.viewRegisteredCourses(studentId);
+                case 4:
+                    semRegister.viewRegisteredCourses(studentId);
                     break;
 
                 case 5: {
-                    boolean isSuccess= semRegister.submitCourseChoices(studentId);
-                    if(isSuccess)
+                    boolean isSuccess = semRegister.submitCourseChoices(studentId);
+                    if (isSuccess)
                         breakFlag = true;
                     break;
                 }
 
-                case 6: breakFlag = true;
+                case 6:
+                    breakFlag = true;
                     break;
 
-                default:System.out.println("Invalid Choice !!");
+                default:
+                    System.out.println("Invalid Choice !!");
 
             }
 
@@ -124,7 +128,7 @@ public class StudentClient {
         double totalFee = semRegister.calculateFee(studentId);
         //System.out.println("Please proceed with the payment of this amount : " + totalFee);
 
-        System.out.println("## Total Fees : "+ totalFee);
+        System.out.println("## Total Fees : " + totalFee);
 
         // get the corresponding student object
         // invoke  boolean payFee(String studentId, String studentRegistrationId, double amount)

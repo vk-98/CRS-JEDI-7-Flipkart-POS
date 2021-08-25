@@ -11,8 +11,8 @@ public class ProfessorInterfaceImpl implements ProfessorInterface {
 
     @Override
     public void viewEnrolledStudents(String professorId) {
-        for(Course course : CourseInterfaceImpl.courses) {
-            if(course.getProfessorId().equals(professorId)) {
+        for (Course course : CourseInterfaceImpl.courses) {
+            if (course.getProfessorId().equals(professorId)) {
                 //Need to retrieve Student List based on CourseId and to be displayed
             }
         }
@@ -33,7 +33,7 @@ public class ProfessorInterfaceImpl implements ProfessorInterface {
                         + course.getCourseName());
             }
         }
-        if(!selectedCourses) {
+        if (!selectedCourses) {
             System.out.println("You don't have any courses to display");
         }
     }

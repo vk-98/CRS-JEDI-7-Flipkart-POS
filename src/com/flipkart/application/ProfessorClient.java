@@ -9,13 +9,14 @@ import java.util.Scanner;
 public class ProfessorClient {
     static Scanner sc = new Scanner(System.in);
     ProfessorInterface professorInterface = new ProfessorInterfaceImpl();
+
     public void showMenu() {
 
         while (true) {
             showMenuItems();
             int userInput = sc.nextInt();
 
-            if(userInput==6) {
+            if (userInput == 6) {
                 UserInterfaceImpl.logout();
                 break;
             }
@@ -33,10 +34,10 @@ public class ProfessorClient {
                 case 4:
                     inputForViewEnrolledStudents();
                     break;
-                case 5 :
+                case 5:
                     System.out.println("Upload Grade");
                     break;
-                default :
+                default:
                     System.out.println("Invalid User Input");
             }
         }
@@ -57,7 +58,7 @@ public class ProfessorClient {
     private void inputsForDeSelectCourse() {
         System.out.println("Input courseId you like to Deselect : ");
         String courseId = sc.next();
-        if(!professorInterface.deselectCourse(courseId)) {
+        if (!professorInterface.deselectCourse(courseId)) {
             System.out.println("CourseId is Invalid");
         } else {
             System.out.println("Successfully Selected the course");
@@ -69,7 +70,7 @@ public class ProfessorClient {
         String professorId = sc.next();
         System.out.println("Input courseId you like to select : ");
         String courseId = sc.next();
-        if(!professorInterface.selectCourse(professorId, courseId)) {
+        if (!professorInterface.selectCourse(professorId, courseId)) {
             System.out.println("CourseId is Invalid");
         } else {
             System.out.println("Successfully Selected the course");

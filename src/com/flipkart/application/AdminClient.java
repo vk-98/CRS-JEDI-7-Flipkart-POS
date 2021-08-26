@@ -55,7 +55,9 @@ public class AdminClient {
     }
 
     static void showAdminMenu() {
-        System.out.println("`Admin Menu`");
+        System.out.println("*********************************************************************************");
+        System.out.println("********************************* Admin Menu ************************************");
+        System.out.println("*********************************************************************************");
         System.out.println("1. View Courses");
         System.out.println("2. Add Course");
         System.out.println("3. Remove Course");

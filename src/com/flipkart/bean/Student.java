@@ -7,16 +7,13 @@ public class Student extends User {
     private boolean isApproved;
 
 
-
     public Student() {
     }
 
     public Student(String userName, String userEmailId, String userPassword, String phoneNo) {
         super(userName, userEmailId, userPassword, phoneNo, Roles.Student);
-        this.isApproved = true;
-
+        this.isApproved = false;
     }
-
 
 
     public boolean isApproved() {

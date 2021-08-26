@@ -26,4 +26,6 @@ public class SqlQueries {
     public static final String LIST_COURSES = "SELECT * FROM course";
 
     public static final String LIST_PROFESSORS = "SELECT professor.id, user.name, user.email, professor.department, professor.designation FROM professor INNER JOIN user ON professor.userId = user.id";
+
+    public static final String GET_STUDENT_BY_STUDENT_ID = "SELECT * from student where id = ?";
 }

@@ -15,6 +15,8 @@ public class AdminClient {
 
     public void showMenu() {
 
+        System.out.println("User Logged in Successfully");
+
         boolean menuBreakFlag = false;
 
         while (!menuBreakFlag) {

@@ -3,7 +3,7 @@ package com.flipkart.bean;
 import com.flipkart.constants.Roles;
 
 public class Student extends User {
-    private String studentId;
+    private int studentId;
     private boolean isApproved;
 
 
@@ -15,6 +15,13 @@ public class Student extends User {
         this.isApproved = false;
     }
 
+    public int getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(int studentId) {
+        this.studentId = studentId;
+    }
 
     public boolean isApproved() {
         return isApproved;

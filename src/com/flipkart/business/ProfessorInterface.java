@@ -1,14 +1,18 @@
 package com.flipkart.business;
 
 public interface ProfessorInterface {
-    boolean addGrad(String studentId, String courseId, String grade);
+    void addGrade(int studentId, int courseId, double grade);
 
-    void viewEnrolledStudents(String professorId);
+    void viewEnrolledStudents(int courseId);
 
-    void getCourses(String professorId);
+    void viewSelectedCourses();
 
-    boolean selectCourse(String professorId, String courseId);
+    void selectCourse(int courseId);
 
-    boolean deselectCourse(String courseId);
+    void deselectCourse(int courseId);
+
+    void viewAvailableCourses();
+
+    void getProfessor();
 
 }

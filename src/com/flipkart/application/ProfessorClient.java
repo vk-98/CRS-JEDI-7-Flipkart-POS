@@ -12,30 +12,35 @@ public class ProfessorClient {
 
     public void showMenu() {
 
-        while (true) {
+        System.out.println("User Logged in Successfully");
+        professorInterface.getProfessor();
+        boolean menuBreakFlag = false;
+        while (!menuBreakFlag) {
             showMenuItems();
             int userInput = sc.nextInt();
 
-            if (userInput == 6) {
-                UserInterfaceImpl.logout();
-                break;
-            }
-
             switch (userInput) {
                 case 1:
-                    inputsForSelectCourse();
+                    professorInterface.viewAvailableCourses();
                     break;
                 case 2:
-                    inputsForDeSelectCourse();
+                    inputsForSelectCourse();
                     break;
                 case 3:
-                    inputsForViewSelectedCourses();
+                    inputsForDeSelectCourse();
                     break;
                 case 4:
-                    inputForViewEnrolledStudents();
+                    professorInterface.viewSelectedCourses();
                     break;
                 case 5:
-                    System.out.println("Upload Grade");
+                    inputForViewEnrolledStudents();
+                    break;
+                case 6:
+                    inputForGradingStudent();
+                    break;
+                case 7:
+                    UserInterfaceImpl.logout();
+                    menuBreakFlag = true;
                     break;
                 default:
                     System.out.println("Invalid User Input");
@@ -43,46 +48,47 @@ public class ProfessorClient {
         }
     }
 
-    private void inputForViewEnrolledStudents() {
-        System.out.println("Professor, Input your Id ");
-        String professorId = sc.next();
-        professorInterface.viewEnrolledStudents(professorId);
+    private void showMenuItems() {
+        System.out.println("1. View Available Course");
+        System.out.println("2. Select Course");
+        System.out.println("3. Deselect Course");
+        System.out.println("4. View Selected Course");
+        System.out.println("5. View Enrolled Students");
+        System.out.println("6. Add Grade");
+        System.out.println("7. Logout");
+        System.out.print("Enter User Input: ");
     }
 
-    private void inputsForViewSelectedCourses() {
-        System.out.println("Professor, Input your Id ");
-        String professorId = sc.next();
-        professorInterface.getCourses(professorId);
+    private void inputForViewEnrolledStudents() {
+        System.out.print("Enter the courseId: ");
+        int courseId = sc.nextInt();
+        professorInterface.viewEnrolledStudents(courseId);
     }
+
 
     private void inputsForDeSelectCourse() {
-        System.out.println("Input courseId you like to Deselect : ");
-        String courseId = sc.next();
-        if (!professorInterface.deselectCourse(courseId)) {
-            System.out.println("CourseId is Invalid");
-        } else {
-            System.out.println("Successfully Selected the course");
-        }
+        System.out.print("Input courseId you like to Deselect : ");
+        int courseId = sc.nextInt();
+        professorInterface.deselectCourse(courseId);
     }
 
     private void inputsForSelectCourse() {
-        System.out.println("Professor, Enter your Id : ");
-        String professorId = sc.next();
-        System.out.println("Input courseId you like to select : ");
-        String courseId = sc.next();
-        if (!professorInterface.selectCourse(professorId, courseId)) {
-            System.out.println("CourseId is Invalid");
-        } else {
-            System.out.println("Successfully Selected the course");
-        }
+        System.out.print("Input courseId you like to select : ");
+        int courseId = sc.nextInt();
+        professorInterface.selectCourse(courseId);
     }
 
-    private void showMenuItems() {
-        System.out.println("1. Select Course");
-        System.out.println("2. Deselect Course");
-        System.out.println("3. View Selected Course");
-        System.out.println("4. View Enrolled Students");
-        System.out.println("5. Upload Grade");
-        System.out.println("6. Logout");
+    private void inputForGradingStudent() {
+        System.out.println("Enter student Id: ");
+        int studentId = sc.nextInt();
+
+        System.out.println("Enter courseId: ");
+        int courseId = sc.nextInt();
+
+        System.out.println("Enter Grade: ");
+        double grade = sc.nextDouble();
+
+        professorInterface.addGrade(studentId, courseId, grade);
     }
+
 }

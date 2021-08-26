@@ -30,6 +30,8 @@ public class CRSApplicationClient {
         while (true) {
             showMenu();
             int userInput = sc.nextInt();
+            sc.nextLine();
+
             if (userInput == 3) {
                 break;
             }
@@ -58,10 +60,10 @@ public class CRSApplicationClient {
     static void login() throws SQLException, CourseCountException, NoRegisteredCourseException, SeatNotAvailableException {
         // Taking credentials as input.
         System.out.print("Enter EmailId: ");
-        String emailId = sc.next();
+        String emailId = sc.nextLine();
 
         System.out.print("Enter Password: ");
-        String password = sc.next();
+        String password = sc.nextLine();
 
         boolean verified = userInterface.validateUser(emailId, password);
 
@@ -69,10 +71,6 @@ public class CRSApplicationClient {
         if (verified) {
 
             String role = UserInterfaceImpl.user.getRole();
-
-            if (!Roles.Student.equals(role)) {
-                System.out.println("User Logged in Successfully");
-            }
 
             if (Roles.Admin.equals(role)) {
                 adminClient.showMenu();
@@ -91,16 +89,16 @@ public class CRSApplicationClient {
     static void studentRegistration() throws StudentNotRegisteredException {
         // Taking user input
         System.out.print("Enter Student Name: ");
-        String studentName = sc.next();
+        String studentName = sc.nextLine();
 
         System.out.print("Enter Student EmailId: ");
-        String studentEmailId = sc.next();
+        String studentEmailId = sc.nextLine();
 
         System.out.print("Enter Student Password: ");
-        String studentPassword = sc.next();
+        String studentPassword = sc.nextLine();
 
         System.out.print("Enter Student Phone number: ");
-        String studentPhoneNo = sc.next();
+        String studentPhoneNo = sc.nextLine();
 
         Student student;
         student = studentInterface.register(studentName, studentEmailId, studentPassword, studentPhoneNo);

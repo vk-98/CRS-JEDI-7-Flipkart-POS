@@ -46,4 +46,26 @@ public class SqlQueries {
     public static final String LIST_PROFESSORS = "SELECT professor.id, user.name, user.email, professor.department, professor.designation FROM professor INNER JOIN user ON professor.userId = user.id";
 
     public static final String GET_STUDENT_BY_STUDENT_ID = "SELECT * from student where id = ?";
+
+    public static final String VIEW_AVAILABLE_COURSES_PROFESSOR = "SELECT * FROM course where professorId IS NULL";
+
+    public static final String GET_PROFESSOR_BY_USER_ID = "SELECT professor.id, user.name, user.email, professor.department, professor.designation FROM professor INNER JOIN user ON professor.userId = user.id WHERE userId = ?";
+
+    public static final String COURSE_AVAILABLE_FOR_PROF = "SELECT professorId from course where id = ?";
+
+    public static final String SELECT_COURSE_FOR_PROF = "UPDATE course SET professorId = ? WHERE id = ?";
+
+    public static final String IS_COURSE_AVAILABLE_FOR_PROF = "SELECT * FROM course WHERE id = ? AND professorId = ?";
+
+    public static final String DELSELECT_COURSE_FOR_PROF = "UPDATE course SET professorId = NULL WHERE id = ?";
+
+    public static final String VIEW_SELECTED_COURSES_FOR_PROF = "SELECT * FROM course WHERE professorId = ?";
+
+    public static final String VIEW_ENROLLED_STUDENTS = "SELECT student.id, user.name, user.email, user.phone FROM student INNER JOIN user ON student.userId = user.id WHERE student.id in (SELECT studentId FROM optedcourse where courseId = ?)";
+
+    public static final String IS_STUDENT_ALREADY_GRADED = "SELECT * FROM grade WHERE studentId = ? AND courseId = ?";
+
+    public static final String ADD_GRADE = "INSERT INTO grade(studentId, courseId, gpa) values(?, ?, ?)";
+
+    public static final String IS_STUDENT_ENROLLED = "SELECT * FROM optedcourse WHERE studentId = ? AND courseId = ?";
 }

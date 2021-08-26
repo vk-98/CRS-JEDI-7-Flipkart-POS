@@ -47,6 +47,7 @@ public class ProfessorDaoOperation implements ProfessorDaoInterface {
         List<Integer> studentIds = courseDaoInterface.getStudentIdsByProfessorId(profId);
         List<Student> students = new ArrayList<Student>();
         for (int studentId : studentIds) {
+            System.out.println("StudentId " + studentId);
             students.add(studentDaoInterface.getStudent(studentId));
         }
         return students;

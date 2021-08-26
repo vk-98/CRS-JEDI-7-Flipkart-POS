@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import com.flipkart.bean.Course;
 
-public class CourseInterfaceImpl implements CourseInterface {
-    static ArrayList<Course> courses = new ArrayList<Course>();
+public class CourseInterfaceImpl /*implements CourseInterface*/ {
+    /*static ArrayList<Course> courses = new ArrayList<Course>();
 
     public CourseInterfaceImpl(int courseCount) {
         for (int i = 0; i < courseCount; i++) {
@@ -30,5 +30,5 @@ public class CourseInterfaceImpl implements CourseInterface {
                             courses.get(i).getStudentCount()
             );
         }
-    }
+    }*/
 }

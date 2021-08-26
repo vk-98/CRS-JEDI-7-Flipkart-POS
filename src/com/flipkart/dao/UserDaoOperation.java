@@ -16,12 +16,16 @@ public class UserDaoOperation implements UserDaoInterface {
     @Override
     public User authenticate(String emailId, String password) {
         try {
+            System.out.println(emailId + " " + password);
+            System.out.println(conn);
             PreparedStatement ps = conn.prepareStatement(SqlQueries.GET_USER_EMAIL_PASSWORD);
+            System.out.println(ps);
             ps.setString(1, emailId);
             ps.setString(2, password);
 
             ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
+            System.out.println(rs);
+            if (rs != null && rs.next()) {
                 User user = new User(
                         rs.getString("name"),
                         rs.getString("email"),
@@ -103,7 +107,8 @@ public class UserDaoOperation implements UserDaoInterface {
                         rs.getString("email"),
                         rs.getString("password"),
                         rs.getString("role"),
-                        rs.getString("phone")
+                        rs.getString("phone"),
+                        String.valueOf(rs.getInt("id"))
                 );
                 return user;
             }

@@ -19,12 +19,11 @@ public class ProfessorInterfaceImpl implements ProfessorInterface {
     public void viewEnrolledStudents(String professorId) {
         List<Student> students = professorDaoInterface.getEnrolledStudents(Integer.parseInt(professorId));
         System.out.println("=====Enrolled Students=====");
-        System.out.println("Id | Email | Name | PhoneNo");
+        System.out.println("Id | Email | Name ");
         for(Student student : students) {
-            System.out.println(student.getId() + " | " +
+            System.out.println(student.getStudentId() + " | " +
                     student.getUserEmailId() + " | " +
-                    student.getUserName() + " | " +
-                    student.getPhoneNo()
+                    student.getUserName()
             );
 
         }

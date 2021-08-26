@@ -11,10 +11,10 @@ import java.util.Scanner;
 
 public class CRSApplicationClient {
     static Scanner sc = new Scanner(System.in);
-    static AdminClient adminClient = new AdminClient();
+    //static AdminClient adminClient = new AdminClient();
     static ProfessorClient professorClient = new ProfessorClient();
-    static StudentClient studentClient = new StudentClient();
-    static StudentInterface studentInterface = new StudentInterfaceImpl();
+//    static StudentClient studentClient = new StudentClient();
+//    static StudentInterface studentInterface = new StudentInterfaceImpl();
     static UserInterface userInterface = new UserInterfaceImpl();
 
     public static void main(String[] args) {
@@ -33,7 +33,7 @@ public class CRSApplicationClient {
                     login();
                     break;
                 case 2:
-                    studentRegistration();
+                    //studentRegistration();
                     break;
                 default:
                     System.out.println("Invalid User Input");
@@ -64,39 +64,40 @@ public class CRSApplicationClient {
         if (verified) {
             System.out.println("User Logged in Successfully");
             String role = UserInterfaceImpl.user.getRole();
+            System.out.println(role);
             if (role == Roles.Admin) {
-                adminClient.showMenu();
-            } else if (role == Roles.Professor) {
+                //adminClient.showMenu();
+            } else if (role.equals(Roles.Professor) ) {
                 professorClient.showMenu(emailId);
             } else {
-                studentClient.showMenu(studentId);
+                //studentClient.showMenu(studentId);
             }
         } else {
             System.out.println("Email or Password is incorrect, Try Again");
         }
     }
 
-    static void studentRegistration() {
-        // Taking user input
-        System.out.print("Enter Student Name: ");
-        String studentName = sc.next();
-
-        System.out.print("Enter Student EmailId: ");
-        String studentEmailId = sc.next();
-
-        System.out.print("Enter Student Password: ");
-        String studentPassword = sc.next();
-
-        System.out.print("Enter Student Phone number: ");
-        String studentPhoneNo = sc.next();
-
-        Student student;
-        student = studentInterface.register(studentName, studentEmailId, studentPassword, studentPhoneNo);
-
-        if (student == null) {
-            System.out.println("Something went wrong, Try Again");
-            return;
-        }
-        System.out.println(studentName + " you are successfully registered, please wait for Admin's Approval");
-    }
+//    static void studentRegistration() {
+//        // Taking user input
+//        System.out.print("Enter Student Name: ");
+//        String studentName = sc.next();
+//
+//        System.out.print("Enter Student EmailId: ");
+//        String studentEmailId = sc.next();
+//
+//        System.out.print("Enter Student Password: ");
+//        String studentPassword = sc.next();
+//
+//        System.out.print("Enter Student Phone number: ");
+//        String studentPhoneNo = sc.next();
+//
+//        Student student;
+//        student = studentInterface.register(studentName, studentEmailId, studentPassword, studentPhoneNo);
+//
+//        if (student == null) {
+//            System.out.println("Something went wrong, Try Again");
+//            return;
+//        }
+//        System.out.println(studentName + " you are successfully registered, please wait for Admin's Approval");
+//    }
 }

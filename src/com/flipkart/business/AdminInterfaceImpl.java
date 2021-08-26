@@ -8,8 +8,8 @@ import com.flipkart.bean.Professor;
 
 import java.util.ArrayList;
 
-public class AdminInterfaceImpl implements AdminInterface {
-    ArrayList<Course> courses = CourseInterfaceImpl.courses;
+public class AdminInterfaceImpl /*implements AdminInterface*/ {
+    /*ArrayList<Course> courses = CourseInterfaceImpl.courses;
     static Admin admin = new Admin("b", "admin", "b", "Admin", "b", "b", "b");
 
     @Override
@@ -52,5 +52,5 @@ public class AdminInterfaceImpl implements AdminInterface {
     @Override
     public void generateResult() {
         //TODO: after student db
-    }
+    }*/
 }

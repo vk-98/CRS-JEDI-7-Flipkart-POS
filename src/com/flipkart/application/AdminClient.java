@@ -12,7 +12,7 @@ import javax.management.relation.Role;
 public class AdminClient {
 
     Scanner sc = new Scanner(System.in);
-    AdminInterface admin = new AdminInterfaceImpl();
+    //AdminInterface admin = new AdminInterfaceImpl();
 
     public void showMenu() {
 
@@ -77,7 +77,7 @@ public class AdminClient {
         System.out.println("Course Fee - ");
         double courseFee = sc.nextDouble();
 
-        admin.addCourse(courseId, courseName, studentCount, courseFee);
+        //admin.addCourse(courseId, courseName, studentCount, courseFee);
     }
 
 
@@ -87,7 +87,7 @@ public class AdminClient {
         System.out.println("Course Id - ");
         String courseId = sc.next();
 
-        admin.removeCourse(courseId);
+        //admin.removeCourse(courseId);
 
     }
 
@@ -128,7 +128,7 @@ public class AdminClient {
         professor.setProfessorId(professorId);
 
 
-        admin.addProfessor(professor);
+        //admin.addProfessor(professor);
     }
 
     public void approveStudentRequest() {
@@ -137,7 +137,7 @@ public class AdminClient {
         System.out.println("Student Id - ");
         String studentId = sc.next();
 
-        admin.approveStudentRequest(studentId);
+        //admin.approveStudentRequest(studentId);
     }
 
     public void generateResult() {

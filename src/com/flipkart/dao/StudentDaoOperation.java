@@ -61,12 +61,16 @@ public class StudentDaoOperation implements StudentDaoInterface {
             UserDaoInterface userDaoInterface = new UserDaoOperation();
             if(result.next()) {
                 int userId = result.getInt("userId");
+                System.out.println("UserId" + userId);
                 User user = userDaoInterface.getUserByUserId(userId);
                 student = new Student(
+                        String.valueOf(studentId),
                         user.getUserName(),
                         user.getUserEmailId(),
                         null,
-                        user.getPhoneNo()
+                        user.getPhoneNo(),
+                        "Student",
+                        user.getId()
                 );
             }
             return student;

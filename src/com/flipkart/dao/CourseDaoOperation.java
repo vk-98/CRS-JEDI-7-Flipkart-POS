@@ -47,12 +47,12 @@ public class CourseDaoOperation implements CourseDaoInterface
             PreparedStatement ps = con.prepareStatement(SqlQueries.GET_STUDENT_ID_BY_PROFESSOR_ID);
             ps.setInt(1, professorId);
             ResultSet result = ps.executeQuery();
-            List<Integer> courseIds = new ArrayList<Integer>();
+            List<Integer> studentIds = new ArrayList<Integer>();
             while(result.next()) {
-                int id = result.getInt("id");
-                courseIds.add(id);
+                int studentId = result.getInt("studentId");
+                studentIds.add(studentId);
             }
-            return courseIds;
+            return studentIds;
 
         } catch(SQLException e) {
             System.out.println("Error: " + e.getMessage());

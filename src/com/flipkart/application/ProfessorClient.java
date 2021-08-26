@@ -36,12 +36,22 @@ public class ProfessorClient {
                     inputForViewEnrolledStudents();
                     break;
                 case 5:
-                    System.out.println("Upload Grade");
+                    inputForUploadGrade();
                     break;
                 default:
                     System.out.println("Invalid User Input");
             }
         }
+    }
+
+    private void inputForUploadGrade() {
+        System.out.println("Enter StudentId to whom you assign grade :");
+        String studentId = sc.next();
+        System.out.println("Enter CourseId :");
+        String courseId = sc.next();
+        System.out.println("Enter grade :");
+        String grade = sc.next();
+        professorInterface.addGrad(studentId, courseId, grade);
     }
 
     private void inputForViewEnrolledStudents() {

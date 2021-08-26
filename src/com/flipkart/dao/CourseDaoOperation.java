@@ -2,6 +2,7 @@ package com.flipkart.dao;
 
 import com.flipkart.bean.Course;
 import com.flipkart.constants.SqlQueries;
+import com.flipkart.exception.CourseNotFoundException;
 import com.flipkart.utils.DBUtil;
 
 import java.sql.Connection;
@@ -61,11 +62,14 @@ public class CourseDaoOperation implements CourseDaoInterface
     }
 
     @Override
-    public int getProfessorIdByCourseId(int courseId) {
+    public int getProfessorIdByCourseId(int courseId) throws CourseNotFoundException {
         try {
             PreparedStatement ps = con.prepareStatement(SqlQueries.GET_PROFESSOR_ID_BY_COURSE_ID);
             ps.setInt(1, courseId);
             ResultSet result = ps.executeQuery();
+            if(result.getRow()==0){
+                throw new CourseNotFoundException(String.valueOf(courseId));
+            }
             if(result.next()) {
                 return result.getInt("professorId");
             }
@@ -73,6 +77,8 @@ public class CourseDaoOperation implements CourseDaoInterface
 
         } catch(SQLException e) {
             System.out.println("Error: " + e.getMessage());
+        }catch(CourseNotFoundException e){
+            throw new CourseNotFoundException(String.valueOf(courseId));
         }
         return -1;
     }

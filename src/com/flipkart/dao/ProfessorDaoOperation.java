@@ -2,8 +2,8 @@ package com.flipkart.dao;
 
 import com.flipkart.bean.Course;
 import com.flipkart.bean.Student;
-import com.flipkart.bean.User;
 import com.flipkart.constants.SqlQueries;
+import com.flipkart.exception.CourseNotFoundException;
 import com.flipkart.utils.DBUtil;
 
 import java.sql.Connection;
@@ -75,15 +75,19 @@ public class ProfessorDaoOperation implements ProfessorDaoInterface {
         return gradeDaoInterface.createGrade(courseId, studentId, Integer.parseInt(grade));
     }
 
-    public boolean selectCourse(int professorId, int courseId) {
-        if(courseDaoInterface.getProfessorIdByCourseId(courseId) == -1) {
+    public boolean selectCourse(int professorId, int courseId)  {
+        try{
+        if (courseDaoInterface.getProfessorIdByCourseId(courseId) == -1) {
             courseDaoInterface.setProfessorToCourse(professorId, courseId);
             return true;
+        }
+        }catch(CourseNotFoundException e){
+            System.out.println(new CourseNotFoundException(String.valueOf(courseId)));
         }
         return false;
     }
 
-    public boolean deselectCourse(int professorId, int courseId) {
+    public boolean deselectCourse(int professorId, int courseId) throws CourseNotFoundException {
         if(courseDaoInterface.getProfessorIdByCourseId(courseId) == professorId) {
             courseDaoInterface.setProfessorToCourse(-1, courseId);
             return true;

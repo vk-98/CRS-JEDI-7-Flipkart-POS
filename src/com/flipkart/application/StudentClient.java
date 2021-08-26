@@ -18,20 +18,20 @@ public class StudentClient {
     CourseInterface courseInterface = new CourseInterfaceImpl();
     SemesterRegistrationInterface semRegister = new SemesterRegistrationImpl();
     UserInterface userInterface = new UserInterfaceImpl();
-    StudentDaoInterface studentDaoInterface= new StudentDaoOperation();
+    StudentInterface studentInterface = new StudentInterfaceImpl();
     NotificationInterface notificationInterface= new NotificationImpl();
 
     public void showMenu() throws SQLException, CourseCountException, NoRegisteredCourseException, SeatNotAvailableException {
 
         boolean menuBreakFlag = false;
 
-        int studentId= studentDaoInterface.getStudentById(UserInterfaceImpl.user.getId());
-        Student student = studentDaoInterface.getStudentByStudentId(studentId);
+        studentInterface.setStudent();
 
-        if(!student.isApproved()) {
+        if(!StudentInterfaceImpl.student.isApproved()) {
             System.out.println("Your admission request is still pending..., login later");
             return;
         }
+
 
         System.out.println("User Logged in Successfully");
 
@@ -42,14 +42,14 @@ public class StudentClient {
 
             switch (userInput) {
                 case 1:
-                    semesterRegistration(studentId);
+                    semesterRegistration(StudentInterfaceImpl.student.getStudentId());
                     break;
                 case 2:
                     System.out.println("View Courses");
                     courseInterface.viewCourses();
                     break;
                 case 3:
-                    feePayment(studentId);
+                    feePayment(StudentInterfaceImpl.student.getStudentId());
                     break;
                 case 4:
                     System.out.print("Enter New Password: ");
@@ -57,7 +57,7 @@ public class StudentClient {
                     userInterface.updateUserPassword(newPassword);
                     break;
                 case 5:
-                    notificationInterface.showNotifications(studentId);
+                    notificationInterface.showNotifications(StudentInterfaceImpl.student.getStudentId());
                     break;
                 case 6:
                     menuBreakFlag = true;

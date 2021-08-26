@@ -9,5 +9,6 @@ public interface StudentDaoInterface {
 
     public boolean isApproved(int studentId);
 
+    public Student getStudentByEmailId(String emailId);
     public Student getStudentByStudentId(int studentId);
 }

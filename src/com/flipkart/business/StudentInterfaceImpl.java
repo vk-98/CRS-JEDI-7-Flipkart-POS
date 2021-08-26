@@ -6,6 +6,9 @@ import com.flipkart.dao.StudentDaoOperation;
 import com.flipkart.exceptions.StudentNotRegisteredException;
 
 public class StudentInterfaceImpl implements StudentInterface {
+    public static Student student = null;
+    StudentDaoInterface studentDaoInterface = new StudentDaoOperation();
+
     @Override
     public Student register(String studentName, String studentEmailId, String studentPassword, String studentPhoneNo) throws StudentNotRegisteredException {
         Student student = null;
@@ -33,6 +36,11 @@ public class StudentInterfaceImpl implements StudentInterface {
     @Override
     public void viewGrades(String studentId, String semesterRegistrationId) {
 
+    }
+
+    @Override
+    public void setStudent() {
+        student = studentDaoInterface.getStudentByEmailId(UserInterfaceImpl.user.getUserEmailId());
     }
 
     @Override

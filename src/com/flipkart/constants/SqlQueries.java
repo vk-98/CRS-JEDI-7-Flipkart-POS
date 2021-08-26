@@ -45,7 +45,7 @@ public class SqlQueries {
 
     public static final String LIST_PROFESSORS = "SELECT professor.id, user.name, user.email, professor.department, professor.designation FROM professor INNER JOIN user ON professor.userId = user.id";
 
-    public static final String GET_STUDENT_BY_STUDENT_ID = "SELECT * from student where id = ?";
+    public static final String GET_STUDENT_BY_EMAIL_ID = "SELECT student.id, user.name, user.email, user.phone, student.isApproved FROM user INNER JOIN student ON user.id = student.userId WHERE email = ?";
 
     public static final String VIEW_AVAILABLE_COURSES_PROFESSOR = "SELECT * FROM course where professorId IS NULL";
 
@@ -68,4 +68,6 @@ public class SqlQueries {
     public static final String ADD_GRADE = "INSERT INTO grade(studentId, courseId, gpa) values(?, ?, ?)";
 
     public static final String IS_STUDENT_ENROLLED = "SELECT * FROM optedcourse WHERE studentId = ? AND courseId = ?";
+
+    public static final String GET_STUDENT_BY_STUDENT_ID = "SELECT student.id, user.name, user.email, user.phone, student.isApproved FROM student INNER JOIN user ON student.userId = user.id WHERE student.id = ?";
 }

@@ -65,6 +65,26 @@ public class StudentDaoOperation implements StudentDaoInterface {
     }
 
     @Override
+    public Student getStudentByEmailId(String emailId) {
+        try {
+            PreparedStatement ps = con.prepareStatement(SqlQueries.GET_STUDENT_BY_EMAIL_ID);
+            ps.setString(1, emailId);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()) {
+                Student st = new Student();
+                st.setStudentId(rs.getInt("id"));
+                st.setUserEmailId(rs.getString("email"));
+                st.setUserName(rs.getString("name"));
+                st.setPhoneNo(rs.getString("phone"));
+                st.setApproved(rs.getInt("isApproved") == 1);
+                return st;
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+    @Override
     public Student getStudentByStudentId(int studentId) {
         try {
             PreparedStatement ps = con.prepareStatement(SqlQueries.GET_STUDENT_BY_STUDENT_ID);

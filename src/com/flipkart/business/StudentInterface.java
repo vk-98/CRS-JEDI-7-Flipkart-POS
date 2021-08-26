@@ -10,5 +10,7 @@ public interface StudentInterface {
 
     void viewGrades(String studentId, String semesterRegistrationId);
 
+    void setStudent();
+
     boolean payFee(String studentId, String studentRegistrationId, double amount);
 }

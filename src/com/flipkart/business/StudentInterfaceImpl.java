@@ -3,6 +3,7 @@ package com.flipkart.business;
 import com.flipkart.bean.Student;
 import com.flipkart.dao.StudentDaoInterface;
 import com.flipkart.dao.StudentDaoOperation;
+import com.flipkart.exception.StudentNotRegisteredException;
 
 import java.util.HashMap;
 
@@ -10,13 +11,22 @@ public class StudentInterfaceImpl implements StudentInterface {
     //static HashMap<String, Student> registeredStudents = new HashMap<String, Student>();
 
     @Override
-    public Student register(String studentName, String studentEmailId, String studentPassword, String studentPhoneNo) {
+    public Student register(String studentName, String studentEmailId, String studentPassword, String studentPhoneNo) throws StudentNotRegisteredException {
+        Student student = null;
 
-        StudentDaoInterface studentDao = new StudentDaoOperation();
+        try {
+            StudentDaoInterface studentDao = new StudentDaoOperation();
 
-        Student student = new Student(studentName, studentEmailId, studentPassword, studentPhoneNo);
-        boolean added = studentDao.addStudent(student);
-        return added ? student : null;
+            student = new Student(studentName, studentEmailId, studentPassword, studentPhoneNo);
+            boolean added = studentDao.addStudent(student);
+            if (!added) {
+                student = null;
+                throw new StudentNotRegisteredException(studentName);
+            }
+        } catch (StudentNotRegisteredException ex) {
+            System.out.println(ex.getStudentName() + " is not registered");
+        }
+        return student;
     }
 
     @Override

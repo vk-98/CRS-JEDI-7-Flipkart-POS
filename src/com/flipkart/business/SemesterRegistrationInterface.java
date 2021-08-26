@@ -1,5 +1,9 @@
 package com.flipkart.business;
 
+import com.flipkart.exception.CourseCountException;
+import com.flipkart.exception.NoRegisteredCourseException;
+import com.flipkart.exception.SeatNotAvailableException;
+
 import java.sql.SQLException;
 
 public interface SemesterRegistrationInterface {
@@ -14,9 +18,11 @@ public interface SemesterRegistrationInterface {
 
     double calculateFee(int studentId) throws SQLException;
 
-    boolean submitCourseChoices(int studentId);
+    boolean submitCourseChoices(int studentId) throws NoRegisteredCourseException, CourseCountException, SeatNotAvailableException, SQLException;
 
-    boolean getRegistrationStatus(int studentId);
+    boolean getRegistrationStatus(int studentId) throws SQLException;
+    boolean getPaymentStatus(int studentId) throws SQLException;
 
-    void setRegistrationStatus(int studentId, boolean status);
+    void setRegistrationStatus(int studentId, boolean status) throws SQLException;
+    void setPaymentStatus(int studentId, boolean status) throws SQLException;
 }

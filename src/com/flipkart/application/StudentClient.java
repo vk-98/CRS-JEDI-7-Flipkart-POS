@@ -3,6 +3,9 @@ package com.flipkart.application;
 import com.flipkart.business.*;
 import com.flipkart.dao.StudentDaoInterface;
 import com.flipkart.dao.StudentDaoOperation;
+import com.flipkart.exception.CourseCountException;
+import com.flipkart.exception.NoRegisteredCourseException;
+import com.flipkart.exception.SeatNotAvailableException;
 
 import java.sql.SQLException;
 import java.util.Scanner;
@@ -16,7 +19,7 @@ public class StudentClient {
     UserInterface userInterface = new UserInterfaceImpl();
     StudentDaoInterface studentDaoInterface= new StudentDaoOperation();
     NotificationInterface notificationInterface= new NotificationImpl();
-    public void showMenu() throws SQLException {
+    public void showMenu() throws SQLException, CourseCountException, NoRegisteredCourseException, SeatNotAvailableException {
         boolean menuBreakFlag = false;
 
         int studentId= studentDaoInterface.getStudentById(UserInterfaceImpl.user.getId());
@@ -66,7 +69,7 @@ public class StudentClient {
         System.out.print("Enter User Input :");
     }
 
-    public void semesterRegistration(int studentId) {
+    public void semesterRegistration(int studentId) throws CourseCountException, NoRegisteredCourseException, SeatNotAvailableException, SQLException {
         boolean breakFlag = false;
 
 
@@ -137,11 +140,33 @@ public class StudentClient {
 
     public void feePayment(int studentId) throws SQLException {
 
+        boolean status = semRegister.getRegistrationStatus(studentId);
+        if(!status)
+        {
+            System.out.println("First do semester registration");
+            return;
+        }
+        status= semRegister.getPaymentStatus(studentId);
+        if(status)
+        {
+            System.out.println("Already paid");
+            return;
+        }
         double totalFee = semRegister.calculateFee(studentId);
-        System.out.println("## Total Fees : " + totalFee);
 
-        // get the corresponding student object
-        // invoke  boolean payFee(String studentId, String studentRegistrationId, double amount)
+        System.out.println("## Total Fees : " + totalFee);
+        System.out.println("Do you want to proceed");
+        System.out.println("Enter 1 to proceed");
+        System.out.println("Enter 2 to cancel");
+
+        int x= sc.nextInt();
+        if(x==1)
+        {
+            System.out.println("Enter 1 for online payment");
+            System.out.println("Enter 2 for cash/cheque payment");
+            x=sc.nextInt();
+            semRegister.setPaymentStatus(studentId,true);
+        }
     }
 
 }

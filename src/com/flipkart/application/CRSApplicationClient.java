@@ -6,6 +6,10 @@ import com.flipkart.business.StudentInterfaceImpl;
 import com.flipkart.business.UserInterface;
 import com.flipkart.business.UserInterfaceImpl;
 import com.flipkart.constants.Roles;
+import com.flipkart.exception.CourseCountException;
+import com.flipkart.exception.NoRegisteredCourseException;
+import com.flipkart.exception.SeatNotAvailableException;
+import com.flipkart.exception.StudentNotRegisteredException;
 
 import java.sql.SQLException;
 import java.util.Scanner;
@@ -18,7 +22,7 @@ public class CRSApplicationClient {
     static StudentInterface studentInterface = new StudentInterfaceImpl();
     static UserInterface userInterface = new UserInterfaceImpl();
 
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) throws SQLException, StudentNotRegisteredException, CourseCountException, NoRegisteredCourseException, SeatNotAvailableException {
         System.out.println("#######################################################################################");
         System.out.println("#------------------------Welcome to Course Registration System------------------------#");
         System.out.println("#######################################################################################");
@@ -51,7 +55,7 @@ public class CRSApplicationClient {
         System.out.print("Enter User Input: ");
     }
 
-    static void login() throws SQLException {
+    static void login() throws SQLException, CourseCountException, NoRegisteredCourseException, SeatNotAvailableException {
         // Taking credentials as input.
         System.out.print("Enter EmailId: ");
         String emailId = sc.next();
@@ -77,7 +81,7 @@ public class CRSApplicationClient {
         }
     }
 
-    static void studentRegistration() {
+    static void studentRegistration() throws StudentNotRegisteredException {
         // Taking user input
         System.out.print("Enter Student Name: ");
         String studentName = sc.next();

@@ -1,9 +1,10 @@
 package com.flipkart.business;
 
 import com.flipkart.bean.Student;
+import com.flipkart.exception.StudentNotRegisteredException;
 
 public interface StudentInterface {
-    Student register(String studentName, String studentEmailId, String studentPassword, String studentPhoneNo);
+    Student register(String studentName, String studentEmailId, String studentPassword, String studentPhoneNo) throws StudentNotRegisteredException;
 
     String registerForSemester(String studentId);
 

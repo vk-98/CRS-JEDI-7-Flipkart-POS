@@ -9,12 +9,17 @@ public class Notification {
     public Notification() {
     }
 
+    /**
+     * Parameterized Constructor
+     * @param isNotificationSent: status of the notification
+     * @param content: notification content
+     * @param studentId: student id
+     */
     public Notification( boolean isNotificationSent, String content, int studentId) {
         this.isNotificationSent = isNotificationSent;
         this.content = content;
         this.studentId = studentId;
     }
-
 
 
     public int getNotificationId() {

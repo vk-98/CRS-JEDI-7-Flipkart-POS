@@ -4,7 +4,6 @@ import com.flipkart.bean.User;
 import com.flipkart.constants.SqlQueries;
 import com.flipkart.utils.DBUtil;
 
-import javax.jws.soap.SOAPBinding;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

@@ -1,11 +1,27 @@
 package com.flipkart.business;
 
 import com.flipkart.bean.Student;
+import com.flipkart.dao.NotificationDaoOperation;
 import com.flipkart.dao.StudentDaoInterface;
 import com.flipkart.dao.StudentDaoOperation;
 import com.flipkart.exceptions.StudentNotRegisteredException;
+import org.apache.log4j.Logger;
+
+import java.sql.SQLException;
 
 public class StudentInterfaceImpl implements StudentInterface {
+
+    private static Logger logger = Logger.getLogger(StudentInterfaceImpl.class);
+
+    /**
+     * Method to register a student
+     * @param studentName
+     * @param studentEmailId
+     * @param studentPassword
+     * @param studentPhoneNo
+     * @return student object or null if registration failed
+     * @throws StudentNotRegisteredException
+     */
     @Override
     public Student register(String studentName, String studentEmailId, String studentPassword, String studentPhoneNo) throws StudentNotRegisteredException {
         Student student = null;
@@ -20,7 +36,8 @@ public class StudentInterfaceImpl implements StudentInterface {
                 throw new StudentNotRegisteredException(studentName);
             }
         } catch (StudentNotRegisteredException ex) {
-            System.out.println(ex.getStudentName() + " is not registered");
+            logger.info(logger.getClass());
+            logger.error(ex.getStudentName() + " is not registered.");
         }
         return student;
     }

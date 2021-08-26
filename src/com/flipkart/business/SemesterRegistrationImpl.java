@@ -6,10 +6,8 @@ import com.flipkart.dao.NotificationDaoInterface;
 import com.flipkart.dao.NotificationDaoOperation;
 import com.flipkart.dao.SemesterRegistrationDaoInterface;
 import com.flipkart.dao.SemesterRegistrationDaoOperation;
-import com.flipkart.exceptions.CourseCountException;
-import com.flipkart.exceptions.CourseLimitExceededException;
-import com.flipkart.exceptions.NoRegisteredCourseException;
-import com.flipkart.exceptions.SeatNotAvailableException;
+import com.flipkart.exceptions.*;
+import org.apache.log4j.Logger;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -21,31 +19,49 @@ public class SemesterRegistrationImpl implements SemesterRegistrationInterface {
     SemesterRegistrationDaoInterface semesterRegistrationDaoInterface = new SemesterRegistrationDaoOperation();
     NotificationDaoInterface notificationDaoInterface = new NotificationDaoOperation();
 
+    private static Logger logger = Logger.getLogger(SemesterRegistrationImpl.class);
+
+
+    /**
+     * Method to add a primary course for a given student
+     * @param studentId
+     * @param courseId
+     * @return boolean indicating if the primary course is added successfully
+     * @throws SQLException
+     */
     @Override
     public boolean addPrimaryCourse(int studentId, int courseId) throws SQLException {
 
         if(semesterRegistrationDaoInterface.isRegistered(courseId,studentId))
         {
-            System.out.println("Course already registered");
+            logger.error("Course already registered");
             return false;
         }
         if (semesterRegistrationDaoInterface.addCourse(courseId, studentId, 0)) {
-            System.out.println("Successfully added primary course");
+            logger.info("Successfully added primary course");
             return true;
         }
 
 
-        System.out.println("Limit reached");
+        logger.error("Limit reached");
 
         return false;
     }
 
+
+    /**
+     * Method to add a secondary course for a given student
+     * @param studentId
+     * @param courseId
+     * @return boolean indicating if the secondary course is added successfully
+     * @throws SQLException
+     */
     @Override
     public boolean addSecondaryCourse(int studentId, int courseId) throws SQLException {
 
         if(semesterRegistrationDaoInterface.isRegistered(courseId,studentId))
         {
-            System.out.println("Course already registered");
+            logger.error("Course already registered");
             return false;
         }
         if (semesterRegistrationDaoInterface.addCourse(courseId, studentId, 1)) {
@@ -54,32 +70,44 @@ public class SemesterRegistrationImpl implements SemesterRegistrationInterface {
         }
 
 
-        System.out.println("Limit reached");
+        logger.error("Limit reached");
 
         return false;
     }
 
+    /**
+     * Method to drop a course for a given student
+     * @param studentId
+     * @param courseId
+     * @return boolean indicating if the course is dropped successfully
+     * @throws SQLException
+     */
     @Override
     public boolean dropCourse(int studentId, int courseId) {
 
         if (semesterRegistrationDaoInterface.dropCourse(courseId, studentId)) {
-            System.out.println("Course Deleted");
+            logger.info("Course Deleted");
             return true;
         }
 
-        System.out.println("Not found");
+        logger.error("Not found");
         return false;
 
     }
 
 
+    /**
+     * Method to view all the courses registered by the given student
+     * @param studentId
+     * @return
+     */
     @Override
     public void viewRegisteredCourses(int studentId) {
 
         List<OptedCourse> courses = semesterRegistrationDaoInterface.viewRegisteredCourses(studentId);
 
         if (courses.size() == 0) {
-            System.out.println("### No registered courses to show");
+            logger.info("### No registered courses to show");
             return;
         }
         System.out.println("** Registered courses **");
@@ -95,6 +123,13 @@ public class SemesterRegistrationImpl implements SemesterRegistrationInterface {
 
     }
 
+
+    /**
+     * Method to calculate fee for a given student
+     * @param studentId
+     * @return total fee to be paid by a given student
+     * @throws SQLException
+     */
     @Override
     public double calculateFee(int studentId) throws SQLException {
         double totalFee = 0;
@@ -102,6 +137,16 @@ public class SemesterRegistrationImpl implements SemesterRegistrationInterface {
         return totalFee;
     }
 
+
+    /**
+     * Method to submit the choices of the course opted by the student
+     * @param studentId
+     * @return boolean indicating if the choices are added successfully
+     * @throws NoRegisteredCourseException
+     * @throws CourseCountException
+     * @throws SeatNotAvailableException
+     * @throws SQLException
+     */
     @Override
     public boolean submitCourseChoices(int studentId) throws NoRegisteredCourseException, CourseCountException, SeatNotAvailableException, SQLException {
         viewRegisteredCourses(studentId);
@@ -139,18 +184,18 @@ public class SemesterRegistrationImpl implements SemesterRegistrationInterface {
                     ;
                     return true;
                 }
-                System.out.println("Invalid selection");
+                logger.error("Invalid selection");
             }
         } catch (NoRegisteredCourseException ex) {
-            System.out.println(NoRegisteredCourseException.msg);
+            logger.info(NoRegisteredCourseException.msg);
         } catch (CourseCountException ex) {
-            System.out.println("Your " + ex.getCourseType() + " course count is " + ex.getCourseCount() + " but it should be " + ex.getRequiredCourseCount());
+            logger.info("Your " + ex.getCourseType() + " course count is " + ex.getCourseCount() + " but it should be " + ex.getRequiredCourseCount());
         } catch (SeatNotAvailableException ex) {
-            System.out.println("Seats are not available in : " + ex.getCourseId() + " course");
+            logger.info("Seats are not available in : " + ex.getCourseId() + " course");
         } catch (CourseLimitExceededException e) {
-            System.out.println(e.getMessage());
+            logger.info(e.getMessage());
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            logger.error(e.getMessage());
         }
         return false;
     }
@@ -172,6 +217,14 @@ public class SemesterRegistrationImpl implements SemesterRegistrationInterface {
 
     }
 
+
+    /**
+     * Method to set payment status of the given student
+     * @param studentId
+     * @param status
+     * @return boolean indicating if the payment status is changes successfully
+     * @throws SQLException
+     */
     @Override
     public void setPaymentStatus(int studentId, boolean status) throws SQLException {
         if (semesterRegistrationDaoInterface.setPaymentStatus(studentId, status ? 1 : 0)) {
@@ -181,6 +234,6 @@ public class SemesterRegistrationImpl implements SemesterRegistrationInterface {
                 System.out.println("Notification Sent");
             return;
         }
-        System.out.println("Payment Failed");
+        logger.error("Payment Failed");
     }
 }

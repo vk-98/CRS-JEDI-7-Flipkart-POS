@@ -4,6 +4,11 @@ public class OptedCourse {
     private int courseId;
     private boolean isPrimary;
 
+    /**
+     * Parameterized Constructor
+     * @param courseId: course id
+     * @param isPrimary: true if the course is primary, false if it is secondary
+     */
     public OptedCourse(int courseId, boolean isPrimary) {
         this.courseId = courseId;
         this.isPrimary = isPrimary;

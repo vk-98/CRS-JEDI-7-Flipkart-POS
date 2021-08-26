@@ -5,7 +5,6 @@ import java.util.List;
 import com.flipkart.bean.Course;
 import com.flipkart.bean.Notification;
 import com.flipkart.bean.OptedCourse;
-import javafx.util.Pair;
 
 public interface SemesterRegistrationDaoInterface {
 
@@ -30,16 +29,16 @@ public interface SemesterRegistrationDaoInterface {
         public int getCourseIdIfSeatNotAvailable(int studentId);
 
 
-       // public List<StudentGrade> viewGradeCard(int studentId) throws SQLException;
+        // public List<StudentGrade> viewGradeCard(int studentId) throws SQLException;
 
 
         public double calculateFee(int studentId) throws SQLException;
 
 
-       // public boolean seatAvailable(String courseCode) throws SQLException;
+        // public boolean seatAvailable(String courseCode) throws SQLException;
 
 
-       // public int numOfRegisteredCourses(int studentId) throws SQLException;
+        // public int numOfRegisteredCourses(int studentId) throws SQLException;
 
 
         public boolean isRegistered(int courseId, int studentId) throws SQLException;

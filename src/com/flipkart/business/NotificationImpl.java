@@ -2,11 +2,19 @@ package com.flipkart.business;
 
 import com.flipkart.dao.NotificationDaoInterface;
 import com.flipkart.dao.NotificationDaoOperation;
+import com.flipkart.exceptions.StudentNotRegisteredException;
 
 import java.util.List;
 
 public class NotificationImpl implements NotificationInterface{
     NotificationDaoInterface notificationDaoInterface= new NotificationDaoOperation();
+
+
+    /**
+     * Method to show notification to student
+     * @param studentId
+     * @return
+     */
     @Override
     public void showNotifications(int studentId) {
         List<String > notifications= notificationDaoInterface.showNotifications(studentId);

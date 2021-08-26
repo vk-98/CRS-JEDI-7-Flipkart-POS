@@ -9,11 +9,19 @@ import com.flipkart.bean.Student;
 import com.flipkart.constants.SqlQueries;
 import com.flipkart.exceptions.StudentNotFoundException;
 import com.flipkart.utils.DBUtil;
+import org.apache.log4j.Logger;
 
 public class StudentDaoOperation implements StudentDaoInterface {
 
     static Connection con = DBUtil.getConnection();
+    private static Logger logger = Logger.getLogger(StudentDaoOperation.class);
 
+    /**
+     * Method to add Student
+     * @param student
+     * @return boolean indicating if the student is added successfully
+     * @throws SQLException
+     */
     @Override
     public boolean addStudent(Student student) {
         UserDaoInterface userDaoInterface = new UserDaoOperation();
@@ -32,12 +40,21 @@ public class StudentDaoOperation implements StudentDaoInterface {
                 return (rowAffected == 1);
 
             } catch (SQLException e) {
-                System.out.println("Error: " + e.getMessage());
+                logger.info(logger.getClass());
+                logger.error(e.getMessage());
             }
         }
         return false;
     }
 
+
+
+    /**
+     * Method to get studentId from userId
+     * @param userId
+     * @return studentId or -1 if no matching student found
+     * @throws SQLException
+     */
     @Override
     public int getStudentById(int userId) {
         try {
@@ -54,16 +71,24 @@ public class StudentDaoOperation implements StudentDaoInterface {
 
 
         } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
+            logger.info(e.getMessage());
         }
         return -1;
     }
+
 
     @Override
     public boolean isApproved(int studentId) {
         return false;
     }
 
+
+    /**
+     * Method to get student object from studentID
+     * @param studentId
+     * @return student object or null if no matching student found
+     * @throws SQLException
+     */
     @Override
     public Student getStudentByStudentId(int studentId) {
         try {
@@ -77,7 +102,7 @@ public class StudentDaoOperation implements StudentDaoInterface {
                 return st;
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            logger.info(e.getMessage());
         }
         return null;
     }

@@ -10,6 +10,15 @@ public class Student extends User {
     public Student() {
     }
 
+
+
+    /**
+     * Parameterized Constructor
+     * @param userName: name of the user
+     * @param userEmailId: email id of the user
+     * @param userPassword: user password
+     * @param phoneNo: user phone number
+     */
     public Student(String userName, String userEmailId, String userPassword, String phoneNo) {
         super(userName, userEmailId, userPassword, phoneNo, Roles.Student);
         this.isApproved = false;

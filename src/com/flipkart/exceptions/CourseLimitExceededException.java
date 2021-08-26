@@ -7,7 +7,7 @@ public class CourseLimitExceededException extends Exception{
 
     /**
      * Constructor
-     * @param num number of courses
+     * @param num: number of courses
      */
     public CourseLimitExceededException(int num )
     {

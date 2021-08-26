@@ -29,6 +29,7 @@ public class UserDaoOperation implements UserDaoInterface {
                         rs.getString("role"),
                         rs.getString("phone")
                 );
+                user.setId(rs.getInt("id"));
                 return user;
             }
         } catch (SQLException e) {
@@ -39,9 +40,15 @@ public class UserDaoOperation implements UserDaoInterface {
 
     @Override
     public boolean updatePassword(int userId, String newPassword) {
-//        try {
-//            PreparedStatement
-//        }
+        try {
+            PreparedStatement ps = conn.prepareStatement(SqlQueries.UPDATE_PASSWORD);
+            ps.setString(1,newPassword);
+            ps.setInt(2, userId);
+            int rowAffected = ps.executeUpdate();
+            return rowAffected == 1;
+        }catch (SQLException e){
+            System.out.println("Error: " + e.getMessage());
+        }
         return false;
     }
 

@@ -7,9 +7,10 @@ import com.flipkart.bean.Course;
 import com.flipkart.dao.AdminDaoInterface;
 import com.flipkart.dao.AdminDaoOperation;
 
+
 public class CourseInterfaceImpl implements CourseInterface {
     AdminDaoInterface adminDaoInterface = new AdminDaoOperation();
-
+    
     @Override
     public void viewCourses() {
         List<Course> courses = adminDaoInterface.viewCourses();

@@ -1,26 +1,27 @@
 package com.flipkart.bean;
 
 public class Notification {
-    private String notificationId;
+    private int notificationId;
     private boolean isNotificationSent;
+    private int studentId;
+    private String content;
 
     public Notification() {
     }
 
-    public Notification(String notificationId, boolean isNotificationSent, String content, String studentId) {
-        this.notificationId = notificationId;
+    public Notification( boolean isNotificationSent, String content, int studentId) {
         this.isNotificationSent = isNotificationSent;
         this.content = content;
         this.studentId = studentId;
     }
 
-    private String content;
 
-    public String getNotificationId() {
+
+    public int getNotificationId() {
         return notificationId;
     }
 
-    public void setNotificationId(String notificationId) {
+    public void setNotificationId(int notificationId) {
         this.notificationId = notificationId;
     }
 
@@ -40,14 +41,14 @@ public class Notification {
         this.content = content;
     }
 
-    public String getStudentId() {
+    public int getStudentId() {
         return studentId;
     }
 
-    public void setStudentId(String studentId) {
+    public void setStudentId(int studentId) {
         this.studentId = studentId;
     }
 
-    private String studentId;
+
 
 }

@@ -16,7 +16,6 @@ public class ProfessorInterfaceImpl implements ProfessorInterface {
 
     @Override
     public void getCourses(String professorId) {
-
     }
 
     @Override

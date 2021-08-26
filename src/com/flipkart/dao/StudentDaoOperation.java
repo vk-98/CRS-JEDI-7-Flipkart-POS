@@ -40,8 +40,23 @@ public class StudentDaoOperation implements StudentDaoInterface {
 
     @Override
     public int getStudentById(int userId) {
+        try {
+            PreparedStatement ps = con.prepareStatement(SqlQueries.GET_STUDENT_ID);
+            ps.setInt(1, userId);
 
-        return 0;
+
+            ResultSet rs = ps.executeQuery();
+            if(rs.next())
+            {
+                return rs.getInt("id");
+            }
+
+
+
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        return -1;
     }
 
     @Override

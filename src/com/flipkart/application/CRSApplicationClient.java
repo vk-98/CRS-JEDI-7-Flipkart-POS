@@ -6,7 +6,12 @@ import com.flipkart.business.StudentInterfaceImpl;
 import com.flipkart.business.UserInterface;
 import com.flipkart.business.UserInterfaceImpl;
 import com.flipkart.constants.Roles;
+import com.flipkart.exceptions.CourseCountException;
+import com.flipkart.exceptions.NoRegisteredCourseException;
+import com.flipkart.exceptions.SeatNotAvailableException;
+import com.flipkart.exceptions.StudentNotRegisteredException;
 
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class CRSApplicationClient {
@@ -17,7 +22,7 @@ public class CRSApplicationClient {
     static StudentInterface studentInterface = new StudentInterfaceImpl();
     static UserInterface userInterface = new UserInterfaceImpl();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException, StudentNotRegisteredException, CourseCountException, NoRegisteredCourseException, SeatNotAvailableException {
         System.out.println("#######################################################################################");
         System.out.println("#------------------------Welcome to Course Registration System------------------------#");
         System.out.println("#######################################################################################");
@@ -50,7 +55,7 @@ public class CRSApplicationClient {
         System.out.print("Enter User Input: ");
     }
 
-    static void login() {
+    static void login() throws SQLException, CourseCountException, NoRegisteredCourseException, SeatNotAvailableException {
         // Taking credentials as input.
         System.out.print("Enter EmailId: ");
         String emailId = sc.next();
@@ -60,24 +65,30 @@ public class CRSApplicationClient {
 
         boolean verified = userInterface.validateUser(emailId, password);
 
-        String studentId = "1";
+
         if (verified) {
-            System.out.println("User Logged in Successfully");
+
             String role = UserInterfaceImpl.user.getRole();
+
+            if (!Roles.Student.equals(role)) {
+                System.out.println("User Logged in Successfully");
+            }
 
             if (Roles.Admin.equals(role)) {
                 adminClient.showMenu();
             } else if (Roles.Professor.equals(role)) {
                 professorClient.showMenu();
+            } else if (Roles.Student.equals(role)) {
+                studentClient.showMenu();
             } else {
-                studentClient.showMenu(studentId);
+                System.out.println("UnIdentified User");
             }
         } else {
             System.out.println("Email or Password is incorrect, Try Again");
         }
     }
 
-    static void studentRegistration() {
+    static void studentRegistration() throws StudentNotRegisteredException {
         // Taking user input
         System.out.print("Enter Student Name: ");
         String studentName = sc.next();

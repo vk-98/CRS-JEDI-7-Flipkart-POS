@@ -1,7 +1,14 @@
 package com.flipkart.application;
 
+import com.flipkart.bean.Student;
 import com.flipkart.business.*;
+import com.flipkart.dao.StudentDaoInterface;
+import com.flipkart.dao.StudentDaoOperation;
+import com.flipkart.exceptions.CourseCountException;
+import com.flipkart.exceptions.NoRegisteredCourseException;
+import com.flipkart.exceptions.SeatNotAvailableException;
 
+import java.sql.SQLException;
 import java.util.Scanner;
 
 
@@ -11,9 +18,22 @@ public class StudentClient {
     CourseInterface courseInterface = new CourseInterfaceImpl();
     SemesterRegistrationInterface semRegister = new SemesterRegistrationImpl();
     UserInterface userInterface = new UserInterfaceImpl();
+    StudentDaoInterface studentDaoInterface= new StudentDaoOperation();
+    NotificationInterface notificationInterface= new NotificationImpl();
 
-    public void showMenu(String studentId) {
+    public void showMenu() throws SQLException, CourseCountException, NoRegisteredCourseException, SeatNotAvailableException {
+
         boolean menuBreakFlag = false;
+
+        int studentId= studentDaoInterface.getStudentById(UserInterfaceImpl.user.getId());
+        Student student = studentDaoInterface.getStudentByStudentId(studentId);
+
+        if(!student.isApproved()) {
+            System.out.println("Your admission request is still pending..., login later");
+            return;
+        }
+
+        System.out.println("User Logged in Successfully");
 
         while (!menuBreakFlag) {
 
@@ -32,10 +52,14 @@ public class StudentClient {
                     feePayment(studentId);
                     break;
                 case 4:
+                    System.out.print("Enter New Password: ");
                     String newPassword = sc.next();
                     userInterface.updateUserPassword(newPassword);
                     break;
                 case 5:
+                    notificationInterface.showNotifications(studentId);
+                    break;
+                case 6:
                     menuBreakFlag = true;
                     UserInterfaceImpl.logout();
                     break;
@@ -53,11 +77,12 @@ public class StudentClient {
         System.out.println("2. View Courses");
         System.out.println("3. Pay Fees");
         System.out.println("4. Update Password");
-        System.out.println("5. Logout");
+        System.out.println("5. Show Notifications");
+        System.out.println("6. Logout");
         System.out.print("Enter User Input :");
     }
 
-    public void semesterRegistration(String studentId) {
+    public void semesterRegistration(int studentId) throws CourseCountException, NoRegisteredCourseException, SeatNotAvailableException, SQLException {
         boolean breakFlag = false;
 
 
@@ -79,21 +104,21 @@ public class StudentClient {
             switch (userChoice) {
                 case 1: {
                     System.out.println("Enter primary courseID:");
-                    String courseId = sc.next();
+                    int courseId = sc.nextInt();
                     semRegister.addPrimaryCourse(studentId, courseId);
                     break;
                 }
 
                 case 2: {
                     System.out.println("Enter secondary courseID:");
-                    String courseId = sc.next();
+                    int courseId = sc.nextInt();
                     semRegister.addSecondaryCourse(studentId, courseId);
                     break;
                 }
 
                 case 3: {
                     System.out.println("Enter courseID to be dropped:");
-                    String courseId = sc.next();
+                    int courseId = sc.nextInt();
                     semRegister.dropCourse(studentId, courseId);
                     break;
                 }
@@ -126,15 +151,36 @@ public class StudentClient {
         // show all the courses
     }
 
-    public void feePayment(String studentId) {
+    public void feePayment(int studentId) throws SQLException {
 
+        boolean status = semRegister.getRegistrationStatus(studentId);
+        System.out.println(status);
+        if(!status)
+        {
+            System.out.println("First do semester registration");
+            return;
+        }
+        status= semRegister.getPaymentStatus(studentId);
+        if(status)
+        {
+            System.out.println("Already paid");
+            return;
+        }
         double totalFee = semRegister.calculateFee(studentId);
-        //System.out.println("Please proceed with the payment of this amount : " + totalFee);
 
         System.out.println("## Total Fees : " + totalFee);
+        System.out.println("Do you want to proceed");
+        System.out.println("Enter 1 to proceed");
+        System.out.println("Enter 2 to cancel");
 
-        // get the corresponding student object
-        // invoke  boolean payFee(String studentId, String studentRegistrationId, double amount)
+        int x= sc.nextInt();
+        if(x==1)
+        {
+            System.out.println("Enter 1 for online payment");
+            System.out.println("Enter 2 for cash/cheque payment");
+            x=sc.nextInt();
+            semRegister.setPaymentStatus(studentId,true);
+        }
     }
 
 }

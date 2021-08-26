@@ -6,6 +6,19 @@ public class User {
     private String userPassword;
     private String role;
     private int id;
+    private String phoneNo;
+
+    public User() {
+    }
+
+    public User(String userName, String userEmailId, String userPassword, String role, String phoneNo) {
+        this.userName = userName;
+        this.userEmailId = userEmailId;
+        this.userPassword = userPassword;
+        this.role = role;
+        this.phoneNo = phoneNo;
+    }
+
 
     public int getId() {
         return id;
@@ -28,19 +41,6 @@ public class User {
     }
 
     public void setPhoneNo(String phoneNo) {
-        this.phoneNo = phoneNo;
-    }
-
-    private String phoneNo;
-
-    public User() {
-    }
-
-    public User(String userName, String userEmailId, String userPassword, String role, String phoneNo) {
-        this.userName = userName;
-        this.userEmailId = userEmailId;
-        this.userPassword = userPassword;
-        this.role = role;
         this.phoneNo = phoneNo;
     }
 

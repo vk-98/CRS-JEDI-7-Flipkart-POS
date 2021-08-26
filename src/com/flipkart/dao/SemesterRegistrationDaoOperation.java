@@ -233,7 +233,20 @@ public class SemesterRegistrationDaoOperation implements SemesterRegistrationDao
     }
 
     @Override
-    public boolean isRegistered(String courseCode, int studentId) throws SQLException {
+    public boolean isRegistered(int courseId, int studentId) throws SQLException {
+        try{
+            PreparedStatement ps= con.prepareStatement(SqlQueries.CHECK_COURSE_STUDENT);
+            ps.setInt(1,studentId);
+            ps.setInt(2,courseId);
+
+            ResultSet rs= ps.executeQuery();
+            if(rs.next())
+            {
+                return rs.getInt(1)>=1;
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
         return false;
     }
 

@@ -18,7 +18,7 @@ public class SqlQueries {
 
     public static final String ADD_COURSE_STUDENT="insert into optedCourse (courseId,semesterRegistrationId,isPrimary,isAllotted,studentId) values ( ? , ?, ?,?,? )";
     public static final String DROP_COURSE= "delete from optedCourse where studentId=? AND courseId = ?";
-
+    public static final String CHECK_COURSE_STUDENT="select count(*) from optedCourse where studentId=? AND courseId=?";
     public static final String GET_STUDENT_ID= "select id from student where userId = ? ";
     public static final String GET_USER_ID = "select id from user where email = ? ";
     public static final String GET_SEM_REGISTRATION_ID= "select id from semesterregistration where studentId= ?";

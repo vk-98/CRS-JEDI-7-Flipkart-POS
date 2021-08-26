@@ -42,7 +42,7 @@ public interface SemesterRegistrationDaoInterface {
        // public int numOfRegisteredCourses(int studentId) throws SQLException;
 
 
-        public boolean isRegistered(String courseCode, int studentId) throws SQLException;
+        public boolean isRegistered(int courseId, int studentId) throws SQLException;
 
 
         public boolean getRegistrationStatus(int studentId) throws SQLException;

@@ -22,8 +22,13 @@ public class SemesterRegistrationImpl implements SemesterRegistrationInterface {
     NotificationDaoInterface notificationDaoInterface = new NotificationDaoOperation();
 
     @Override
-    public boolean addPrimaryCourse(int studentId, int courseId) {
+    public boolean addPrimaryCourse(int studentId, int courseId) throws SQLException {
 
+        if(semesterRegistrationDaoInterface.isRegistered(courseId,studentId))
+        {
+            System.out.println("Course already registered");
+            return false;
+        }
         if (semesterRegistrationDaoInterface.addCourse(courseId, studentId, 0)) {
             System.out.println("Successfully added primary course");
             return true;
@@ -36,7 +41,13 @@ public class SemesterRegistrationImpl implements SemesterRegistrationInterface {
     }
 
     @Override
-    public boolean addSecondaryCourse(int studentId, int courseId) {
+    public boolean addSecondaryCourse(int studentId, int courseId) throws SQLException {
+
+        if(semesterRegistrationDaoInterface.isRegistered(courseId,studentId))
+        {
+            System.out.println("Course already registered");
+            return false;
+        }
         if (semesterRegistrationDaoInterface.addCourse(courseId, studentId, 1)) {
             System.out.println("Successfully added secondary course");
             return true;

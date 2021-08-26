@@ -8,9 +8,9 @@ import java.sql.SQLException;
 
 public interface SemesterRegistrationInterface {
 
-    boolean addPrimaryCourse(int studentId, int courseId);
+    boolean addPrimaryCourse(int studentId, int courseId) throws SQLException;
 
-    boolean addSecondaryCourse(int studentId, int courseId);
+    boolean addSecondaryCourse(int studentId, int courseId) throws SQLException;
 
     boolean dropCourse(int studentId, int courseId);
 

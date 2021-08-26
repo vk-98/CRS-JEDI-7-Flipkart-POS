@@ -1,5 +1,8 @@
 package com.flipkart.exceptions;
 
+/**
+ * Exception to check if total number of students registered for the course is with in the range or not
+ */
 public class CourseCountException extends Exception{
     private String courseType;
     private int courseCount;

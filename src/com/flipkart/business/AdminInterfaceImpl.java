@@ -17,10 +17,19 @@ import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Implementations of Admin Operations
+ */
 public class AdminInterfaceImpl implements AdminInterface {
     AdminDaoInterface adminDaoInterface = new AdminDaoOperation();
     StudentDaoInterface studentDaoInterface = new StudentDaoOperation();
 
+    /**
+     * Method to add Course into the Course Catalog
+     * @param courseName
+     * @param courseDescription
+     * @@param courseFee
+     */
     @Override
     public void addCourse(String courseName, String courseDescription, double courseFee) {
         Course course = new Course(courseName, courseDescription, courseFee);
@@ -28,6 +37,10 @@ public class AdminInterfaceImpl implements AdminInterface {
         System.out.println("Course Added Successfully");
     }
 
+    /**
+     * Method to remove Course from Course Catalog
+     * @param courseId
+     */
     @Override
     public void removeCourse(int courseId) {
         try {
@@ -41,6 +54,10 @@ public class AdminInterfaceImpl implements AdminInterface {
         }
     }
 
+    /**
+     *  Method to approve Student's Registration
+     * 	@param studentId
+     */
     @Override
     public void approveStudentRequest(int studentId) {
 
@@ -63,6 +80,15 @@ public class AdminInterfaceImpl implements AdminInterface {
         }
     }
 
+    /**
+     *  Method to add Professor into the DataBase
+     * 	@param name
+     * 	@param emailId
+     * 	@param password
+     * 	@param phoneNo
+     * 	@param department
+     * 	@param designation
+     */
     @Override
     public void addProfessor(String name, String emailId, String password, String phoneNo, String department, String designation) {
         boolean added = adminDaoInterface.addProfessor(name, emailId, password, phoneNo, department, designation);
@@ -70,6 +96,9 @@ public class AdminInterfaceImpl implements AdminInterface {
         else System.out.println("Professor not added.");
     }
 
+    /**
+     * Method to view all the pending Registration/Admission requests by Students
+     */
     @Override
     public void listAdmissionRequests() {
         List<Student> requests = adminDaoInterface.viewPendingAdmissions();
@@ -83,6 +112,9 @@ public class AdminInterfaceImpl implements AdminInterface {
         }
     }
 
+    /**
+     * Method to view all the Professors in the DataBase
+     */
     @Override
     public void viewProfessors() {
         List<Professor> professors = adminDaoInterface.viewProfessors();

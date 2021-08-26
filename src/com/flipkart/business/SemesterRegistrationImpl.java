@@ -17,10 +17,17 @@ import java.util.Scanner;
 
 public class SemesterRegistrationImpl implements SemesterRegistrationInterface {
 
-
+    /**
+     * Implementations for Semester Registration operations
+     */
     SemesterRegistrationDaoInterface semesterRegistrationDaoInterface = new SemesterRegistrationDaoOperation();
     NotificationDaoInterface notificationDaoInterface = new NotificationDaoOperation();
 
+    /**
+     * Method to add Primary Course for a Student
+     * @param studentId
+     * @param  courseId : ID of the course to be added
+     */
     @Override
     public boolean addPrimaryCourse(int studentId, int courseId) {
 
@@ -28,26 +35,32 @@ public class SemesterRegistrationImpl implements SemesterRegistrationInterface {
             System.out.println("Successfully added primary course");
             return true;
         }
-
-
         System.out.println("Limit reached");
 
         return false;
     }
 
+    /**
+     * Method to add Secondary Course for a Student
+     * @param studentId
+     * @param  courseId : ID of the course to be added
+     */
     @Override
     public boolean addSecondaryCourse(int studentId, int courseId) {
         if (semesterRegistrationDaoInterface.addCourse(courseId, studentId, 1)) {
             System.out.println("Successfully added secondary course");
             return true;
         }
-
-
         System.out.println("Limit reached");
 
         return false;
     }
 
+    /**
+     * Method to drop a Course for a Student
+     * @param studentId
+     * @param  courseId : ID of the course to be droped
+     */
     @Override
     public boolean dropCourse(int studentId, int courseId) {
 
@@ -58,10 +71,12 @@ public class SemesterRegistrationImpl implements SemesterRegistrationInterface {
 
         System.out.println("Not found");
         return false;
-
     }
 
-
+    /**
+     * Method to view all the registered courses for a Student
+     * @param studentId
+     */
     @Override
     public void viewRegisteredCourses(int studentId) {
 
@@ -84,6 +99,11 @@ public class SemesterRegistrationImpl implements SemesterRegistrationInterface {
 
     }
 
+    /**
+     * Method to calculate the total fee required to register for the semester
+     * @param studentId
+     * @return Semester Fee
+     */
     @Override
     public double calculateFee(int studentId) throws SQLException {
         double totalFee = 0;
@@ -91,6 +111,14 @@ public class SemesterRegistrationImpl implements SemesterRegistrationInterface {
         return totalFee;
     }
 
+    /**
+     * Method to submit the opted courses for the semester
+     * @param studentId
+     * @throws NoRegisteredCourseException
+     * @throws CourseCountException
+     * @throws SeatNotAvailableException
+     * @throws SQLException
+     */
     @Override
     public boolean submitCourseChoices(int studentId) throws NoRegisteredCourseException, CourseCountException, SeatNotAvailableException, SQLException {
         viewRegisteredCourses(studentId);
@@ -144,23 +172,45 @@ public class SemesterRegistrationImpl implements SemesterRegistrationInterface {
         return false;
     }
 
+    /**
+     * Method to check if Student is registered for the Semester
+     * @param studentId
+     * @throws SQLException
+     */
     @Override
     public boolean getRegistrationStatus(int studentId) throws SQLException {
         return semesterRegistrationDaoInterface.getRegistrationStatus(studentId);
 
     }
 
+    /**
+     * Method to check if Student paid for the Semester
+     * @param studentId
+     * @throws SQLException
+     */
     @Override
     public boolean getPaymentStatus(int studentId) throws SQLException {
         return semesterRegistrationDaoInterface.getPaymentStatus(studentId);
 
     }
 
+    /**
+     * Method to set the Registration status of the Student
+     * @param studentId
+     * @param status
+     * @throws SQLException
+     */
     @Override
     public void setRegistrationStatus(int studentId, boolean status) {
 
     }
 
+    /**
+     * Method to set the Payment status of the Student for a Semester
+     * @param studentId
+     * @param status
+     * @throws SQLException
+     */
     @Override
     public void setPaymentStatus(int studentId, boolean status) throws SQLException {
         if (semesterRegistrationDaoInterface.setPaymentStatus(studentId, status ? 1 : 0)) {

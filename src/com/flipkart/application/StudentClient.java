@@ -11,7 +11,9 @@ import com.flipkart.exceptions.SeatNotAvailableException;
 import java.sql.SQLException;
 import java.util.Scanner;
 
-
+/**
+ * Class that displays Student Client Menu
+ */
 public class StudentClient {
 
     Scanner sc = new Scanner(System.in);
@@ -21,6 +23,9 @@ public class StudentClient {
     StudentDaoInterface studentDaoInterface= new StudentDaoOperation();
     NotificationInterface notificationInterface= new NotificationImpl();
 
+    /**
+     * Method to create Student Menu
+     */
     public void showMenu() throws SQLException, CourseCountException, NoRegisteredCourseException, SeatNotAvailableException {
 
         boolean menuBreakFlag = false;
@@ -69,6 +74,9 @@ public class StudentClient {
         }
     }
 
+    /**
+     * Method to display Student Menu
+     */
     static void showStudentMenu() {
         System.out.println("*********************************************************************************");
         System.out.println("********************************* Student Menu **********************************");
@@ -82,12 +90,17 @@ public class StudentClient {
         System.out.print("Enter User Input :");
     }
 
+    /**
+     * Method for allowing the student to register for the semester
+     * @param studentId
+     */
     public void semesterRegistration(int studentId) throws CourseCountException, NoRegisteredCourseException, SeatNotAvailableException, SQLException {
         boolean breakFlag = false;
 
 
         while (!breakFlag) {
 
+            //Menu options for allowing the students Register for a Semester
             System.out.println("`##### Registration Menu #######`");
             System.out.println("1. Add Primary Course");
             System.out.println("2. Add Secondary Course");
@@ -147,10 +160,16 @@ public class StudentClient {
 
     }
 
+    /**
+     * Method to display all the available courses
+     */
     public void viewCourses() {
         // show all the courses
     }
 
+    /**
+     * Method for making a student to pay the Semester fee
+     */
     public void feePayment(int studentId) throws SQLException {
 
         boolean status = semRegister.getRegistrationStatus(studentId);

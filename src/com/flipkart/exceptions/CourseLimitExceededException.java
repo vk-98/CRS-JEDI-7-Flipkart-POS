@@ -1,6 +1,8 @@
 package com.flipkart.exceptions;
 
-
+/**
+ * Exception to check if the maximum number of registered courses is exceeded
+ */
 public class CourseLimitExceededException extends Exception{
 
     private int num;

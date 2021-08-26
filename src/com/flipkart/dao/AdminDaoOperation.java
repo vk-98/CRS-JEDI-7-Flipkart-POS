@@ -15,11 +15,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Implementations for Admin Dao Operations
+ */
 public class AdminDaoOperation implements AdminDaoInterface {
 
     Connection conn = DBUtil.getConnection();
     UserDaoInterface userDaoInterface = new UserDaoOperation();
 
+    /**
+     * Add Course using SQL commands
+     * @param course
+     */
     @Override
     public void addCourse(Course course) {
         try {
@@ -35,6 +42,10 @@ public class AdminDaoOperation implements AdminDaoInterface {
         }
     }
 
+    /**
+     * Delete Course using SQL commands
+     * @param courseId
+     */
     @Override
     public int removeCourse(int courseId) {
         try {
@@ -47,6 +58,10 @@ public class AdminDaoOperation implements AdminDaoInterface {
         return 0;
     }
 
+    /**
+     * Fetch Students yet to approved using SQL commands
+     * @return List of Students yet to approved
+     */
     @Override
     public List<Student> viewPendingAdmissions() {
         try {
@@ -67,6 +82,10 @@ public class AdminDaoOperation implements AdminDaoInterface {
         return null;
     }
 
+    /**
+     * Approve Student using SQL commands
+     * @param studentId
+     */
     @Override
     public boolean approveStudent(int studentId) {
         try {
@@ -80,6 +99,15 @@ public class AdminDaoOperation implements AdminDaoInterface {
         return false;
     }
 
+    /**
+     * Add professor using SQL commands
+     * @param name
+     * @param emailId
+     * @param password
+     * @param phoneNo
+     * @param department
+     * @param designation
+     */
     @Override
     public boolean addProfessor(String name, String emailId, String password, String phoneNo, String department, String designation) {
         // TODO: Handle cases when professor wont be created
@@ -99,6 +127,10 @@ public class AdminDaoOperation implements AdminDaoInterface {
         return false;
     }
 
+    /**
+     * View courses in the catalog
+     * @return List of courses in the catalog
+     */
     @Override
     public List<Course> viewCourses() {
         try {
@@ -122,6 +154,10 @@ public class AdminDaoOperation implements AdminDaoInterface {
         return null;
     }
 
+    /**
+     * View professors who enrolled in the Semester
+     * @return List of the professors in the institute
+     */
     @Override
     public List<Professor> viewProfessors() {
         try {

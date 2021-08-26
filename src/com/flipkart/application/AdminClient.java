@@ -7,12 +7,18 @@ import com.flipkart.business.*;
 
 import javax.management.relation.Role;
 
+/**
+ * Class that displays Admin Client Menu
+ */
 public class AdminClient {
 
     Scanner sc = new Scanner(System.in);
     AdminInterface adminInterface = new AdminInterfaceImpl();
     CourseInterface courseInterface = new CourseInterfaceImpl();
 
+    /**
+     * Method that creates Admin Menu
+     */
     public void showMenu() {
 
         boolean menuBreakFlag = false;
@@ -54,6 +60,9 @@ public class AdminClient {
         }
     }
 
+    /**
+     * Method to display options in Admin Menu
+     */
     static void showAdminMenu() {
         System.out.println("*********************************************************************************");
         System.out.println("********************************* Admin Menu ************************************");
@@ -69,6 +78,9 @@ public class AdminClient {
         System.out.print("Enter User Input: ");
     }
 
+    /**
+     * Method to add a course by an admin
+     */
     public void addCourse() {
         System.out.println("Enter details of the course to be added :");
 
@@ -84,7 +96,9 @@ public class AdminClient {
         adminInterface.addCourse(courseName, description, courseFee);
     }
 
-
+    /**
+     * Method to remove a course by an admin using CourseID
+     */
     public void removeCourse() {
         System.out.print("Enter ID of the course to be deleted: ");
         int courseId = sc.nextInt();
@@ -93,7 +107,9 @@ public class AdminClient {
 
     }
 
-
+    /**
+     * Method to add a new professor into the DataBase
+     */
     public void addProfessor() {
         System.out.println("Enter details of the Professor to be added: ");
 
@@ -118,6 +134,9 @@ public class AdminClient {
         adminInterface.addProfessor(professorName, emailId, password, phoneNo, department, designation);
     }
 
+    /**
+     * Method to approve Student Registration request by an admin
+     */
     public void approveStudentRequest() {
         System.out.print("Enter Student Id - ");
         int studentId = sc.nextInt();

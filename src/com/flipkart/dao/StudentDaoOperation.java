@@ -10,10 +10,18 @@ import com.flipkart.constants.SqlQueries;
 import com.flipkart.exceptions.StudentNotFoundException;
 import com.flipkart.utils.DBUtil;
 
+/**
+ * Implementations for Student Dao Operations
+ */
 public class StudentDaoOperation implements StudentDaoInterface {
 
     static Connection con = DBUtil.getConnection();
 
+    /**
+     * Method to add student to database
+     * @param student: student object containing all the fields
+     * @return true if student is added, else false
+     */
     @Override
     public boolean addStudent(Student student) {
         UserDaoInterface userDaoInterface = new UserDaoOperation();
@@ -38,6 +46,12 @@ public class StudentDaoOperation implements StudentDaoInterface {
         return false;
     }
 
+
+    /**
+     * Method to retrieve Student Id from User Id
+     * @param userId
+     * @return Student Id
+     */
     @Override
     public int getStudentById(int userId) {
         try {
@@ -59,11 +73,21 @@ public class StudentDaoOperation implements StudentDaoInterface {
         return -1;
     }
 
+    /**
+     * Method to check if Student is approved
+     * @param studentId
+     * @return boolean indicating if student is approved
+     */
     @Override
     public boolean isApproved(int studentId) {
         return false;
     }
 
+    /**
+     * Method to retrieve Student from Student Id
+     * @param studentId
+     * @return Student : Object of Student
+     */
     @Override
     public Student getStudentByStudentId(int studentId) {
         try {

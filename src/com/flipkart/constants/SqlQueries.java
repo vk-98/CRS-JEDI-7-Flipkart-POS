@@ -1,9 +1,7 @@
 package com.flipkart.constants;
 
+// SQL Queries
 public class SqlQueries {
-
-
-    // Queries
 
     public static final String ADD_USER_QUERY = "insert into User(name,email,password,role, phone) values (?, ?, ?, ?, ?)";
     public static final String ADD_SEMESTER_REGISTRATION = "insert into semesterregistration(studentId,registrationStatus,feeStatus) values (?, ?, ?)";

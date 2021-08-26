@@ -3,7 +3,9 @@ package com.flipkart.utils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-
+/**
+ * Interface to close the connection with DataBase
+ */
 public interface CloseConnection {
     //default function to close connections
     default public void closeConnection( Connection conn,PreparedStatement stmt){

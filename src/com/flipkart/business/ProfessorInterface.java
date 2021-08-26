@@ -1,5 +1,8 @@
 package com.flipkart.business;
 
+/**
+ * Interface for Professor Operations
+ */
 public interface ProfessorInterface {
     boolean addGrad(String studentId, String courseId, String grade);
 

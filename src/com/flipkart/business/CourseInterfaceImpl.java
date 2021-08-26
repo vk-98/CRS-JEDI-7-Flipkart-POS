@@ -7,10 +7,15 @@ import com.flipkart.bean.Course;
 import com.flipkart.dao.AdminDaoInterface;
 import com.flipkart.dao.AdminDaoOperation;
 
-
+/**
+ * Implementations for Course Details
+ */
 public class CourseInterfaceImpl implements CourseInterface {
     AdminDaoInterface adminDaoInterface = new AdminDaoOperation();
-    
+
+    /**
+     * Method to view all the Courses in the Course Catalog
+     */
     @Override
     public void viewCourses() {
         List<Course> courses = adminDaoInterface.viewCourses();

@@ -14,6 +14,13 @@ import com.flipkart.exceptions.StudentNotRegisteredException;
 import java.sql.SQLException;
 import java.util.Scanner;
 
+/**
+ *
+ * This class is used as the main entry point of the application
+ * login and register are displayed in the main menu
+ *
+ */
+
 public class CRSApplicationClient {
     static Scanner sc = new Scanner(System.in);
     static AdminClient adminClient = new AdminClient();
@@ -27,17 +34,23 @@ public class CRSApplicationClient {
         System.out.println("#------------------------Welcome to Course Registration System------------------------#");
         System.out.println("#######################################################################################");
 
+        //until user exists the application
         while (true) {
+            // Display the menu
             showMenu();
+
             int userInput = sc.nextInt();
             if (userInput == 3) {
                 break;
             }
             switch (userInput) {
                 case 1:
+                    //Login into the Application
                     login();
                     break;
+
                 case 2:
+                    // Student Registration
                     studentRegistration();
                     break;
                 default:
@@ -48,6 +61,9 @@ public class CRSApplicationClient {
 
     }
 
+    /**
+     * Method to Display Main Menu
+     */
     static void showMenu() {
         System.out.println("1. Login");
         System.out.println("2. Student Registration");
@@ -55,6 +71,9 @@ public class CRSApplicationClient {
         System.out.print("Enter User Input: ");
     }
 
+    /**
+     * Method for Login functionality
+     */
     static void login() throws SQLException, CourseCountException, NoRegisteredCourseException, SeatNotAvailableException {
         // Taking credentials as input.
         System.out.print("Enter EmailId: ");
@@ -65,7 +84,7 @@ public class CRSApplicationClient {
 
         boolean verified = userInterface.validateUser(emailId, password);
 
-
+        // if the user is valid, display the respective menus based on their role
         if (verified) {
 
             String role = UserInterfaceImpl.user.getRole();
@@ -73,14 +92,20 @@ public class CRSApplicationClient {
             if (!Roles.Student.equals(role)) {
                 System.out.println("User Logged in Successfully");
             }
-
+            //If Admin is the user display Admin Menu
             if (Roles.Admin.equals(role)) {
                 adminClient.showMenu();
-            } else if (Roles.Professor.equals(role)) {
+            }
+            //If Professor is the user display Professor Menu
+            else if (Roles.Professor.equals(role)) {
                 professorClient.showMenu();
-            } else if (Roles.Student.equals(role)) {
+            }
+            //If Student is the user display Student Menu
+            else if (Roles.Student.equals(role)) {
                 studentClient.showMenu();
-            } else {
+            }
+            //If none of them is the user
+            else {
                 System.out.println("UnIdentified User");
             }
         } else {
@@ -88,6 +113,10 @@ public class CRSApplicationClient {
         }
     }
 
+    /**
+     * Method for registering Students
+     * approval request from the Admin will be still pending
+     */
     static void studentRegistration() throws StudentNotRegisteredException {
         // Taking user input
         System.out.print("Enter Student Name: ");

@@ -13,11 +13,21 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Implementations for Semester Registration Dao Operations
+ */
 public class SemesterRegistrationDaoOperation implements SemesterRegistrationDaoInterface {
     static Connection con = DBUtil.getConnection();
     NotificationDaoInterface notificationDaoInterface = new NotificationDaoOperation();
 
-
+    /**
+     * Method to add course in database
+     * @param courseId
+     * @param studentId
+     * @param isPrimary
+     * @return boolean indicating if the course is added successfully
+     * @throws SQLException
+     */
     @Override
     public boolean addCourse(int courseId, int studentId, int isPrimary) {
 
@@ -69,9 +79,13 @@ public class SemesterRegistrationDaoOperation implements SemesterRegistrationDao
     }
 
 
+    /**
+     * Drop Course selected by student
+     * @param courseId
+     * @param studentId
+     */
     @Override
     public boolean dropCourse(int courseId, int studentId) {
-
 
         try {
 
@@ -91,6 +105,10 @@ public class SemesterRegistrationDaoOperation implements SemesterRegistrationDao
         return false;
     }
 
+    /**
+     * Method to get the list of courses available from course catalog
+     * @return list of Courses
+     */
     @Override
     public List<Course> viewCourses() {
         List<Course> availableCourseList = new ArrayList<>();
@@ -118,6 +136,11 @@ public class SemesterRegistrationDaoOperation implements SemesterRegistrationDao
         return availableCourseList;
     }
 
+    /**
+     * Method to View list of Registered Courses
+     * @param studentId
+     * @return list of Registered Courses
+     */
     @Override
     public List<OptedCourse> viewRegisteredCourses(int studentId) {
         List<OptedCourse> registeredCourseList = new ArrayList<OptedCourse>();
@@ -141,6 +164,10 @@ public class SemesterRegistrationDaoOperation implements SemesterRegistrationDao
         return registeredCourseList;
     }
 
+    /**
+     * Method for Student to submit opted courses for Semester
+     * @param studentId
+     */
     @Override
     public boolean submitChoices(int studentId) {
         try {
@@ -162,6 +189,11 @@ public class SemesterRegistrationDaoOperation implements SemesterRegistrationDao
         return false;
     }
 
+    /**
+     * Method to get the number of Primary and Secondary courses registered by the student
+     * @param studentId
+     * @return list of number of registered Courses in Primary and Secondary
+     */
     @Override
     public List<Integer> getPrimarySecondaryCoursesCount(int studentId) {
         List<Integer> list = new ArrayList<Integer>();
@@ -188,6 +220,11 @@ public class SemesterRegistrationDaoOperation implements SemesterRegistrationDao
         return list;
     }
 
+    /**
+     * Method to get the CourseId for which registration is unsuccessful
+     * @param studentId
+     * @return CourseID
+     */
     @Override
     public int getCourseIdIfSeatNotAvailable(int studentId) {
 
@@ -216,6 +253,12 @@ public class SemesterRegistrationDaoOperation implements SemesterRegistrationDao
         return -1;
     }
 
+    /**
+     * Method to retrieve fee for the selected courses from the database and calculate total fee
+     * @param studentId
+     * @return Fee Student has to pay
+     * @throws SQLException
+     */
     @Override
     public double calculateFee(int studentId) throws SQLException {
         try {
@@ -232,11 +275,24 @@ public class SemesterRegistrationDaoOperation implements SemesterRegistrationDao
         return 0;
     }
 
+    /**
+     * Method checks if the student is registered for that course
+     * @param courseId
+     * @param studentId
+     * @return Students registration status
+     * @throws SQLException
+     */
     @Override
-    public boolean isRegistered(String courseCode, int studentId) throws SQLException {
+    public boolean isRegistered(String courseId, int studentId) throws SQLException {
         return false;
     }
 
+    /**
+     *  Method to get student registration status
+     * @param studentId
+     * @return Student's registration status
+     * @throws SQLException
+     */
     @Override
     public boolean getRegistrationStatus(int studentId) throws SQLException {
         try {
@@ -256,6 +312,12 @@ public class SemesterRegistrationDaoOperation implements SemesterRegistrationDao
 
     }
 
+    /**
+     *  Method to get student Payment status
+     * @param studentId
+     * @return Student's Payment status
+     * @throws SQLException
+     */
     @Override
     public boolean getPaymentStatus(int studentId) throws SQLException {
         try {
@@ -274,6 +336,12 @@ public class SemesterRegistrationDaoOperation implements SemesterRegistrationDao
         return false;
     }
 
+    /**
+     *  Method to set student registration status
+     * @param studentId
+     * @param status
+     * @throws SQLException
+     */
     @Override
     public boolean setRegistrationStatus(int studentId, int status) throws SQLException {
         try {
@@ -291,6 +359,12 @@ public class SemesterRegistrationDaoOperation implements SemesterRegistrationDao
         return false;
     }
 
+    /**
+     *  Method to set student Payment status
+     * @param studentId
+     * @param status
+     * @throws SQLException
+     */
     @Override
     public boolean setPaymentStatus(int studentId, int status) throws SQLException {
         try {

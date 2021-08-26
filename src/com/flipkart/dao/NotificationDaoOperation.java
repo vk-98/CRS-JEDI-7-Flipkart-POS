@@ -11,8 +11,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Implementations for Notification Dao Operations
+ */
 public class NotificationDaoOperation implements NotificationDaoInterface {
     static Connection con = DBUtil.getConnection();
+
+    /**
+     * Send Notification using SQL Commands
+     * @param notification: An Object of Notification which contains notification message and ID
+     */
     @Override
     public boolean sendNotification(Notification notification) {
       try{
@@ -31,6 +39,10 @@ public class NotificationDaoOperation implements NotificationDaoInterface {
         return false;
     }
 
+    /**
+     * Shows all the Notifications of a Student using SQL Commands
+     * @return List of Notification messages
+     */
     @Override
     public List<String> showNotifications(int studentId) {
         List<String > notifications= new ArrayList<String>();

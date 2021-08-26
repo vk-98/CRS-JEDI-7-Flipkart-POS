@@ -5,8 +5,16 @@ import com.flipkart.dao.NotificationDaoOperation;
 
 import java.util.List;
 
+/**
+ * Implementations for Notification Handling
+ */
 public class NotificationImpl implements NotificationInterface{
     NotificationDaoInterface notificationDaoInterface= new NotificationDaoOperation();
+
+    /**
+     * Method to display all the Notifications for a corresponding student
+     * @param studentId
+     */
     @Override
     public void showNotifications(int studentId) {
         List<String > notifications= notificationDaoInterface.showNotifications(studentId);
@@ -24,6 +32,10 @@ public class NotificationImpl implements NotificationInterface{
         }
     }
 
+    /**
+     * Method to check the status of the Notification
+     * @param notificationId
+     */
     @Override
     public boolean notificationStatus(String notificationId) {
         return false;

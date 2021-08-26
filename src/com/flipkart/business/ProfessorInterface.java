@@ -12,4 +12,5 @@ public interface ProfessorInterface {
     boolean deselectCourse(String professorId, String courseId);
 
     String getProfessorIdByEmail(String emailId);
+
 }

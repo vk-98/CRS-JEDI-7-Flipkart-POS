@@ -17,7 +17,7 @@ public class ProfessorClient {
             showMenuItems();
             int userInput = sc.nextInt();
 
-            if (userInput == 6) {
+            if (userInput == 7) {
                 UserInterfaceImpl.logout();
                 break;
             }
@@ -38,10 +38,17 @@ public class ProfessorClient {
                 case 5:
                     inputForUploadGrade();
                     break;
+                case 6 :
+                    viewAvailableCoursesToSelect();
+                    break;
                 default:
                     System.out.println("Invalid User Input");
             }
         }
+    }
+
+    private void viewAvailableCoursesToSelect() {
+        professorInterface.getCourses("-1");
     }
 
     private void inputForUploadGrade() {
@@ -88,6 +95,7 @@ public class ProfessorClient {
         System.out.println("3. View Selected Course");
         System.out.println("4. View Enrolled Students");
         System.out.println("5. Upload Grade");
-        System.out.println("6. Logout");
+        System.out.println("6. View Available Courses to Select");
+        System.out.println("7. Logout");
     }
 }

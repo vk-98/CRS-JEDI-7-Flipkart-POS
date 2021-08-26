@@ -21,4 +21,5 @@ public interface ProfessorDaoInterface {
     public boolean deselectCourse(int professorId, int courseId);
 
     String getProfessorIdByEmailId(String emailId);
+
 }

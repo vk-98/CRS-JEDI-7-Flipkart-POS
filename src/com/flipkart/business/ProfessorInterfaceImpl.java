@@ -65,4 +65,5 @@ public class ProfessorInterfaceImpl implements ProfessorInterface {
     public String getProfessorIdByEmail(String emailId) {
         return professorDaoInterface.getProfessorIdByEmailId(emailId);
     }
+
 }

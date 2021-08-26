@@ -10,6 +10,14 @@ import java.sql.SQLException;
 
 public class GradeDaoOperation implements GradeDaoInterface{
     static Connection conn = DBUtil.getConnection();
+
+    /**
+     * Inserts a Grade Item of a student into the grade Db
+     * @param courseId
+     * @param studentId
+     * @param gpa
+     * @return
+     */
     @Override
     public boolean createGrade(int courseId, int studentId, int gpa) {
         try {

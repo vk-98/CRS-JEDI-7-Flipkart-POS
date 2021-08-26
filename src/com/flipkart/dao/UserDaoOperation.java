@@ -93,6 +93,11 @@ public class UserDaoOperation implements UserDaoInterface {
         return -1;
     }
 
+    /**
+     * Returns User Details based on the userId from user Table
+     * @param userId
+     * @return
+     */
     @Override
     public User getUserByUserId(int userId) {
         try {

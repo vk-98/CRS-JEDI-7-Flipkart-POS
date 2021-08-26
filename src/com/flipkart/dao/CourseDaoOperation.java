@@ -15,6 +15,11 @@ public class CourseDaoOperation implements CourseDaoInterface
 {
     static Connection con = DBUtil.getConnection();
 
+    /**
+     * Returns List of Courses selected by Professor using professorId
+     * @param professorId
+     * @return
+     */
     @Override
     public List<Course> getCoursesByProfessorId(int professorId) {
         try {
@@ -41,6 +46,11 @@ public class CourseDaoOperation implements CourseDaoInterface
         return null;
     }
 
+    /**
+     * Returns the StudentsIds corresponding to the professorId using course database
+     * @param professorId
+     * @return
+     */
     @Override
     public List<Integer> getStudentIdsByProfessorId(int professorId) {
         try {
@@ -60,6 +70,11 @@ public class CourseDaoOperation implements CourseDaoInterface
         return null;
     }
 
+    /**
+     * Returns the professorId corresponding to a Course using courseId
+     * @param courseId
+     * @return
+     */
     @Override
     public int getProfessorIdByCourseId(int courseId) {
         try {
@@ -77,6 +92,11 @@ public class CourseDaoOperation implements CourseDaoInterface
         return -1;
     }
 
+    /**
+     * Sets a course to a professorId  in course Database
+     * @param professorId
+     * @param courseId
+     */
     @Override
     public void setProfessorToCourse(int professorId, int courseId) {
         try {

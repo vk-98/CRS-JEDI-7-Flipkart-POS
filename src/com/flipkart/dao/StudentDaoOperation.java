@@ -51,6 +51,11 @@ public class StudentDaoOperation implements StudentDaoInterface {
         return false;
     }
 
+    /**
+     * Returns Student corresponding to a studentId which includes details of User as well
+     * @param studentId
+     * @return
+     */
     @Override
     public Student getStudent(int studentId) {
         try {

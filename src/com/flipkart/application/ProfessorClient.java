@@ -11,6 +11,10 @@ public class ProfessorClient {
     ProfessorInterface professorInterface = new ProfessorInterfaceImpl();
     static String professorId = null;
 
+    /**
+     * This method displays the menu items available for Professor
+     * @param emailId - Using this we retrieve corresponding ProfessorId which is used across different operations
+     */
     public void showMenu(String emailId) {
         professorId = professorInterface.getProfessorIdByEmail(emailId);
         while (true) {
@@ -30,10 +34,10 @@ public class ProfessorClient {
                     inputsForDeSelectCourse();
                     break;
                 case 3:
-                    inputsForViewSelectedCourses();
+                    viewSelectedCourses();
                     break;
                 case 4:
-                    inputForViewEnrolledStudents();
+                    viewEnrolledStudents();
                     break;
                 case 5:
                     inputForUploadGrade();
@@ -47,10 +51,17 @@ public class ProfessorClient {
         }
     }
 
+    /**
+     * Shows all the courses which are available to be selected
+     */
     private void viewAvailableCoursesToSelect() {
         professorInterface.getCourses("-1");
     }
 
+    /**
+     * For Uploading grade to a student for a particular course, we need different inputs
+     * The inputs are studentId, courseId, gpa
+     */
     private void inputForUploadGrade() {
         System.out.println("Enter StudentId to whom you assign grade :");
         String studentId = sc.next();
@@ -61,14 +72,23 @@ public class ProfessorClient {
         professorInterface.addGrad(studentId, courseId, grade);
     }
 
-    private void inputForViewEnrolledStudents() {
+    /**
+     * It displays The students and their details who are all enrolled in to the courses that are being taught by the professor
+     */
+    private void viewEnrolledStudents() {
         professorInterface.viewEnrolledStudents(professorId);
     }
 
-    private void inputsForViewSelectedCourses() {
+    /**
+     * It displays which Available Courses are being selected by the professor
+     */
+    private void viewSelectedCourses() {
         professorInterface.getCourses(professorId);
     }
 
+    /**
+     * To Deselect a course, Professor provides input courseId
+     */
     private void inputsForDeSelectCourse() {
         System.out.println("Input courseId you like to Deselect : ");
         String courseId = sc.next();
@@ -79,6 +99,9 @@ public class ProfessorClient {
         }
     }
 
+    /**
+     * To select a course, Professor provides input courseId
+     */
     private void inputsForSelectCourse() {
         System.out.println("Input courseId you like to select : ");
         String courseId = sc.next();
@@ -89,6 +112,9 @@ public class ProfessorClient {
         }
     }
 
+    /**
+     * Shows the Menu Items where Professor can select any option to perform corresponding operation
+     */
     private void showMenuItems() {
         System.out.println("1. Select Course");
         System.out.println("2. Deselect Course");

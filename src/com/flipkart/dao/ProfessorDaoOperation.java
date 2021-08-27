@@ -14,9 +14,17 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+    Implementation for Professor Dao Operation
+ */
 public class ProfessorDaoOperation implements ProfessorDaoInterface {
     Connection conn = DBUtil.getConnection();
 
+    /**
+     * Method to retrieve Professor Details using userId
+     * @param userId
+     * @return Professor Details
+     */
     @Override
     public Professor getProfessorByUserId(int userId) {
         try {
@@ -39,6 +47,10 @@ public class ProfessorDaoOperation implements ProfessorDaoInterface {
         return null;
     }
 
+    /**
+     * Method to retrieve all the courses according to ProfessorId
+     * @return List of courses
+     */
     @Override
     public List<Course> getCoursesByProfessorId() {
         try {
@@ -64,6 +76,11 @@ public class ProfessorDaoOperation implements ProfessorDaoInterface {
         return null;
     }
 
+    /**
+     * Method to retrieve the list of all enrolled students in a given course
+     * @param courseId
+     * @return List of all enrolled students in a given course
+     */
     @Override
     public List<Student> getEnrolledStudents(int courseId) {
         try {
@@ -85,7 +102,13 @@ public class ProfessorDaoOperation implements ProfessorDaoInterface {
         }
         return null;
     }
-
+    /**
+     * Method to add grade in the database for given student in given course
+     * @param studentId
+     * @param courseId
+     * @param grade
+     * @return if grade is added successfully or not
+     */
 
     @Override
     public Boolean addGrade(int studentId, int courseId, double grade) {
@@ -101,7 +124,11 @@ public class ProfessorDaoOperation implements ProfessorDaoInterface {
         }
         return null;
     }
-
+    /**
+     * Method to check if given student is already graded in a given course
+     * @param studentId
+     * @param courseId
+     */
     @Override
     public boolean IsStudentAlreadyGraded(int studentId, int courseId) {
         try {
@@ -117,7 +144,10 @@ public class ProfessorDaoOperation implements ProfessorDaoInterface {
         }
         return false;
     }
-
+    /**
+     * Method to show the List of available courses
+     * @return List of available courses
+     */
     @Override
     public List<Course> viewAvailableCourses() {
         try {
@@ -140,6 +170,11 @@ public class ProfessorDaoOperation implements ProfessorDaoInterface {
         return null;
     }
 
+    /**
+     * Method to check if given course is available or not
+     * @param courseId
+     * @return availability of the given course
+     */
     @Override
     public boolean IsCourseAvailable(int courseId) {
         try {
@@ -154,7 +189,10 @@ public class ProfessorDaoOperation implements ProfessorDaoInterface {
         }
         return false;
     }
-
+    /**
+     * Method to select a course
+     * @param courseId
+     */
     @Override
     public boolean selectCourse(int courseId) {
         System.out.println("inside dao");
@@ -169,6 +207,10 @@ public class ProfessorDaoOperation implements ProfessorDaoInterface {
         return false;
     }
 
+    /**
+     * Method to check if course is selected or not
+     * @param courseId
+     */
     @Override
     public boolean IsCourseSelected(int courseId) {
         try{
@@ -184,7 +226,10 @@ public class ProfessorDaoOperation implements ProfessorDaoInterface {
         }
         return false;
     }
-
+    /**
+     * Method to deselect the course
+     * @param courseId
+     */
     @Override
     public boolean deselectCourse(int courseId) {
         try {
@@ -196,7 +241,11 @@ public class ProfessorDaoOperation implements ProfessorDaoInterface {
         }
         return false;
     }
-
+    /**
+     * Method to check if a given student is enrolled in a given course
+     * @param studentId
+     * @param courseId
+     */
     @Override
     public boolean IsStudentEnrolled(int studentId, int courseId) {
         try {

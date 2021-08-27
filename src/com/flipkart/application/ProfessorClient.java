@@ -6,6 +6,9 @@ import com.flipkart.business.UserInterfaceImpl;
 
 import java.util.Scanner;
 
+/*
+Class that displays Professor Client Menu
+ */
 public class ProfessorClient {
     static Scanner sc = new Scanner(System.in);
     ProfessorInterface professorInterface = new ProfessorInterfaceImpl();
@@ -47,7 +50,7 @@ public class ProfessorClient {
             }
         }
     }
-
+//Method to show all Menu Items
     private void showMenuItems() {
         System.out.println("1. View Available Course");
         System.out.println("2. Select Course");
@@ -58,25 +61,28 @@ public class ProfessorClient {
         System.out.println("7. Logout");
         System.out.print("Enter User Input: ");
     }
-
+//Method to view all enrolled students
     private void inputForViewEnrolledStudents() {
         System.out.print("Enter the courseId: ");
         int courseId = sc.nextInt();
         professorInterface.viewEnrolledStudents(courseId);
     }
 
+//Method for Deselection of course by Professor
 
     private void inputsForDeSelectCourse() {
         System.out.print("Input courseId you like to Deselect : ");
         int courseId = sc.nextInt();
         professorInterface.deselectCourse(courseId);
     }
+//Method for selection of  course by Professor
 
     private void inputsForSelectCourse() {
         System.out.print("Input courseId you like to select : ");
         int courseId = sc.nextInt();
         professorInterface.selectCourse(courseId);
     }
+//Method for adding grades
 
     private void inputForGradingStudent() {
         System.out.println("Enter student Id: ");

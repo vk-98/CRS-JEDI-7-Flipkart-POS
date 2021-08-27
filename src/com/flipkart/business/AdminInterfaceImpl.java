@@ -1,5 +1,6 @@
 package com.flipkart.business;
 
+import com.flipkart.application.CRSApplicationClient;
 import com.flipkart.bean.Admin;
 import com.flipkart.bean.Course;
 import com.flipkart.bean.Professor;
@@ -12,12 +13,15 @@ import com.flipkart.exceptions.CourseNotFoundException;
 import com.flipkart.exceptions.ProfessorNotAddedException;
 import com.flipkart.exceptions.StudentAlreadyApprovedException;
 import com.flipkart.exceptions.StudentNotFoundException;
+import org.apache.log4j.Logger;
 
 import java.sql.SQLOutput;
 import java.util.ArrayList;
+import java.util.Formatter;
 import java.util.List;
 
 public class AdminInterfaceImpl implements AdminInterface {
+    private static Logger logger = Logger.getLogger(CRSApplicationClient.class);
     AdminDaoInterface adminDaoInterface = new AdminDaoOperation();
     StudentDaoInterface studentDaoInterface = new StudentDaoOperation();
 
@@ -25,7 +29,7 @@ public class AdminInterfaceImpl implements AdminInterface {
     public void addCourse(String courseName, String courseDescription, double courseFee) {
         Course course = new Course(courseName, courseDescription, courseFee);
         adminDaoInterface.addCourse(course);
-        System.out.println("Course Added Successfully");
+        logger.info("Course Added Successfully");
     }
 
     @Override
@@ -35,9 +39,9 @@ public class AdminInterfaceImpl implements AdminInterface {
             if (rowsAffected == 0) {
                 throw new CourseNotFoundException(courseId);
             }
-            System.out.println("Course removed successfully");
+            logger.info("Course removed successfully");
         } catch (CourseNotFoundException e) {
-            System.out.println(e.getMessage());
+            logger.info(e.getMessage());
         }
     }
 
@@ -54,32 +58,34 @@ public class AdminInterfaceImpl implements AdminInterface {
             }
             boolean isApproved = adminDaoInterface.approveStudent(studentId);
             if (isApproved) {
-                System.out.println("Student Addmission Request approved");
+                logger.info("Student Addmission Request approved");
             }
         } catch (StudentNotFoundException e) {
-            System.out.println(e.getMessage());
+            logger.info(e.getMessage());
         } catch (StudentAlreadyApprovedException e) {
-            System.out.println(e.getMessage());
+            logger.info(e.getMessage());
         }
     }
 
     @Override
     public void addProfessor(String name, String emailId, String password, String phoneNo, String department, String designation) {
         boolean added = adminDaoInterface.addProfessor(name, emailId, password, phoneNo, department, designation);
-        if (added) System.out.println("Professor created successfully.");
-        else System.out.println("Professor not added.");
+        if (added) logger.info("Professor created successfully.");
+        else logger.info("Professor not added.");
     }
 
     @Override
     public void listAdmissionRequests() {
         List<Student> requests = adminDaoInterface.viewPendingAdmissions();
         if (requests == null || requests.size() == 0) {
-            System.out.println("No pending addmission requests");
+            logger.info("No pending addmission requests");
         } else {
-            System.out.println("Student ID | Student Name | Student Email ID");
+            Formatter fmt = new Formatter();
+            fmt.format("%30s %30s %30s\n", "StudentID", "StudentName", "StudentEmailId");
             for (Student st : requests) {
-                System.out.println(st.getId() + " | " + st.getUserName() + " | " + st.getUserEmailId());
+                fmt.format("%30s %30s %30s\n",st.getStudentId(), st.getUserName(), st.getUserEmailId());
             }
+            System.out.println(fmt);
         }
     }
 
@@ -87,22 +93,14 @@ public class AdminInterfaceImpl implements AdminInterface {
     public void viewProfessors() {
         List<Professor> professors = adminDaoInterface.viewProfessors();
         if (professors == null || professors.size() == 0) {
-            System.out.println("No Professors registered");
+            logger.info("No Professors registered");
         } else {
-            System.out.println("Prof ID | Prof Name | Prof Email ID | Prof Department | Prof Designation");
+            Formatter fmt = new Formatter();
+            fmt.format("%30s %30s %30s %30s %30s\n", "ProfId", "ProfName","ProfEmail ID", "ProfDepartment", "ProfDesignation");
             for (Professor p : professors) {
-                System.out.println(
-                        p.getProfessorId()
-                                + " | "
-                                + p.getUserName()
-                                + " | "
-                                + p.getUserEmailId()
-                                + " | "
-                                + p.getDepartment()
-                                + " | "
-                                + p.getDesignation()
-                );
+                fmt.format("%30s %30s %30s %30s %30s\n",p.getProfessorId(),p.getUserName(), p.getUserEmailId(),p.getDepartment(),p.getDesignation());
             }
+            System.out.println(fmt);
         }
     }
 }

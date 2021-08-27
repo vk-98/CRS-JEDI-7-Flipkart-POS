@@ -1,11 +1,13 @@
 package com.flipkart.dao;
 
+import com.flipkart.application.CRSApplicationClient;
 import com.flipkart.bean.Course;
 import com.flipkart.bean.Professor;
 import com.flipkart.bean.Student;
 import com.flipkart.business.ProfessorInterfaceImpl;
 import com.flipkart.constants.SqlQueries;
 import com.flipkart.utils.DBUtil;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProfessorDaoOperation implements ProfessorDaoInterface {
+    private static Logger logger = Logger.getLogger(CRSApplicationClient.class);
     Connection conn = DBUtil.getConnection();
 
     @Override
@@ -33,7 +36,7 @@ public class ProfessorDaoOperation implements ProfessorDaoInterface {
                 return professor;
             }
         } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
+            logger.info("Error: " + e.getMessage());
 
         }
         return null;
@@ -59,7 +62,7 @@ public class ProfessorDaoOperation implements ProfessorDaoInterface {
             }
             return courses;
         } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
+           logger.info("Error: " + e.getMessage());
         }
         return null;
     }
@@ -81,7 +84,7 @@ public class ProfessorDaoOperation implements ProfessorDaoInterface {
             }
             return students;
         } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
+            logger.info("Error: " + e.getMessage());
         }
         return null;
     }
@@ -97,7 +100,7 @@ public class ProfessorDaoOperation implements ProfessorDaoInterface {
             int rowAffected = ps.executeUpdate();
             return rowAffected==1;
         } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
+            logger.info("Error: " + e.getMessage());
         }
         return null;
     }
@@ -113,7 +116,7 @@ public class ProfessorDaoOperation implements ProfessorDaoInterface {
                 return true;
             }
         } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
+            logger.info("Error: " + e.getMessage());
         }
         return false;
     }
@@ -135,7 +138,7 @@ public class ProfessorDaoOperation implements ProfessorDaoInterface {
             }
             return courses;
         } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
+            logger.info("Error: " + e.getMessage());
         }
         return null;
     }
@@ -150,7 +153,7 @@ public class ProfessorDaoOperation implements ProfessorDaoInterface {
                 return rs.getInt("professorId") == 0;
             }
         } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
+            logger.info("Error: " + e.getMessage());
         }
         return false;
     }
@@ -164,7 +167,7 @@ public class ProfessorDaoOperation implements ProfessorDaoInterface {
             ps.setInt(2, courseId);
             return ps.executeUpdate() == 1;
         }catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
+            logger.info("Error: " + e.getMessage());
         }
         return false;
     }
@@ -180,7 +183,7 @@ public class ProfessorDaoOperation implements ProfessorDaoInterface {
                 return true;
             }
         }catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
+            logger.info("Error: " + e.getMessage());
         }
         return false;
     }
@@ -192,7 +195,7 @@ public class ProfessorDaoOperation implements ProfessorDaoInterface {
             ps.setInt(1, courseId);
             return ps.executeUpdate() == 1;
         } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
+           logger.info("Error: " + e.getMessage());
         }
         return false;
     }
@@ -206,7 +209,7 @@ public class ProfessorDaoOperation implements ProfessorDaoInterface {
             ResultSet rs = ps.executeQuery();
             if(rs.next()) return true;
         }catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
+            logger.info("Error: " + e.getMessage());
         }
         return false;
     }

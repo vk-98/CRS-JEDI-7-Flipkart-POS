@@ -1,5 +1,7 @@
 package com.flipkart.business;
 
+import com.flipkart.application.CRSApplicationClient;
+import com.flipkart.bean.Course;
 import com.flipkart.bean.Notification;
 import com.flipkart.bean.OptedCourse;
 import com.flipkart.dao.NotificationDaoInterface;
@@ -10,14 +12,16 @@ import com.flipkart.exceptions.CourseCountException;
 import com.flipkart.exceptions.CourseLimitExceededException;
 import com.flipkart.exceptions.NoRegisteredCourseException;
 import com.flipkart.exceptions.SeatNotAvailableException;
+import org.apache.log4j.Logger;
 
 import java.sql.SQLException;
+import java.util.Formatter;
 import java.util.List;
 import java.util.Scanner;
 
-public class SemesterRegistrationImpl implements SemesterRegistrationInterface {
+public class SemesterRegistrationInterfaceImpl implements SemesterRegistrationInterface {
 
-
+    private static Logger logger = Logger.getLogger(CRSApplicationClient.class);
     SemesterRegistrationDaoInterface semesterRegistrationDaoInterface = new SemesterRegistrationDaoOperation();
     NotificationDaoInterface notificationDaoInterface = new NotificationDaoOperation();
 
@@ -25,12 +29,12 @@ public class SemesterRegistrationImpl implements SemesterRegistrationInterface {
     public boolean addPrimaryCourse(int studentId, int courseId) {
 
         if (semesterRegistrationDaoInterface.addCourse(courseId, studentId, 0)) {
-            System.out.println("Successfully added primary course");
+            logger.info("Successfully added primary course");
             return true;
         }
 
 
-        System.out.println("Limit reached");
+        logger.warn("Limit reached");
 
         return false;
     }
@@ -38,7 +42,7 @@ public class SemesterRegistrationImpl implements SemesterRegistrationInterface {
     @Override
     public boolean addSecondaryCourse(int studentId, int courseId) {
         if (semesterRegistrationDaoInterface.addCourse(courseId, studentId, 1)) {
-            System.out.println("Successfully added secondary course");
+            logger.info("Successfully added secondary course");
             return true;
         }
 
@@ -52,11 +56,11 @@ public class SemesterRegistrationImpl implements SemesterRegistrationInterface {
     public boolean dropCourse(int studentId, int courseId) {
 
         if (semesterRegistrationDaoInterface.dropCourse(courseId, studentId)) {
-            System.out.println("Course Deleted");
+            logger.info("Course Deleted");
             return true;
         }
 
-        System.out.println("Not found");
+        logger.info("Not found");
         return false;
 
     }
@@ -68,20 +72,17 @@ public class SemesterRegistrationImpl implements SemesterRegistrationInterface {
         List<OptedCourse> courses = semesterRegistrationDaoInterface.viewRegisteredCourses(studentId);
 
         if (courses.size() == 0) {
-            System.out.println("### No registered courses to show");
+            logger.info("### No registered courses to show");
             return;
         }
         System.out.println("** Registered courses **");
-        System.out.println("CourseId | isPrimary");
-        for (int i = 0; i < courses.size(); i++) {
-            System.out.println(
-                    courses.get(i).getCourseId() +
-                            " | " +
-                            courses.get(i).isPrimary()
 
-            );
+        Formatter fmt = new Formatter();
+        fmt.format("%20s %20s\n", "CourseId", "IsPrimary");
+        for (OptedCourse course: courses) {
+            fmt.format("%20s %20s\n", course.getCourseId(), course.isPrimary());
         }
-
+        System.out.println(fmt);
     }
 
     @Override
@@ -122,9 +123,9 @@ public class SemesterRegistrationImpl implements SemesterRegistrationInterface {
                 }
 
                 if (semesterRegistrationDaoInterface.submitChoices(studentId)) {
-                    System.out.println("Courses submitted successfully");
+                    logger.info("Courses submitted successfully");
                     if (semesterRegistrationDaoInterface.setRegistrationStatus(studentId, 1))
-                        System.out.println("Semester is Registered successfully");
+                        logger.info("Semester is Registered successfully");
                     ;
                     return true;
                 }
@@ -164,12 +165,12 @@ public class SemesterRegistrationImpl implements SemesterRegistrationInterface {
     @Override
     public void setPaymentStatus(int studentId, boolean status) throws SQLException {
         if (semesterRegistrationDaoInterface.setPaymentStatus(studentId, status ? 1 : 0)) {
-            System.out.println("## Payment is Successful");
+            logger.info("## Payment is Successful");
             Notification notification = new Notification(true, "Welcome to the semester student ", studentId);
             if (notificationDaoInterface.sendNotification(notification))
-                System.out.println("Notification Sent");
+                logger.info("Notification Sent");
             return;
         }
-        System.out.println("Payment Failed");
+        logger.info("Payment Failed");
     }
 }

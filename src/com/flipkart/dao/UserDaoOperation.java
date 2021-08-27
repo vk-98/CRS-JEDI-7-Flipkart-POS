@@ -1,16 +1,18 @@
 package com.flipkart.dao;
 
+import com.flipkart.application.CRSApplicationClient;
 import com.flipkart.bean.User;
 import com.flipkart.constants.SqlQueries;
 import com.flipkart.utils.DBUtil;
+import org.apache.log4j.Logger;
 
-import javax.jws.soap.SOAPBinding;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserDaoOperation implements UserDaoInterface {
+    private static Logger logger = Logger.getLogger(CRSApplicationClient.class);
     static Connection conn = DBUtil.getConnection();
 
     @Override
@@ -33,7 +35,7 @@ public class UserDaoOperation implements UserDaoInterface {
                 return user;
             }
         } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
+            logger.info("Error: " + e.getMessage());
         }
         return null;
     }
@@ -47,7 +49,7 @@ public class UserDaoOperation implements UserDaoInterface {
             int rowAffected = ps.executeUpdate();
             return rowAffected == 1;
         }catch (SQLException e){
-            System.out.println("Error: " + e.getMessage());
+            logger.info("Error: " + e.getMessage());
         }
         return false;
     }
@@ -72,7 +74,7 @@ public class UserDaoOperation implements UserDaoInterface {
             System.out.println("rowa:" + rowAffected);
             return rowAffected == 1;
         } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
+            logger.info("Error: " + e.getMessage());
         }
         return false;
     }
@@ -91,7 +93,7 @@ public class UserDaoOperation implements UserDaoInterface {
             return -1;
 
         } catch (SQLException e) {
-
+            logger.info("Error: " + e.getMessage());
         }
         return -1;
     }

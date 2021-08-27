@@ -1,22 +1,20 @@
 package com.flipkart.application;
 
-import com.flipkart.bean.Student;
 import com.flipkart.business.*;
-import com.flipkart.dao.StudentDaoInterface;
-import com.flipkart.dao.StudentDaoOperation;
 import com.flipkart.exceptions.CourseCountException;
 import com.flipkart.exceptions.NoRegisteredCourseException;
 import com.flipkart.exceptions.SeatNotAvailableException;
+import org.apache.log4j.Logger;
 
 import java.sql.SQLException;
 import java.util.Scanner;
 
 
 public class StudentClient {
-
+    private static Logger logger = Logger.getLogger(CRSApplicationClient.class);
     Scanner sc = new Scanner(System.in);
     CourseInterface courseInterface = new CourseInterfaceImpl();
-    SemesterRegistrationInterface semRegister = new SemesterRegistrationImpl();
+    SemesterRegistrationInterface semRegister = new SemesterRegistrationInterfaceImpl();
     UserInterface userInterface = new UserInterfaceImpl();
     StudentInterface studentInterface = new StudentInterfaceImpl();
     NotificationInterface notificationInterface= new NotificationImpl();
@@ -28,12 +26,12 @@ public class StudentClient {
         studentInterface.setStudent();
 
         if(!StudentInterfaceImpl.student.isApproved()) {
-            System.out.println("Your admission request is still pending..., login later");
+            logger.info("Your admission request is still pending..., login later");
             return;
         }
 
 
-        System.out.println("User Logged in Successfully");
+        logger.info("User Logged in Successfully");
 
         while (!menuBreakFlag) {
 
@@ -64,7 +62,7 @@ public class StudentClient {
                     UserInterfaceImpl.logout();
                     break;
                 default:
-                    System.out.println("Invalid User Input");
+                    logger.warn("Invalid User Input");
             }
         }
     }
@@ -139,7 +137,7 @@ public class StudentClient {
                     break;
 
                 default:
-                    System.out.println("Invalid Choice !!");
+                    logger.warn("Invalid Choice !!");
 
             }
 

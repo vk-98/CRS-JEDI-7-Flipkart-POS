@@ -1,11 +1,14 @@
 package com.flipkart.business;
 
+import com.flipkart.application.CRSApplicationClient;
 import com.flipkart.bean.Student;
 import com.flipkart.dao.StudentDaoInterface;
 import com.flipkart.dao.StudentDaoOperation;
 import com.flipkart.exceptions.StudentNotRegisteredException;
+import org.apache.log4j.Logger;
 
 public class StudentInterfaceImpl implements StudentInterface {
+    private static Logger logger = Logger.getLogger(CRSApplicationClient.class);
     public static Student student = null;
     StudentDaoInterface studentDaoInterface = new StudentDaoOperation();
 
@@ -23,7 +26,7 @@ public class StudentInterfaceImpl implements StudentInterface {
                 throw new StudentNotRegisteredException(studentName);
             }
         } catch (StudentNotRegisteredException ex) {
-            System.out.println(ex.getStudentName() + " is not registered");
+            logger.info(ex.getStudentName() + " is not registered");
         }
         return student;
     }

@@ -3,16 +3,18 @@ package com.flipkart.application;
 import com.flipkart.business.ProfessorInterface;
 import com.flipkart.business.ProfessorInterfaceImpl;
 import com.flipkart.business.UserInterfaceImpl;
+import org.apache.log4j.Logger;
 
 import java.util.Scanner;
 
 public class ProfessorClient {
+    private static Logger logger = Logger.getLogger(CRSApplicationClient.class);
     static Scanner sc = new Scanner(System.in);
     ProfessorInterface professorInterface = new ProfessorInterfaceImpl();
 
     public void showMenu() {
 
-        System.out.println("User Logged in Successfully");
+        logger.info("User Logged in Successfully");
         professorInterface.getProfessor();
         boolean menuBreakFlag = false;
         while (!menuBreakFlag) {

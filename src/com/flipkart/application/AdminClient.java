@@ -4,18 +4,19 @@ import java.util.Scanner;
 
 import com.flipkart.bean.Professor;
 import com.flipkart.business.*;
+import org.apache.log4j.Logger;
 
 import javax.management.relation.Role;
 
 public class AdminClient {
-
+    private static Logger logger = Logger.getLogger(CRSApplicationClient.class);
     Scanner sc = new Scanner(System.in);
     AdminInterface adminInterface = new AdminInterfaceImpl();
     CourseInterface courseInterface = new CourseInterfaceImpl();
 
     public void showMenu() {
 
-        System.out.println("User Logged in Successfully");
+        logger.info("User Logged in Successfully");
 
         boolean menuBreakFlag = false;
 

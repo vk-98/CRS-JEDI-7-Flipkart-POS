@@ -5,13 +5,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.flipkart.application.CRSApplicationClient;
 import com.flipkart.bean.Student;
 import com.flipkart.constants.SqlQueries;
 import com.flipkart.exceptions.StudentNotFoundException;
 import com.flipkart.utils.DBUtil;
+import org.apache.log4j.Logger;
 
 public class StudentDaoOperation implements StudentDaoInterface {
-
+    private static Logger logger = Logger.getLogger(CRSApplicationClient.class);
     static Connection con = DBUtil.getConnection();
 
     @Override
@@ -32,7 +34,7 @@ public class StudentDaoOperation implements StudentDaoInterface {
                 return (rowAffected == 1);
 
             } catch (SQLException e) {
-                System.out.println("Error: " + e.getMessage());
+                logger.info("Error: " + e.getMessage());
             }
         }
         return false;
@@ -54,7 +56,7 @@ public class StudentDaoOperation implements StudentDaoInterface {
 
 
         } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
+            logger.info("Error: " + e.getMessage());
         }
         return -1;
     }
@@ -80,7 +82,7 @@ public class StudentDaoOperation implements StudentDaoInterface {
                 return st;
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            logger.info(e.getMessage());
         }
         return null;
     }
@@ -97,7 +99,7 @@ public class StudentDaoOperation implements StudentDaoInterface {
                 return st;
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            logger.info(e.getMessage());
         }
         return null;
     }

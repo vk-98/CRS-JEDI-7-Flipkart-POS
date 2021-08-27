@@ -1,5 +1,6 @@
 package com.flipkart.dao;
 
+import com.flipkart.application.CRSApplicationClient;
 import com.flipkart.bean.Course;
 import com.flipkart.bean.Professor;
 import com.flipkart.bean.Student;
@@ -7,6 +8,7 @@ import com.flipkart.bean.User;
 import com.flipkart.constants.Roles;
 import com.flipkart.constants.SqlQueries;
 import com.flipkart.utils.DBUtil;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AdminDaoOperation implements AdminDaoInterface {
-
+    private static Logger logger = Logger.getLogger(CRSApplicationClient.class);
     Connection conn = DBUtil.getConnection();
     UserDaoInterface userDaoInterface = new UserDaoOperation();
 
@@ -31,7 +33,7 @@ public class AdminDaoOperation implements AdminDaoInterface {
             int rowAffected = ps.executeUpdate();
 
         } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
+            logger.info("Error: " + e.getMessage());
         }
     }
 
@@ -42,7 +44,7 @@ public class AdminDaoOperation implements AdminDaoInterface {
             ps.setInt(1, courseId);
             return ps.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
+            logger.info("Error: " + e.getMessage());
         }
         return 0;
     }
@@ -55,14 +57,14 @@ public class AdminDaoOperation implements AdminDaoInterface {
             List<Student> admissions = new ArrayList<Student>();
             while (rs.next()) {
                 Student s = new Student();
-                s.setId(rs.getInt("id"));
+                s.setStudentId(rs.getInt("id"));
                 s.setUserName(rs.getString("name"));
                 s.setUserEmailId(rs.getString("email"));
                 admissions.add(s);
             }
             return admissions;
         } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
+            logger.info("Error: " + e.getMessage());
         }
         return null;
     }
@@ -75,14 +77,13 @@ public class AdminDaoOperation implements AdminDaoInterface {
             int rowAffected = ps.executeUpdate();
             return rowAffected == 1;
         } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
+            logger.info("Error: " + e.getMessage());
         }
         return false;
     }
 
     @Override
     public boolean addProfessor(String name, String emailId, String password, String phoneNo, String department, String designation) {
-        // TODO: Handle cases when professor wont be created
         boolean isSuccess = userDaoInterface.createUser(name, emailId, password, Roles.Professor, phoneNo);
         if (isSuccess) {
             int id = userDaoInterface.getUserIdByEmail(emailId);
@@ -93,7 +94,7 @@ public class AdminDaoOperation implements AdminDaoInterface {
                 ps.setString(3, designation);
                 return ps.executeUpdate() == 1;
             } catch (SQLException e) {
-                System.out.println("Error: " + e.getMessage());
+                logger.info("Error: " + e.getMessage());
             }
         }
         return false;
@@ -117,7 +118,7 @@ public class AdminDaoOperation implements AdminDaoInterface {
             }
             return courses;
         } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
+            logger.info("Error: " + e.getMessage());
         }
         return null;
     }
@@ -139,7 +140,7 @@ public class AdminDaoOperation implements AdminDaoInterface {
             }
             return professors;
         }catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
+            logger.info("Error: " + e.getMessage());
         }
         return null;
     }

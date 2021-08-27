@@ -1,33 +1,41 @@
 package com.flipkart.business;
 
 import java.util.ArrayList;
+import java.util.Formatter;
 import java.util.List;
 
+import com.flipkart.application.CRSApplicationClient;
 import com.flipkart.bean.Course;
 import com.flipkart.dao.AdminDaoInterface;
 import com.flipkart.dao.AdminDaoOperation;
+import org.apache.log4j.Logger;
 
 
 public class CourseInterfaceImpl implements CourseInterface {
+    private static Logger logger = Logger.getLogger(CRSApplicationClient.class);
     AdminDaoInterface adminDaoInterface = new AdminDaoOperation();
     
     @Override
     public void viewCourses() {
         List<Course> courses = adminDaoInterface.viewCourses();
         if (courses == null || courses.size() == 0) {
-            System.out.println("No Available Courses");
+            logger.info("No Available Courses");
         } else {
-            System.out.println("Course Id | Course Name | Course Description | ProfessorID | CourseFee | StudentCount ");
+            Formatter fmt = new Formatter();
+            fmt.format("%30s  %30s  %30s  %30s  %30s  %30s\n", "CourseID", "CourseName", "CourseDescription", "ProfessorID", "CourseFee", "StudentCount");
             for (Course c : courses) {
-                System.out.println(
-                        c.getCourseId()
-                                + " | " + c.getCourseName()
-                                + " | " + c.getCourseDescription()
-                                + " | " + c.getProfessorId()
-                                + " | " + c.getCourseFee()
-                                + " | " + c.getStudentCount()
+                fmt.format(
+                        "%30s  %30s  %30s  %30s  %30s  %30s\n",
+                        c.getCourseId(),
+                        c.getCourseName(),
+                        c.getCourseDescription(),
+                        c.getProfessorId(),
+                        c.getCourseFee(),
+                        c.getStudentCount()
                 );
+
             }
+            System.out.println(fmt);
         }
     }
 

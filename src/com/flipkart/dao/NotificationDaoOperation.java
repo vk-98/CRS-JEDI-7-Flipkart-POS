@@ -1,8 +1,10 @@
 package com.flipkart.dao;
 
+import com.flipkart.application.CRSApplicationClient;
 import com.flipkart.bean.Notification;
 import com.flipkart.constants.SqlQueries;
 import com.flipkart.utils.DBUtil;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NotificationDaoOperation implements NotificationDaoInterface {
+    private static Logger logger = Logger.getLogger(CRSApplicationClient.class);
     static Connection con = DBUtil.getConnection();
     @Override
     public boolean sendNotification(Notification notification) {
@@ -26,7 +29,7 @@ public class NotificationDaoOperation implements NotificationDaoInterface {
           return rowAffected==1;
       }
       catch(SQLException e){
-          e.printStackTrace();
+          logger.info("Error: " + e.getMessage());
       }
         return false;
     }
@@ -47,7 +50,7 @@ public class NotificationDaoOperation implements NotificationDaoInterface {
             }
         }
         catch(SQLException e){
-            e.printStackTrace();
+            logger.info("Error: " + e.getMessage());
         }
         return notifications;
     }

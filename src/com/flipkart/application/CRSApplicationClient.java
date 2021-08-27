@@ -10,11 +10,13 @@ import com.flipkart.exceptions.CourseCountException;
 import com.flipkart.exceptions.NoRegisteredCourseException;
 import com.flipkart.exceptions.SeatNotAvailableException;
 import com.flipkart.exceptions.StudentNotRegisteredException;
+import org.apache.log4j.Logger;
 
 import java.sql.SQLException;
 import java.util.Scanner;
 
 public class CRSApplicationClient {
+    private static Logger logger = Logger.getLogger(CRSApplicationClient.class);
     static Scanner sc = new Scanner(System.in);
     static AdminClient adminClient = new AdminClient();
     static ProfessorClient professorClient = new ProfessorClient();
@@ -43,7 +45,7 @@ public class CRSApplicationClient {
                     studentRegistration();
                     break;
                 default:
-                    System.out.println("Invalid User Input");
+                    logger.warn("Invalid User Input");
             }
 
         }
@@ -79,10 +81,10 @@ public class CRSApplicationClient {
             } else if (Roles.Student.equals(role)) {
                 studentClient.showMenu();
             } else {
-                System.out.println("UnIdentified User");
+                logger.warn("Unidentified User");
             }
         } else {
-            System.out.println("Email or Password is incorrect, Try Again");
+            logger.info("Email or Password is incorrect, Try Again");
         }
     }
 
@@ -104,9 +106,9 @@ public class CRSApplicationClient {
         student = studentInterface.register(studentName, studentEmailId, studentPassword, studentPhoneNo);
 
         if (student == null) {
-            System.out.println("Something went wrong, Try Again");
+            logger.info("Something went wrong, Try Again");
             return;
         }
-        System.out.println(studentName + " you are successfully registered, please wait for Admin's Approval");
+        logger.info(studentName + " you are successfully registered, please wait for Admin's Approval");
     }
 }

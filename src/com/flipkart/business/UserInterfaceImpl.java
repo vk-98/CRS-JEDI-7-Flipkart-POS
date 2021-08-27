@@ -1,12 +1,14 @@
 package com.flipkart.business;
 
+import com.flipkart.application.CRSApplicationClient;
 import com.flipkart.bean.Student;
 import com.flipkart.bean.User;
 import com.flipkart.constants.Roles;
 import com.flipkart.dao.UserDaoOperation;
+import org.apache.log4j.Logger;
 
 public class UserInterfaceImpl implements UserInterface {
-
+    private static Logger logger = Logger.getLogger(CRSApplicationClient.class);
     public static User user = null;
     UserDaoOperation userDaoOperation = new UserDaoOperation();
 
@@ -22,19 +24,19 @@ public class UserInterfaceImpl implements UserInterface {
         if (user != null) {
             return user.getRole();
         }
-        System.out.println("User is not loggedIn");
+        logger.info("User is not loggedIn");
         return null;
     }
 
     @Override
     public boolean updateUserPassword(String newPassword) {
         userDaoOperation.updatePassword(user.getId(), newPassword);
-        System.out.println("User Password Updated Successfully");
+        logger.info("User Password Updated Successfully");
         return true;
     }
 
     public static void logout() {
         user = null;
-        System.out.println("You are successfully logged out.");
+        logger.info("You are successfully logged out.");
     }
 }

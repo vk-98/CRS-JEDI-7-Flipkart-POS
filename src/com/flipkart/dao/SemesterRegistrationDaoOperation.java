@@ -1,10 +1,12 @@
 package com.flipkart.dao;
 
+import com.flipkart.application.CRSApplicationClient;
 import com.flipkart.bean.Course;
 import com.flipkart.bean.Notification;
 import com.flipkart.bean.OptedCourse;
 import com.flipkart.constants.SqlQueries;
 import com.flipkart.utils.DBUtil;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SemesterRegistrationDaoOperation implements SemesterRegistrationDaoInterface {
+    private static Logger logger = Logger.getLogger(CRSApplicationClient.class);
     static Connection con = DBUtil.getConnection();
     NotificationDaoInterface notificationDaoInterface = new NotificationDaoOperation();
 
@@ -63,7 +66,7 @@ public class SemesterRegistrationDaoOperation implements SemesterRegistrationDao
 
 
         } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
+            logger.info("Error: " + e.getMessage());
         }
         return false;
     }
@@ -86,7 +89,7 @@ public class SemesterRegistrationDaoOperation implements SemesterRegistrationDao
 
 
         } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
+           logger.info("Error: " + e.getMessage());
         }
         return false;
     }
@@ -113,7 +116,7 @@ public class SemesterRegistrationDaoOperation implements SemesterRegistrationDao
             }
             return availableCourseList;
         } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
+            logger.info("Error: " + e.getMessage());
         }
         return availableCourseList;
     }
@@ -134,7 +137,7 @@ public class SemesterRegistrationDaoOperation implements SemesterRegistrationDao
             }
             return registeredCourseList;
         } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
+            logger.info("Error: " + e.getMessage());
         }
 
 
@@ -145,19 +148,19 @@ public class SemesterRegistrationDaoOperation implements SemesterRegistrationDao
     public boolean submitChoices(int studentId) {
         try {
             double fees = calculateFee(studentId);
-            System.out.println("fees:" + fees);
+//            System.out.println("fees:" + fees);
             if (fees == 0) {
-                System.out.println("Error while calculating!!");
+                logger.info("Error while calculating!!");
                 return false;
             }
 
             Notification notification = new Notification(true, "You are registered for courses and fees is" + fees, studentId);
             if (notificationDaoInterface.sendNotification(notification))
-                System.out.println("Notification Sent");
+                logger.info("Notification Sent");
 
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.info("Error: " + e.getMessage());
         }
         return false;
     }
@@ -182,7 +185,7 @@ public class SemesterRegistrationDaoOperation implements SemesterRegistrationDao
             list.add(secondaryCount);
 
         } catch (SQLException e) {
-            System.out.println("The error here is " + e.getMessage());
+            logger.info("Error " + e.getMessage());
         }
 
         return list;
@@ -210,7 +213,7 @@ public class SemesterRegistrationDaoOperation implements SemesterRegistrationDao
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.info("Error: " + e.getMessage());
         }
 
         return -1;
@@ -227,7 +230,7 @@ public class SemesterRegistrationDaoOperation implements SemesterRegistrationDao
                 return rs.getDouble(1);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+           logger.info("Error: " + e.getMessage());
         }
         return 0;
     }
@@ -250,7 +253,7 @@ public class SemesterRegistrationDaoOperation implements SemesterRegistrationDao
                 return rs.getInt(1) == 1;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.info("Error: " + e.getMessage());
         }
         return false;
 
@@ -269,7 +272,7 @@ public class SemesterRegistrationDaoOperation implements SemesterRegistrationDao
             if (rs.next())
                 return rs.getInt(1) == 1;
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.info("Error: " + e.getMessage());
         }
         return false;
     }
@@ -286,7 +289,7 @@ public class SemesterRegistrationDaoOperation implements SemesterRegistrationDao
 
             return rowa == 1;
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.info("Error: " + e.getMessage());
         }
         return false;
     }
@@ -303,7 +306,7 @@ public class SemesterRegistrationDaoOperation implements SemesterRegistrationDao
 
             return rowa == 1;
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.info("Error: " + e.getMessage());
         }
         return false;
     }

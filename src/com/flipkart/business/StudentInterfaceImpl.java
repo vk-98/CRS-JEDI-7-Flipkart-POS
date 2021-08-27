@@ -55,7 +55,7 @@ public class StudentInterfaceImpl implements StudentInterface {
     public void viewGrades(int studentId) throws SQLException {
        if(!semesterRegistrationInterface.getPaymentStatus(studentId))
        {
-           System.out.println("Do registration and payment for semester");
+          logger.error("Do registration and payment for semester");
            return;
        }
 
@@ -63,7 +63,7 @@ public class StudentInterfaceImpl implements StudentInterface {
 
        if(grades.size()<6)
        {
-           System.out.println("Grades are yet to be added!!!");
+          logger.info("Grades are yet to be added!!!");
            return;
        }
 

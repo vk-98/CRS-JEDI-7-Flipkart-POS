@@ -10,16 +10,28 @@ import org.apache.log4j.Logger;
 
 import java.util.Formatter;
 import java.util.List;
+/**
+ * Implementation of Professor Operations
+ */
+
 
 public class ProfessorInterfaceImpl implements ProfessorInterface {
     private static Logger logger = Logger.getLogger(ProfessorInterfaceImpl.class);
     public static Professor professor = null;
     ProfessorDaoInterface professorDaoInterface = new ProfessorDaoOperation();
 
+    /**
+     * Method to retrieve Professor Details
+     */
     public void getProfessor() {
         professor = professorDaoInterface.getProfessorByUserId(UserInterfaceImpl.user.getId());
     }
-
+    /**
+    *Method to add Grade in the database
+    *@param studentId
+    *@param courseId
+     * @param grade
+     */
     @Override
     public void addGrade(int studentId, int courseId, double grade) {
         boolean courseSelected = professorDaoInterface.IsCourseSelected(courseId);
@@ -43,6 +55,10 @@ public class ProfessorInterfaceImpl implements ProfessorInterface {
         }
     }
 
+    /**
+     * Method to view all enrolled students in a particular course
+     * @param courseId
+     */
     @Override
     public void viewEnrolledStudents(int courseId) {
         boolean courseSelected = professorDaoInterface.IsCourseSelected(courseId);
@@ -64,6 +80,9 @@ public class ProfessorInterfaceImpl implements ProfessorInterface {
         }
     }
 
+    /**
+     * Method to view all selected course
+     */
     @Override
     public void viewSelectedCourses() {
         List<Course> courses = professorDaoInterface.getCoursesByProfessorId();
@@ -79,6 +98,10 @@ public class ProfessorInterfaceImpl implements ProfessorInterface {
         }
     }
 
+    /**
+     * Method to select the course
+     * @param courseId
+     */
     @Override
     public void selectCourse(int courseId) {
 
@@ -94,6 +117,10 @@ public class ProfessorInterfaceImpl implements ProfessorInterface {
 
     }
 
+    /**
+     * Method to deselect the course
+     * @param courseId
+     */
     @Override
     public void deselectCourse(int courseId) {
         boolean isCourseSelected = professorDaoInterface.IsCourseSelected(courseId);
@@ -108,6 +135,9 @@ public class ProfessorInterfaceImpl implements ProfessorInterface {
         logger.info("Course with course Id: " + courseId + " cannot be deselected.");
     }
 
+    /**
+     * Method to view all available courses
+     */
     @Override
     public void viewAvailableCourses() {
         List<Course> courses = professorDaoInterface.viewAvailableCourses();

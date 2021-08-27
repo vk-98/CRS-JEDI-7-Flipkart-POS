@@ -4,6 +4,7 @@ import com.flipkart.bean.Course;
 import com.flipkart.bean.Student;
 import com.flipkart.constants.SqlQueries;
 import com.flipkart.exception.CourseNotFoundException;
+import com.flipkart.exception.GradeNotAddedException;
 import com.flipkart.utils.DBUtil;
 
 import java.sql.Connection;
@@ -71,7 +72,7 @@ public class ProfessorDaoOperation implements ProfessorDaoInterface {
     }
 
     @Override
-    public Boolean addGrade(int studentId, int courseId, String grade) {
+    public Boolean addGrade(int studentId, int courseId, String grade) throws GradeNotAddedException {
         return gradeDaoInterface.createGrade(courseId, studentId, Integer.parseInt(grade));
     }
 

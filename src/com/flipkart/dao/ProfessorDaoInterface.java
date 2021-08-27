@@ -3,6 +3,7 @@ package com.flipkart.dao;
 import com.flipkart.bean.Course;
 import com.flipkart.bean.Student;
 import com.flipkart.exception.CourseNotFoundException;
+import com.flipkart.exception.GradeNotAddedException;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ public interface ProfessorDaoInterface {
 
     public int getProfessorById(int userId);
 
-    public Boolean addGrade(int studentId, int courseId, String grade);
+    public Boolean addGrade(int studentId, int courseId, String grade) throws GradeNotAddedException;
 
     public boolean selectCourse(int professorId, int courseId) throws CourseNotFoundException;
 

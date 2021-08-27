@@ -3,6 +3,8 @@ package com.flipkart.application;
 import com.flipkart.business.ProfessorInterface;
 import com.flipkart.business.ProfessorInterfaceImpl;
 import com.flipkart.business.UserInterfaceImpl;
+import com.flipkart.exception.CourseNotFoundException;
+import com.flipkart.exception.GradeNotAddedException;
 
 import java.util.Scanner;
 
@@ -11,7 +13,7 @@ public class ProfessorClient {
     ProfessorInterface professorInterface = new ProfessorInterfaceImpl();
     static String professorId = null;
 
-    public void showMenu(String emailId) {
+    public void showMenu(String emailId) throws CourseNotFoundException, GradeNotAddedException {
         professorId = professorInterface.getProfessorIdByEmail(emailId);
         while (true) {
             showMenuItems();
@@ -44,7 +46,7 @@ public class ProfessorClient {
         }
     }
 
-    private void inputForUploadGrade() {
+    private void inputForUploadGrade() throws GradeNotAddedException {
         System.out.println("Enter StudentId to whom you assign grade :");
         String studentId = sc.next();
         System.out.println("Enter CourseId :");
@@ -62,7 +64,7 @@ public class ProfessorClient {
         professorInterface.getCourses(professorId);
     }
 
-    private void inputsForDeSelectCourse() {
+    private void inputsForDeSelectCourse() throws CourseNotFoundException {
         System.out.println("Input courseId you like to Deselect : ");
         String courseId = sc.next();
         if (!professorInterface.deselectCourse(professorId, courseId)) {
@@ -72,11 +74,11 @@ public class ProfessorClient {
         }
     }
 
-    private void inputsForSelectCourse() {
+    private void inputsForSelectCourse() throws CourseNotFoundException {
         System.out.println("Input courseId you like to select : ");
         String courseId = sc.next();
         if (!professorInterface.selectCourse(professorId, courseId)) {
-            System.out.println("Unable to select because already selected by others");
+            System.out.println("Unable to select because already selected by others or courseId not present");
         } else {
             System.out.println("Successfully Selected the course");
         }

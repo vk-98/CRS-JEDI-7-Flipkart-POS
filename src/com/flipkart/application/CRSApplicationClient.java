@@ -6,6 +6,8 @@ import com.flipkart.business.StudentInterfaceImpl;
 import com.flipkart.business.UserInterface;
 import com.flipkart.business.UserInterfaceImpl;
 import com.flipkart.constants.Roles;
+import com.flipkart.exception.CourseNotFoundException;
+import com.flipkart.exception.GradeNotAddedException;
 
 import java.util.Scanner;
 
@@ -17,7 +19,7 @@ public class CRSApplicationClient {
 //    static StudentInterface studentInterface = new StudentInterfaceImpl();
     static UserInterface userInterface = new UserInterfaceImpl();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws CourseNotFoundException, GradeNotAddedException {
         System.out.println("#######################################################################################");
         System.out.println("#------------------------Welcome to Course Registration System------------------------#");
         System.out.println("#######################################################################################");
@@ -50,7 +52,7 @@ public class CRSApplicationClient {
         System.out.print("Enter User Input: ");
     }
 
-    static void login() {
+    static void login() throws CourseNotFoundException, GradeNotAddedException {
         // Taking credentials as input.
         System.out.print("Enter EmailId: ");
         String emailId = sc.next();

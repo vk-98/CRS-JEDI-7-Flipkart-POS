@@ -4,6 +4,8 @@ import com.flipkart.bean.Course;
 import com.flipkart.bean.Student;
 import com.flipkart.dao.ProfessorDaoInterface;
 import com.flipkart.dao.ProfessorDaoOperation;
+import com.flipkart.exception.CourseNotFoundException;
+import com.flipkart.exception.GradeNotAddedException;
 
 import java.util.List;
 
@@ -11,7 +13,7 @@ public class ProfessorInterfaceImpl implements ProfessorInterface {
     static ProfessorDaoInterface professorDaoInterface = new ProfessorDaoOperation();
 
     @Override
-    public boolean addGrad(String studentId, String courseId, String grade) {
+    public boolean addGrad(String studentId, String courseId, String grade) throws GradeNotAddedException {
         return professorDaoInterface.addGrade(Integer.parseInt(studentId), Integer.parseInt(courseId), grade);
     }
 
@@ -52,12 +54,12 @@ public class ProfessorInterfaceImpl implements ProfessorInterface {
     }
 
     @Override
-    public boolean selectCourse(String professorId, String courseId) {
+    public boolean selectCourse(String professorId, String courseId) throws CourseNotFoundException {
         return professorDaoInterface.selectCourse(Integer.valueOf(professorId), Integer.valueOf(courseId));
     }
 
     @Override
-    public boolean deselectCourse(String professorId, String courseId) {
+    public boolean deselectCourse(String professorId, String courseId) throws CourseNotFoundException {
         return professorDaoInterface.deselectCourse(Integer.valueOf(professorId), Integer.valueOf(courseId));
     }
 

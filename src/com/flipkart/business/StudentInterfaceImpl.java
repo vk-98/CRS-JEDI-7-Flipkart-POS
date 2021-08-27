@@ -1,16 +1,22 @@
 package com.flipkart.business;
 
 import com.flipkart.application.CRSApplicationClient;
+import com.flipkart.bean.Grades;
 import com.flipkart.bean.Student;
+import com.flipkart.dao.NotificationDaoOperation;
 import com.flipkart.dao.StudentDaoInterface;
 import com.flipkart.dao.StudentDaoOperation;
 import com.flipkart.exceptions.StudentNotRegisteredException;
 import org.apache.log4j.Logger;
 
+import java.sql.SQLException;
+import java.util.List;
+
 public class StudentInterfaceImpl implements StudentInterface {
-    private static Logger logger = Logger.getLogger(CRSApplicationClient.class);
+    private static Logger logger = Logger.getLogger(StudentInterfaceImpl.class);
     public static Student student = null;
     StudentDaoInterface studentDaoInterface = new StudentDaoOperation();
+    SemesterRegistrationInterface semesterRegistrationInterface = new SemesterRegistrationInterfaceImpl();
 
     @Override
     public Student register(String studentName, String studentEmailId, String studentPassword, String studentPhoneNo) throws StudentNotRegisteredException {
@@ -26,7 +32,8 @@ public class StudentInterfaceImpl implements StudentInterface {
                 throw new StudentNotRegisteredException(studentName);
             }
         } catch (StudentNotRegisteredException ex) {
-            logger.info(ex.getStudentName() + " is not registered");
+            logger.info(logger.getClass());
+            logger.error(ex.getStudentName() + " is not registered.");
         }
         return student;
     }
@@ -37,7 +44,31 @@ public class StudentInterfaceImpl implements StudentInterface {
     }
 
     @Override
-    public void viewGrades(String studentId, String semesterRegistrationId) {
+    public void viewGrades(int studentId) throws SQLException {
+       if(!semesterRegistrationInterface.getPaymentStatus(studentId))
+       {
+          logger.error("Do registration and payment for semester");
+           return;
+       }
+
+       List<Grades> grades= studentDaoInterface.getGrades(studentId);
+
+       if(grades.size()<6)
+       {
+          logger.info("Grades are yet to be added!!!");
+           return;
+       }
+
+        System.out.println("Here are your grades!!!");
+
+        System.out.println("CourseId | Gpa");
+        double sum=0;
+        for (Grades grade:grades) {
+            System.out.println("    "+grade.getRegisterdCourseId()+"     "+grade.getGpa());
+            sum=sum +grade.getGpa();
+        }
+
+        System.out.println("Your cumulative Gpa is :  "+sum);
 
     }
 

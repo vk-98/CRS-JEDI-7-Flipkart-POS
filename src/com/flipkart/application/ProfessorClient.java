@@ -8,7 +8,7 @@ import org.apache.log4j.Logger;
 import java.util.Scanner;
 
 public class ProfessorClient {
-    private static Logger logger = Logger.getLogger(CRSApplicationClient.class);
+    private static Logger logger = Logger.getLogger(ProfessorClient.class);
     static Scanner sc = new Scanner(System.in);
     ProfessorInterface professorInterface = new ProfessorInterfaceImpl();
 

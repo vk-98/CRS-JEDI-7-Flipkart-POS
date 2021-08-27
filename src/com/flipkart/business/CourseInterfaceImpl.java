@@ -12,7 +12,7 @@ import org.apache.log4j.Logger;
 
 
 public class CourseInterfaceImpl implements CourseInterface {
-    private static Logger logger = Logger.getLogger(CRSApplicationClient.class);
+    private static Logger logger = Logger.getLogger(CourseInterfaceImpl.class);
     AdminDaoInterface adminDaoInterface = new AdminDaoOperation();
     
     @Override

@@ -14,17 +14,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NotificationDaoOperation implements NotificationDaoInterface {
-    private static Logger logger = Logger.getLogger(CRSApplicationClient.class);
+
     static Connection con = DBUtil.getConnection();
+    private static Logger logger = Logger.getLogger(NotificationDaoOperation.class);
+
+
+    /**
+     * Method to send notification
+     * @param notification object
+     * @return boolean indicating if the notification is sent successfully
+     * @throws SQLException
+     */
     @Override
     public boolean sendNotification(Notification notification) {
-      try{
-          PreparedStatement ps = con.prepareStatement(SqlQueries.SEND_NOTIFICATION);
+        try{
+            PreparedStatement ps = con.prepareStatement(SqlQueries.SEND_NOTIFICATION);
 
-          ps.setString(1, notification.getContent());
-          ps.setInt(2,notification.getStudentId());
+            ps.setString(1, notification.getContent());
+            ps.setInt(2,notification.getStudentId());
 
-          int rowAffected = ps.executeUpdate();
+            int rowAffected = ps.executeUpdate();
 
           return rowAffected==1;
       }
@@ -34,6 +43,13 @@ public class NotificationDaoOperation implements NotificationDaoInterface {
         return false;
     }
 
+
+    /**
+     * Method to show notifications for specific studentID
+     * @param studentId
+     * @return list of notifications
+     * @throws SQLException
+     */
     @Override
     public List<String> showNotifications(int studentId) {
         List<String > notifications= new ArrayList<String>();

@@ -12,7 +12,7 @@ import java.util.Formatter;
 import java.util.List;
 
 public class ProfessorInterfaceImpl implements ProfessorInterface {
-    private static Logger logger = Logger.getLogger(CRSApplicationClient.class);
+    private static Logger logger = Logger.getLogger(ProfessorInterfaceImpl.class);
     public static Professor professor = null;
     ProfessorDaoInterface professorDaoInterface = new ProfessorDaoOperation();
 

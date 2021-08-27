@@ -2,6 +2,7 @@ package com.flipkart.application;
 
 import java.util.Scanner;
 
+import com.flipkart.bean.Admin;
 import com.flipkart.bean.Professor;
 import com.flipkart.business.*;
 import org.apache.log4j.Logger;
@@ -9,7 +10,7 @@ import org.apache.log4j.Logger;
 import javax.management.relation.Role;
 
 public class AdminClient {
-    private static Logger logger = Logger.getLogger(CRSApplicationClient.class);
+    private static Logger logger = Logger.getLogger(AdminClient.class);
     Scanner sc = new Scanner(System.in);
     AdminInterface adminInterface = new AdminInterfaceImpl();
     CourseInterface courseInterface = new CourseInterfaceImpl();

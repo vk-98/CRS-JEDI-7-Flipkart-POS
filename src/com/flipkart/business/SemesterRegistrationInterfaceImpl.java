@@ -21,13 +21,27 @@ import java.util.Scanner;
 
 public class SemesterRegistrationInterfaceImpl implements SemesterRegistrationInterface {
 
-    private static Logger logger = Logger.getLogger(CRSApplicationClient.class);
     SemesterRegistrationDaoInterface semesterRegistrationDaoInterface = new SemesterRegistrationDaoOperation();
     NotificationDaoInterface notificationDaoInterface = new NotificationDaoOperation();
 
-    @Override
-    public boolean addPrimaryCourse(int studentId, int courseId) {
+    private static Logger logger = Logger.getLogger(SemesterRegistrationInterfaceImpl.class);
 
+
+    /**
+     * Method to add a primary course for a given student
+     * @param studentId
+     * @param courseId
+     * @return boolean indicating if the primary course is added successfully
+     * @throws SQLException
+     */
+    @Override
+    public boolean addPrimaryCourse(int studentId, int courseId) throws SQLException {
+
+        if(semesterRegistrationDaoInterface.isRegistered(courseId,studentId))
+        {
+            logger.error("Course already registered");
+            return false;
+        }
         if (semesterRegistrationDaoInterface.addCourse(courseId, studentId, 0)) {
             logger.info("Successfully added primary course");
             return true;
@@ -39,19 +53,40 @@ public class SemesterRegistrationInterfaceImpl implements SemesterRegistrationIn
         return false;
     }
 
+
+    /**
+     * Method to add a secondary course for a given student
+     * @param studentId
+     * @param courseId
+     * @return boolean indicating if the secondary course is added successfully
+     * @throws SQLException
+     */
     @Override
-    public boolean addSecondaryCourse(int studentId, int courseId) {
+    public boolean addSecondaryCourse(int studentId, int courseId) throws SQLException {
+
+        if(semesterRegistrationDaoInterface.isRegistered(courseId,studentId))
+        {
+            logger.error("Course already registered");
+            return false;
+        }
         if (semesterRegistrationDaoInterface.addCourse(courseId, studentId, 1)) {
             logger.info("Successfully added secondary course");
             return true;
         }
 
 
-        System.out.println("Limit reached");
+        logger.error("Limit reached");
 
         return false;
     }
 
+    /**
+     * Method to drop a course for a given student
+     * @param studentId
+     * @param courseId
+     * @return boolean indicating if the course is dropped successfully
+     * @throws SQLException
+     */
     @Override
     public boolean dropCourse(int studentId, int courseId) {
 
@@ -60,12 +95,17 @@ public class SemesterRegistrationInterfaceImpl implements SemesterRegistrationIn
             return true;
         }
 
-        logger.info("Not found");
+        logger.error("Not found");
         return false;
 
     }
 
 
+    /**
+     * Method to view all the courses registered by the given student
+     * @param studentId
+     * @return
+     */
     @Override
     public void viewRegisteredCourses(int studentId) {
 
@@ -85,6 +125,13 @@ public class SemesterRegistrationInterfaceImpl implements SemesterRegistrationIn
         System.out.println(fmt);
     }
 
+
+    /**
+     * Method to calculate fee for a given student
+     * @param studentId
+     * @return total fee to be paid by a given student
+     * @throws SQLException
+     */
     @Override
     public double calculateFee(int studentId) throws SQLException {
         double totalFee = 0;
@@ -92,6 +139,16 @@ public class SemesterRegistrationInterfaceImpl implements SemesterRegistrationIn
         return totalFee;
     }
 
+
+    /**
+     * Method to submit the choices of the course opted by the student
+     * @param studentId
+     * @return boolean indicating if the choices are added successfully
+     * @throws NoRegisteredCourseException
+     * @throws CourseCountException
+     * @throws SeatNotAvailableException
+     * @throws SQLException
+     */
     @Override
     public boolean submitCourseChoices(int studentId) throws NoRegisteredCourseException, CourseCountException, SeatNotAvailableException, SQLException {
         viewRegisteredCourses(studentId);
@@ -129,18 +186,18 @@ public class SemesterRegistrationInterfaceImpl implements SemesterRegistrationIn
                     ;
                     return true;
                 }
-                System.out.println("Invalid selection");
+                logger.error("Invalid selection");
             }
         } catch (NoRegisteredCourseException ex) {
-            System.out.println(NoRegisteredCourseException.msg);
+            logger.info(NoRegisteredCourseException.msg);
         } catch (CourseCountException ex) {
-            System.out.println("Your " + ex.getCourseType() + " course count is " + ex.getCourseCount() + " but it should be " + ex.getRequiredCourseCount());
+            logger.info("Your " + ex.getCourseType() + " course count is " + ex.getCourseCount() + " but it should be " + ex.getRequiredCourseCount());
         } catch (SeatNotAvailableException ex) {
-            System.out.println("Seats are not available in : " + ex.getCourseId() + " course");
+            logger.info("Seats are not available in : " + ex.getCourseId() + " course");
         } catch (CourseLimitExceededException e) {
-            System.out.println(e.getMessage());
+            logger.info(e.getMessage());
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            logger.error(e.getMessage());
         }
         return false;
     }
@@ -162,6 +219,14 @@ public class SemesterRegistrationInterfaceImpl implements SemesterRegistrationIn
 
     }
 
+
+    /**
+     * Method to set payment status of the given student
+     * @param studentId
+     * @param status
+     * @return boolean indicating if the payment status is changes successfully
+     * @throws SQLException
+     */
     @Override
     public void setPaymentStatus(int studentId, boolean status) throws SQLException {
         if (semesterRegistrationDaoInterface.setPaymentStatus(studentId, status ? 1 : 0)) {
@@ -171,6 +236,6 @@ public class SemesterRegistrationInterfaceImpl implements SemesterRegistrationIn
                 logger.info("Notification Sent");
             return;
         }
-        logger.info("Payment Failed");
+        logger.error("Payment Failed");
     }
 }

@@ -4,8 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
-import com.flipkart.application.CRSApplicationClient;
+import com.flipkart.bean.Grades;
 import com.flipkart.bean.Student;
 import com.flipkart.constants.SqlQueries;
 import com.flipkart.exceptions.StudentNotFoundException;
@@ -13,9 +15,16 @@ import com.flipkart.utils.DBUtil;
 import org.apache.log4j.Logger;
 
 public class StudentDaoOperation implements StudentDaoInterface {
-    private static Logger logger = Logger.getLogger(CRSApplicationClient.class);
-    static Connection con = DBUtil.getConnection();
 
+    static Connection con = DBUtil.getConnection();
+    private static Logger logger = Logger.getLogger(StudentDaoOperation.class);
+
+    /**
+     * Method to add Student
+     * @param student
+     * @return boolean indicating if the student is added successfully
+     * @throws SQLException
+     */
     @Override
     public boolean addStudent(Student student) {
         UserDaoInterface userDaoInterface = new UserDaoOperation();
@@ -40,6 +49,14 @@ public class StudentDaoOperation implements StudentDaoInterface {
         return false;
     }
 
+
+
+    /**
+     * Method to get studentId from userId
+     * @param userId
+     * @return studentId or -1 if no matching student found
+     * @throws SQLException
+     */
     @Override
     public int getStudentById(int userId) {
         try {
@@ -61,11 +78,19 @@ public class StudentDaoOperation implements StudentDaoInterface {
         return -1;
     }
 
+
     @Override
     public boolean isApproved(int studentId) {
         return false;
     }
 
+
+    /**
+     * Method to get student object from studentID
+     * @param studentId
+     * @return student object or null if no matching student found
+     * @throws SQLException
+     */
     @Override
     public Student getStudentByEmailId(String emailId) {
         try {
@@ -102,6 +127,23 @@ public class StudentDaoOperation implements StudentDaoInterface {
             logger.info(e.getMessage());
         }
         return null;
+    }
+
+    @Override
+    public List<Grades> getGrades(int studentId) {
+
+        List<Grades> grades= new ArrayList<Grades>();
+        try {
+            PreparedStatement ps = con.prepareStatement(SqlQueries.GET_STUDENT_GRADES);
+            ps.setInt(1, studentId);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()) {
+                grades.add(new Grades(rs.getInt("courseId"), rs.getInt("studentId"),rs.getDouble("gpa")));
+            }
+        } catch (SQLException e) {
+            logger.info(e.getMessage());
+        }
+        return grades;
     }
 
 }

@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 
 public class StudentClient {
-    private static Logger logger = Logger.getLogger(CRSApplicationClient.class);
+    private static Logger logger = Logger.getLogger(StudentClient.class);
     Scanner sc = new Scanner(System.in);
     CourseInterface courseInterface = new CourseInterfaceImpl();
     SemesterRegistrationInterface semRegister = new SemesterRegistrationInterfaceImpl();
@@ -19,6 +19,15 @@ public class StudentClient {
     StudentInterface studentInterface = new StudentInterfaceImpl();
     NotificationInterface notificationInterface= new NotificationImpl();
 
+
+
+    /**
+     * Method to generate Student Menu for course registration, addition, removal and fee payment
+     * @throws SQLException
+     * @throws CourseCountException
+     * @throws NoRegisteredCourseException
+     * @throws SeatNotAvailableException
+     */
     public void showMenu() throws SQLException, CourseCountException, NoRegisteredCourseException, SeatNotAvailableException {
 
         boolean menuBreakFlag = false;
@@ -58,6 +67,9 @@ public class StudentClient {
                     notificationInterface.showNotifications(StudentInterfaceImpl.student.getStudentId());
                     break;
                 case 6:
+                    viewGrades(StudentInterfaceImpl.student.getStudentId());
+                    break;
+                case 7:
                     menuBreakFlag = true;
                     UserInterfaceImpl.logout();
                     break;
@@ -68,18 +80,27 @@ public class StudentClient {
     }
 
     static void showStudentMenu() {
-        System.out.println("*********************************************************************************");
-        System.out.println("********************************* Student Menu **********************************");
-        System.out.println("*********************************************************************************");
+        System.out.println("***************************");
+        System.out.println("*********** Student Menu ************");
+        System.out.println("***************************");
         System.out.println("1. Semester Registration");
         System.out.println("2. View Courses");
         System.out.println("3. Pay Fees");
         System.out.println("4. Update Password");
         System.out.println("5. Show Notifications");
-        System.out.println("6. Logout");
+        System.out.println("6. View Grades");
+        System.out.println("7. Logout");
         System.out.print("Enter User Input :");
     }
 
+
+    /**
+     * Method to generate Student Registration Menu
+     * @throws SQLException
+     * @throws CourseCountException
+     * @throws NoRegisteredCourseException
+     * @throws SeatNotAvailableException
+     */
     public void semesterRegistration(int studentId) throws CourseCountException, NoRegisteredCourseException, SeatNotAvailableException, SQLException {
         boolean breakFlag = false;
 
@@ -145,17 +166,18 @@ public class StudentClient {
 
     }
 
-    public void viewCourses() {
-        // show all the courses
-    }
 
+    /**
+     * Method for fee payment of a given student
+     * @param studentId
+     * @throws SQLException
+     */
     public void feePayment(int studentId) throws SQLException {
 
         boolean status = semRegister.getRegistrationStatus(studentId);
-        System.out.println(status);
         if(!status)
         {
-            System.out.println("First do semester registration");
+            System.out.println("First complete semester registration");
             return;
         }
         status= semRegister.getPaymentStatus(studentId);
@@ -179,6 +201,15 @@ public class StudentClient {
             x=sc.nextInt();
             semRegister.setPaymentStatus(studentId,true);
         }
+    }
+
+    /**
+     * Method to show student grades if they are added
+     * @param studentId
+     * @throws SQLException
+     */
+    public void viewGrades(int studentId) throws SQLException {
+        studentInterface.viewGrades(studentId);
     }
 
 }

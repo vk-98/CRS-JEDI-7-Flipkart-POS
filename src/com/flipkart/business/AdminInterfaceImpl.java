@@ -21,7 +21,7 @@ import java.util.Formatter;
 import java.util.List;
 
 public class AdminInterfaceImpl implements AdminInterface {
-    private static Logger logger = Logger.getLogger(CRSApplicationClient.class);
+    private static Logger logger = Logger.getLogger(AdminInterfaceImpl.class);
     AdminDaoInterface adminDaoInterface = new AdminDaoOperation();
     StudentDaoInterface studentDaoInterface = new StudentDaoOperation();
 

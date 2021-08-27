@@ -13,7 +13,8 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 
-public class SemesterRegistrationImpl implements SemesterRegistrationInterface {
+public class
+SemesterRegistrationImpl implements SemesterRegistrationInterface {
 
 
     SemesterRegistrationDaoInterface semesterRegistrationDaoInterface = new SemesterRegistrationDaoOperation();

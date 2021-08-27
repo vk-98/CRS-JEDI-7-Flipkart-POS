@@ -4,7 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.flipkart.bean.Grades;
 import com.flipkart.bean.Student;
 import com.flipkart.constants.SqlQueries;
 import com.flipkart.exceptions.StudentNotFoundException;
@@ -105,6 +108,23 @@ public class StudentDaoOperation implements StudentDaoInterface {
             logger.info(e.getMessage());
         }
         return null;
+    }
+
+    @Override
+    public List<Grades> getGrades(int studentId) {
+
+        List<Grades> grades= new ArrayList<Grades>();
+        try {
+            PreparedStatement ps = con.prepareStatement(SqlQueries.GET_STUDENT_GRADES);
+            ps.setInt(1, studentId);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()) {
+                grades.add(new Grades(rs.getInt("courseId"), rs.getInt("studentId"),rs.getDouble("gpa")));
+            }
+        } catch (SQLException e) {
+            logger.info(e.getMessage());
+        }
+        return grades;
     }
 
 }

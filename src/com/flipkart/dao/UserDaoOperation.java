@@ -63,8 +63,8 @@ public class UserDaoOperation implements UserDaoInterface {
             ps.setString(1, name);
             ps.setString(2, email);
             ps.setString(3, password);
-            ps.setString(4, phoneNo);
-            ps.setString(5, role);
+            ps.setString(4, role);
+            ps.setString(5, phoneNo);
 
             int rowAffected = ps.executeUpdate();
 

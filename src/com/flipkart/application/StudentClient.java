@@ -20,6 +20,7 @@ public class StudentClient {
     UserInterface userInterface = new UserInterfaceImpl();
     StudentDaoInterface studentDaoInterface= new StudentDaoOperation();
     NotificationInterface notificationInterface= new NotificationImpl();
+    StudentInterface studentInterface= new StudentInterfaceImpl();
 
 
     /**
@@ -68,6 +69,9 @@ public class StudentClient {
                     notificationInterface.showNotifications(studentId);
                     break;
                 case 6:
+                    viewGrades(studentId);
+                    break;
+                case 7:
                     menuBreakFlag = true;
                     UserInterfaceImpl.logout();
                     break;
@@ -86,7 +90,8 @@ public class StudentClient {
         System.out.println("3. Pay Fees");
         System.out.println("4. Update Password");
         System.out.println("5. Show Notifications");
-        System.out.println("6. Logout");
+        System.out.println("6. View Grades");
+        System.out.println("7. Logout");
         System.out.print("Enter User Input :");
     }
 
@@ -198,6 +203,15 @@ public class StudentClient {
             x=sc.nextInt();
             semRegister.setPaymentStatus(studentId,true);
         }
+    }
+
+    /**
+     * Method to show student grades if they are added
+     * @param studentId
+     * @throws SQLException
+     */
+    public void viewGrades(int studentId) throws SQLException {
+        studentInterface.viewGrades(studentId);
     }
 
 }

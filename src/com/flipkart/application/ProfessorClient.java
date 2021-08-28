@@ -1,6 +1,7 @@
 package com.flipkart.application;
 
 import com.flipkart.bean.Course;
+import com.flipkart.bean.Student;
 import com.flipkart.business.ProfessorInterface;
 import com.flipkart.business.ProfessorOperation;
 import com.flipkart.business.UserInterface;
@@ -107,7 +108,19 @@ public class ProfessorClient {
     private void handleViewEnrolledStudents() {
         System.out.print("Enter the courseId: ");
         int courseId = sc.nextInt();
-        professorInterface.viewEnrolledStudents(courseId);
+
+        List<Student> students = professorInterface.getEnrolledStudents(courseId);;
+        if (students == null || students.size() == 0) {
+            logger.info("No Students enrolled in courseId: " + courseId + ".");
+        } else {
+            Formatter fmt = new Formatter();
+            fmt.format("%30s %30s %30s %30s\n", "StudentId", "StudentName", "StudentEmailID", "StudentPhone");
+            for (Student student : students) {
+                fmt.format("%30s %30s %30s %30s\n", student.getStudentId(), student.getUserEmailId(), student.getUserEmailId(), student.getPhoneNo());
+
+            }
+            System.out.println(fmt);
+        }
     }
 
 
@@ -115,7 +128,7 @@ public class ProfessorClient {
      * method for deselecting a course
      */
     private void handleDeselectCourse() {
-        System.out.print("Input courseId you like to Deselect : ");
+        System.out.print("Input courseId you like to Deselect: ");
         int courseId = sc.nextInt();
         boolean isCourseDeselected = professorInterface.deselectCourse(courseId);
         if(isCourseDeselected)
@@ -138,7 +151,17 @@ public class ProfessorClient {
      * method for viewing selected course
      */
     private void handleViewSelectedCourse() {
-        professorInterface.viewSelectedCourses();
+        List<Course> courses = professorInterface.getSelectedCourses();
+        if (courses == null || courses.size() == 0) {
+            logger.info("No Courses available");
+        } else {
+            Formatter fmt = new Formatter();
+            fmt.format("%30s %30s %30s %30s %30s\n", "CourseId", "CourseName", "CourseDescription", "CourseFee", "StudentCount");
+            for (Course c : courses) {
+                fmt.format("%30s %30s %30s %30s %30s\n", c.getCourseId(), c.getCourseName(), c.getCourseDescription(), c.getCourseFee(), c.getStudentCount());
+            }
+            System.out.println(fmt);
+        }
     }
 
     /**
@@ -154,7 +177,10 @@ public class ProfessorClient {
         System.out.println("Enter Grade: ");
         double grade = sc.nextDouble();
 
-        professorInterface.addGrade(studentId, courseId, grade);
+        boolean graded = professorInterface.addGrade(studentId, courseId, grade);
+        if (graded) {
+            logger.info("Grades Added Successfully");
+        }
     }
 
     /**

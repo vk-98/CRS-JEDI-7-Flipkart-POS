@@ -63,7 +63,7 @@ public class SqlQueries {
 
     public static final String SELECT_COURSE_FOR_PROF = "UPDATE course SET professorId = ? WHERE id = ?";
 
-    public static final String IS_COURSE_AVAILABLE_FOR_PROF = "SELECT * FROM course WHERE id = ? AND professorId = ?";
+    public static final String IS_COURSE_SELECTED_BY_PROF = "SELECT * FROM course WHERE professorId = ? AND id = ?";
 
     public static final String DELSELECT_COURSE_FOR_PROF = "UPDATE course SET professorId = NULL WHERE id = ?";
 

@@ -53,13 +53,14 @@ public class ProfessorDaoOperation implements ProfessorDaoInterface {
 
     /**
      * Method to retrieve all the courses according to ProfessorId
+     * @param professorId
      * @return List of courses
      */
     @Override
-    public List<Course> getCoursesByProfessorId() {
+    public List<Course> getCoursesByProfessorId(int professorId) {
         try {
             PreparedStatement ps = conn.prepareStatement(SqlQueries.VIEW_SELECTED_COURSES_FOR_PROF);
-            ps.setInt(1, ProfessorOperation.professor.getProfessorId());
+            ps.setInt(1, professorId);
             ResultSet rs = ps.executeQuery();
 
             List<Course> courses = new ArrayList<Course>();
@@ -134,7 +135,7 @@ public class ProfessorDaoOperation implements ProfessorDaoInterface {
      * @param courseId
      */
     @Override
-    public boolean IsStudentAlreadyGraded(int studentId, int courseId) {
+    public boolean isStudentAlreadyGraded(int studentId, int courseId) {
         try {
             PreparedStatement ps = conn.prepareStatement(SqlQueries.IS_STUDENT_ALREADY_GRADED);
             ps.setInt(1, studentId);
@@ -149,11 +150,11 @@ public class ProfessorDaoOperation implements ProfessorDaoInterface {
         return false;
     }
     /**
-     * Method to show the List of available courses
+     * method to show the List of available courses
      * @return List of available courses
      */
     @Override
-    public List<Course> viewAvailableCourses() {
+    public List<Course> getAvailableCourses() {
         try {
             PreparedStatement ps = conn.prepareStatement(SqlQueries.VIEW_AVAILABLE_COURSES_PROFESSOR);
             ResultSet rs = ps.executeQuery();
@@ -180,7 +181,7 @@ public class ProfessorDaoOperation implements ProfessorDaoInterface {
      * @return availability of the given course
      */
     @Override
-    public boolean IsCourseAvailable(int courseId) {
+    public boolean isCourseAvailable(int courseId) {
         try {
             PreparedStatement ps = conn.prepareStatement(SqlQueries.COURSE_AVAILABLE_FOR_PROF);
             ps.setInt(1, courseId);
@@ -196,13 +197,15 @@ public class ProfessorDaoOperation implements ProfessorDaoInterface {
 
     /**
      * method to select a course
+     * @param professorId
      * @param courseId
+     * @return isCourseSelected
      */
     @Override
-    public boolean selectCourse(int courseId) {
+    public boolean selectCourse(int professorId, int courseId) {
         try {
             PreparedStatement ps = conn.prepareStatement(SqlQueries.SELECT_COURSE_FOR_PROF);
-            ps.setInt(1, ProfessorOperation.professor.getProfessorId());
+            ps.setInt(1, professorId);
             ps.setInt(2, courseId);
             return ps.executeUpdate() == 1;
         }catch (SQLException e) {
@@ -213,14 +216,16 @@ public class ProfessorDaoOperation implements ProfessorDaoInterface {
 
     /**
      * Method to check if course is selected or not
+     * @param professorId
      * @param courseId
+     * @return is Course already selected by professor.
      */
     @Override
-    public boolean IsCourseSelected(int courseId) {
+    public boolean isCourseSelected(int professorId, int courseId) {
         try{
-            PreparedStatement ps = conn.prepareStatement(SqlQueries.IS_COURSE_AVAILABLE_FOR_PROF);
-            ps.setInt(1, courseId);
-            ps.setInt(2, ProfessorOperation.professor.getProfessorId());
+            PreparedStatement ps = conn.prepareStatement(SqlQueries.IS_COURSE_SELECTED_BY_PROF);
+            ps.setInt(1, professorId);
+            ps.setInt(2, courseId);
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
                 return true;
@@ -249,9 +254,10 @@ public class ProfessorDaoOperation implements ProfessorDaoInterface {
      * Method to check if a given student is enrolled in a given course
      * @param studentId
      * @param courseId
+     *
      */
     @Override
-    public boolean IsStudentEnrolled(int studentId, int courseId) {
+    public boolean isStudentEnrolled(int studentId, int courseId) {
         try {
             PreparedStatement ps = conn.prepareStatement(SqlQueries.IS_STUDENT_ENROLLED);
             ps.setInt(1,studentId);

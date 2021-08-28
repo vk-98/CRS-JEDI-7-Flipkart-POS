@@ -32,85 +32,68 @@ public class ProfessorOperation implements ProfessorInterface {
      * @param studentId
      * @param courseId
      * @param grade
+     * @return graded
      */
     @Override
-    public void addGrade(int studentId, int courseId, double grade) {
-        boolean courseSelected = professorDaoInterface.IsCourseSelected(courseId);
+    public boolean addGrade(int studentId, int courseId, double grade) {
+        // Exception
+        boolean courseSelected = professorDaoInterface.isCourseSelected(professor.getProfessorId(), courseId);
         if (!courseSelected) {
             logger.info("Invalid Course ID");
-            return;
+            return false;
         }
-        boolean isStudentEnrolled = professorDaoInterface.IsStudentEnrolled(studentId, courseId);
+        boolean isStudentEnrolled = professorDaoInterface.isStudentEnrolled(studentId, courseId);
         if (!isStudentEnrolled) {
             logger.info("Student Not Enrolled in the course");
-            return;
+            return false;
         }
-        boolean studentGraded = professorDaoInterface.IsStudentAlreadyGraded(studentId, courseId);
+        boolean studentGraded = professorDaoInterface.isStudentAlreadyGraded(studentId, courseId);
         if (studentGraded) {
             logger.info("Student Is Already Graded");
-        } else {
-            boolean graded = professorDaoInterface.addGrade(studentId, courseId, grade);
-            if (graded) {
-                logger.info("Grades Added Successfully");
-            }
+            return false;
         }
+        return professorDaoInterface.addGrade(studentId, courseId, grade);
     }
 
     /**
      * Method to view all enrolled students in a particular course
      *
      * @param courseId
+     * @return list of students
      */
     @Override
-    public void viewEnrolledStudents(int courseId) {
-        boolean courseSelected = professorDaoInterface.IsCourseSelected(courseId);
+    public List<Student> getEnrolledStudents(int courseId) {
+        // Exception
+        boolean courseSelected = professorDaoInterface.isCourseSelected(professor.getProfessorId(), courseId);
         if (courseSelected) {
-            List<Student> students = professorDaoInterface.getEnrolledStudents(courseId);
-            if (students == null || students.size() == 0) {
-                logger.info("No Students enrolled in courseId: " + courseId + ".");
-            } else {
-                Formatter fmt = new Formatter();
-                fmt.format("%30s %30s %30s %30s\n", "StudentId", "StudentName", "StudentEmailID", "StudentPhone");
-                for (Student student : students) {
-                    fmt.format("%30s %30s %30s %30s\n", student.getStudentId(), student.getUserEmailId(), student.getUserEmailId(), student.getPhoneNo());
-
-                }
-                System.out.println(fmt);
-            }
-        } else {
-            logger.info("Enter Correct Course Id");
+            return professorDaoInterface.getEnrolledStudents(courseId);
         }
+        return null;
+//            logger.info("Enter Correct Course Id");
     }
 
     /**
-     * Method to view all selected course
+     * method to view all selected course
+     *
+     * @return list of selected courses
      */
     @Override
-    public void viewSelectedCourses() {
-        List<Course> courses = professorDaoInterface.getCoursesByProfessorId();
-        if (courses == null || courses.size() == 0) {
-            logger.info("No Courses available");
-        } else {
-            Formatter fmt = new Formatter();
-            fmt.format("%30s %30s %30s %30s %30s\n", "CourseId", "CourseName", "CourseDescription", "CourseFee", "StudentCount");
-            for (Course c : courses) {
-                fmt.format("%30s %30s %30s %30s %30s\n", c.getCourseId(), c.getCourseName(), c.getCourseDescription(), c.getCourseFee(), c.getStudentCount());
-            }
-            System.out.println(fmt);
-        }
+    public List<Course> getSelectedCourses() {
+        return professorDaoInterface.getCoursesByProfessorId(professor.getProfessorId());
     }
 
     /**
      * method to select the course to teach
+     *
      * @param courseId
      * @return isCourseSelected
      */
     @Override
     public boolean selectCourse(int courseId) {
         // Exception
-        boolean courseAvailable = professorDaoInterface.IsCourseAvailable(courseId);
+        boolean courseAvailable = professorDaoInterface.isCourseAvailable(courseId);
         if (courseAvailable) {
-            boolean isCourseSelected = professorDaoInterface.selectCourse(courseId);
+            boolean isCourseSelected = professorDaoInterface.selectCourse(professor.getProfessorId(), courseId);
             if (isCourseSelected) {
                 return true;
             }
@@ -128,11 +111,10 @@ public class ProfessorOperation implements ProfessorInterface {
     @Override
     public boolean deselectCourse(int courseId) {
         // Exception
-        boolean isCourseSelected = professorDaoInterface.IsCourseSelected(courseId);
+        boolean isCourseSelected = professorDaoInterface.isCourseSelected(professor.getProfessorId(), courseId);
         if (isCourseSelected) {
             boolean isCourseDeselected = professorDaoInterface.deselectCourse(courseId);
             if (isCourseDeselected) {
-
                 return true;
             }
         }
@@ -142,10 +124,11 @@ public class ProfessorOperation implements ProfessorInterface {
 
     /**
      * method to view all available courses
+     *
      * @return list of courses.
      */
     @Override
     public List<Course> getAvailableCourses() {
-        return professorDaoInterface.viewAvailableCourses();
+        return professorDaoInterface.getAvailableCourses();
     }
 }

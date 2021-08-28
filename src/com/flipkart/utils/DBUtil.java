@@ -8,6 +8,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+/**
+ * For Setting Connection to MySQl Database
+ */
 public class DBUtil {
     private static Connection connection = null;
 

@@ -66,7 +66,7 @@ public class SemesterClient {
     /**
      * method for adding course
      *
-     * @param isPrimary
+     * @param isPrimary Indicates if the course is primary or not
      */
     private void handleAddCourse(int isPrimary) {
         boolean isCourseAdded;

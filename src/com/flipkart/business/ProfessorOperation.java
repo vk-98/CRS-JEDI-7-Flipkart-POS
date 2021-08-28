@@ -28,12 +28,12 @@ public class ProfessorOperation implements ProfessorInterface {
     }
 
     /**
-     * Method to add Grade in the database
+     * method to add Grade in the database
      *
-     * @param studentId
-     * @param courseId
-     * @param grade
-     * @return graded
+     * @param studentId unique Id for a student
+     * @param courseId  unique Id to represent a course
+     * @param grade     Grade assigned to student for a course
+     * @return returns true if the grade is added successfully by professor
      */
     @Override
     public boolean addGrade(int studentId, int courseId, double grade) {
@@ -62,8 +62,8 @@ public class ProfessorOperation implements ProfessorInterface {
     /**
      * Method to view all enrolled students in a particular course
      *
-     * @param courseId
-     * @return list of students
+     * @param courseId unique Id to represent a course
+     * @return List of Students
      */
     @Override
     public List<Student> getEnrolledStudents(int courseId) {
@@ -89,8 +89,8 @@ public class ProfessorOperation implements ProfessorInterface {
     /**
      * method to select the course to teach
      *
-     * @param courseId
-     * @return isCourseSelected
+     * @param courseId unique Id to represent a course
+     * @return returns true if course is selected successfully
      */
     @Override
     public boolean selectCourse(int courseId) {
@@ -109,8 +109,8 @@ public class ProfessorOperation implements ProfessorInterface {
     /**
      * method to deselect the course
      *
-     * @param courseId
-     * @return isCourseDeselected
+     * @param courseId unique Id to represent a course
+     * @return returns true if deselection of course is successful
      */
     @Override
     public boolean deselectCourse(int courseId) {

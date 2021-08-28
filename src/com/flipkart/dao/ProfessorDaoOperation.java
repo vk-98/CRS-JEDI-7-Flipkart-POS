@@ -26,8 +26,9 @@ public class ProfessorDaoOperation implements ProfessorDaoInterface {
 
     /**
      * Method to retrieve Professor Details using userId
-     * @param userId
-     * @return Professor Details
+     *
+     * @param userId Unique Id of the User
+     * @return Professor object
      */
     @Override
     public Professor getProfessorByUserId(int userId) {
@@ -53,8 +54,9 @@ public class ProfessorDaoOperation implements ProfessorDaoInterface {
 
     /**
      * Method to retrieve all the courses according to ProfessorId
-     * @param professorId
-     * @return List of courses
+     *
+     * @param professorId Unique Id of the Professor
+     * @return List of courses that professor teach
      */
     @Override
     public List<Course> getCoursesByProfessorId(int professorId) {
@@ -76,14 +78,15 @@ public class ProfessorDaoOperation implements ProfessorDaoInterface {
             }
             return courses;
         } catch (SQLException e) {
-           logger.info("Error: " + e.getMessage());
+            logger.info("Error: " + e.getMessage());
         }
         return null;
     }
 
     /**
      * Method to retrieve the list of all enrolled students in a given course
-     * @param courseId
+     *
+     * @param courseId unique Id to represent a course
      * @return List of all enrolled students in a given course
      */
     @Override
@@ -107,12 +110,14 @@ public class ProfessorDaoOperation implements ProfessorDaoInterface {
         }
         return null;
     }
+
     /**
      * Method to add grade in the database for given student in given course
-     * @param studentId
-     * @param courseId
-     * @param grade
-     * @return if grade is added successfully or not
+     *
+     * @param studentId Unique Id of Student
+     * @param courseId  unique Id to represent a course
+     * @param grade     Grade assigned to student for a course
+     * @return returns true if grade is added successfully or not
      */
 
     @Override
@@ -123,16 +128,19 @@ public class ProfessorDaoOperation implements ProfessorDaoInterface {
             ps.setInt(2, courseId);
             ps.setDouble(3, grade);
             int rowAffected = ps.executeUpdate();
-            return rowAffected==1;
+            return rowAffected == 1;
         } catch (SQLException e) {
             logger.info("Error: " + e.getMessage());
         }
         return null;
     }
+
     /**
      * Method to check if given student is already graded in a given course
-     * @param studentId
-     * @param courseId
+     *
+     * @param studentId Unique Id of Student
+     * @param courseId  unique Id to represent a course
+     * @return returns true if student is already graded
      */
     @Override
     public boolean isStudentAlreadyGraded(int studentId, int courseId) {
@@ -141,7 +149,7 @@ public class ProfessorDaoOperation implements ProfessorDaoInterface {
             ps.setInt(1, studentId);
             ps.setInt(2, courseId);
             ResultSet rs = ps.executeQuery();
-            if(rs.next()) {
+            if (rs.next()) {
                 return true;
             }
         } catch (SQLException e) {
@@ -149,8 +157,10 @@ public class ProfessorDaoOperation implements ProfessorDaoInterface {
         }
         return false;
     }
+
     /**
      * method to show the List of available courses
+     *
      * @return List of available courses
      */
     @Override
@@ -177,8 +187,9 @@ public class ProfessorDaoOperation implements ProfessorDaoInterface {
 
     /**
      * method to check if given course is available or not
-     * @param courseId
-     * @return availability of the given course
+     *
+     * @param courseId unique Id to represent a course
+     * @return returns true if the given course is available
      */
     @Override
     public boolean isCourseAvailable(int courseId) {
@@ -186,7 +197,7 @@ public class ProfessorDaoOperation implements ProfessorDaoInterface {
             PreparedStatement ps = conn.prepareStatement(SqlQueries.COURSE_AVAILABLE_FOR_PROF);
             ps.setInt(1, courseId);
             ResultSet rs = ps.executeQuery();
-            if(rs.next()) {
+            if (rs.next()) {
                 return rs.getInt("professorId") == 0;
             }
         } catch (SQLException e) {
@@ -197,9 +208,10 @@ public class ProfessorDaoOperation implements ProfessorDaoInterface {
 
     /**
      * method to select a course
-     * @param professorId
-     * @param courseId
-     * @return isCourseSelected
+     *
+     * @param professorId Unique Id for the Professor
+     * @param courseId    unique Id to represent a course
+     * @return returns true if course is selected successfully
      */
     @Override
     public boolean selectCourse(int professorId, int courseId) {
@@ -208,7 +220,7 @@ public class ProfessorDaoOperation implements ProfessorDaoInterface {
             ps.setInt(1, professorId);
             ps.setInt(2, courseId);
             return ps.executeUpdate() == 1;
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             logger.info("Error: " + e.getMessage());
         }
         return false;
@@ -216,28 +228,32 @@ public class ProfessorDaoOperation implements ProfessorDaoInterface {
 
     /**
      * Method to check if course is selected or not
-     * @param professorId
-     * @param courseId
-     * @return is Course already selected by professor.
+     *
+     * @param professorId Unique Id for the Professor
+     * @param courseId    unique Id to represent a course
+     * @return returns true if Course is already selected by professor
      */
     @Override
     public boolean isCourseSelected(int professorId, int courseId) {
-        try{
+        try {
             PreparedStatement ps = conn.prepareStatement(SqlQueries.IS_COURSE_SELECTED_BY_PROF);
             ps.setInt(1, professorId);
             ps.setInt(2, courseId);
             ResultSet rs = ps.executeQuery();
-            if(rs.next()){
+            if (rs.next()) {
                 return true;
             }
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             logger.info("Error: " + e.getMessage());
         }
         return false;
     }
+
     /**
      * Method to deselect the course
-     * @param courseId
+     *
+     * @param courseId unique Id to represent a course
+     * @return returns true if course is deselected successfully
      */
     @Override
     public boolean deselectCourse(int courseId) {
@@ -246,25 +262,27 @@ public class ProfessorDaoOperation implements ProfessorDaoInterface {
             ps.setInt(1, courseId);
             return ps.executeUpdate() == 1;
         } catch (SQLException e) {
-           logger.info("Error: " + e.getMessage());
+            logger.info("Error: " + e.getMessage());
         }
         return false;
     }
+
     /**
      * Method to check if a given student is enrolled in a given course
-     * @param studentId
-     * @param courseId
      *
+     * @param studentId Unique Id of Student
+     * @param courseId  unique Id to represent a course
+     * @return returns true if student is already enrolled to a given course
      */
     @Override
     public boolean isStudentEnrolled(int studentId, int courseId) {
         try {
             PreparedStatement ps = conn.prepareStatement(SqlQueries.IS_STUDENT_ENROLLED);
-            ps.setInt(1,studentId);
-            ps.setInt(2,courseId);
+            ps.setInt(1, studentId);
+            ps.setInt(2, courseId);
             ResultSet rs = ps.executeQuery();
-            if(rs.next()) return true;
-        }catch (SQLException e) {
+            if (rs.next()) return true;
+        } catch (SQLException e) {
             logger.info("Error: " + e.getMessage());
         }
         return false;

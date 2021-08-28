@@ -28,10 +28,11 @@ public class AdminDaoOperation implements AdminDaoInterface {
 
     /**
      * method for adding course into database
-     * @param courseName
-     * @param courseDescription
-     * @param courseFee
-     * @return isCourseCreated
+     *
+     * @param courseName        Name of the course
+     * @param courseDescription A brief description of course
+     * @param courseFee         Fee assigned to a course
+     * @return returns true if the course is added successfully
      */
     @Override
     public boolean addCourse(String courseName, String courseDescription, double courseFee) {
@@ -51,8 +52,9 @@ public class AdminDaoOperation implements AdminDaoInterface {
 
     /**
      * method for removing course from the database
-     * @param courseId
-     * @return courseRemoved
+     *
+     * @param courseId unique Id to represent a course
+     * @return returns true if the course is removed successfully
      */
     @Override
     public boolean removeCourse(int courseId) {
@@ -67,8 +69,9 @@ public class AdminDaoOperation implements AdminDaoInterface {
     }
 
     /**
-     * method for getting all admission requests
-     * @return List of students
+     * method for getting all Pending admission requests
+     *
+     * @return List of students with pending request
      */
     @Override
     public List<Student> getPendingAdmissions() {
@@ -92,8 +95,9 @@ public class AdminDaoOperation implements AdminDaoInterface {
 
     /**
      * method to approve a student by student id
-     * @param studentId
-     * @return
+     *
+     * @param studentId unique Id for a student
+     * @return returns true if student is approved successfully
      */
     @Override
     public boolean approveStudent(int studentId) {
@@ -110,13 +114,14 @@ public class AdminDaoOperation implements AdminDaoInterface {
 
     /**
      * method for adding professor into the database
-     * @param name
-     * @param emailId
-     * @param password
-     * @param phoneNo
-     * @param department
-     * @param designation
-     * @return IsProfessorAdded
+     *
+     * @param name        name of the Professor
+     * @param emailId     emailId of the Professor
+     * @param password    password for the Professor
+     * @param phoneNo     Phone Number of the Professor
+     * @param department  Department of the Professor
+     * @param designation Designation of the Professor
+     * @return returns true if Professor is added successfully
      */
     @Override
     public boolean addProfessor(String name, String emailId, String password, String phoneNo, String department, String designation) {
@@ -137,6 +142,11 @@ public class AdminDaoOperation implements AdminDaoInterface {
         return false;
     }
 
+    /**
+     * method for Viewing all the courses in the database
+     *
+     * @return List of courses
+     */
     @Override
     public List<Course> viewCourses() {
         try {
@@ -161,7 +171,8 @@ public class AdminDaoOperation implements AdminDaoInterface {
     }
 
     /**
-     * method for geting all the professors
+     * method for getting all the professors
+     *
      * @return List of Professors
      */
     @Override

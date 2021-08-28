@@ -11,13 +11,15 @@ import java.util.List;
 public interface NotificationInterface {
     /**
      * method for sending notification to student
-     * @param notificationContent
-     * @return isNotificationSent
+     *
+     * @param notificationContent Content of the Notification
+     * @return returns true if the Notification is sent successfully
      */
     public boolean sendNotification(String notificationContent);
 
     /**
-     * method for retreiving all the notifications
+     * method for retrieving all the notifications
+     *
      * @return list of all the notifications
      */
     public List<Notification> getNotifications();

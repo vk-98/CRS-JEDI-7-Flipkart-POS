@@ -109,7 +109,8 @@ public class ProfessorClient {
         System.out.print("Enter the courseId: ");
         int courseId = sc.nextInt();
 
-        List<Student> students = professorInterface.getEnrolledStudents(courseId);;
+        List<Student> students = professorInterface.getEnrolledStudents(courseId);
+        ;
         if (students == null || students.size() == 0) {
             logger.info("No Students enrolled in courseId: " + courseId + ".");
         } else {
@@ -131,7 +132,7 @@ public class ProfessorClient {
         System.out.print("Input courseId you like to Deselect: ");
         int courseId = sc.nextInt();
         boolean isCourseDeselected = professorInterface.deselectCourse(courseId);
-        if(isCourseDeselected)
+        if (isCourseDeselected)
             logger.info("Course with course Id: " + courseId + " deselected successfully.");
     }
 

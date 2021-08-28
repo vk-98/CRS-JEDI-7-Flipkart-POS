@@ -1,6 +1,10 @@
 package com.flipkart.exceptions;
 
-public class CourseCountException extends Exception{
+/**
+ * @author JEDI-07
+ * CourseCountException
+ */
+public class CourseCountException extends Exception {
     private String courseType;
     private int courseCount;
     private int requiredCourseCount;
@@ -8,8 +12,9 @@ public class CourseCountException extends Exception{
 
     /**
      * Parameterized Constructor
-     * @param courseType: type of course
-     * @param courseCount: number of courses of the given courseType which are opted by the student
+     *
+     * @param courseType:          type of course
+     * @param courseCount:         number of courses of the given courseType which are opted by the student
      * @param requiredCourseCount: number of courses of the given type to be chosen by the student
      */
     public CourseCountException(String courseType, int courseCount, int requiredCourseCount) {
@@ -20,7 +25,8 @@ public class CourseCountException extends Exception{
 
     /**
      * getter function for courseType
-     * @return
+     *
+     * @return returns course type
      */
     public String getCourseType() {
         return courseType;
@@ -29,7 +35,8 @@ public class CourseCountException extends Exception{
 
     /**
      * getter function for courseCount
-     * @return
+     *
+     * @return returns course count
      */
     public int getCourseCount() {
         return courseCount;
@@ -38,7 +45,8 @@ public class CourseCountException extends Exception{
 
     /**
      * getter function for requiredCourseCount
-     * @return
+     *
+     * @return returns required course count
      */
     public int getRequiredCourseCount() {
         return requiredCourseCount;

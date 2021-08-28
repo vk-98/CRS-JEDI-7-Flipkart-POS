@@ -12,12 +12,19 @@ import java.util.List;
 public interface NotificationDaoInterface {
     /**
      * Method for sending the notification to student.
-     * @param studentId
-     * @param notificationContent
+     *
+     * @param studentId           unique Id for a student
+     * @param notificationContent Content of the Notification
      * @return notification sent status
      */
     public boolean sendNotification(int studentId, String notificationContent);
 
+    /**
+     * Method for retrieving Notifications
+     *
+     * @param studentId unique Id for a student
+     * @return List of Notifications
+     */
     public List<Notification> getNotifications(int studentId);
 
 }

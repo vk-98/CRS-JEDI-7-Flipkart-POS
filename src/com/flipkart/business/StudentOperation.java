@@ -22,11 +22,11 @@ public class StudentOperation implements StudentInterface {
     /**
      * method for registering a student
      *
-     * @param studentName
-     * @param studentEmailId
-     * @param studentPassword
-     * @param studentPhoneNo
-     * @return
+     * @param studentName     name of the Student
+     * @param studentEmailId  emailId of the Student
+     * @param studentPassword password for the Student
+     * @param studentPhoneNo  Phone No of the Student
+     * @return returns registered Student object
      */
     @Override
     public Student register(String studentName, String studentEmailId, String studentPassword, String studentPhoneNo) {
@@ -68,7 +68,7 @@ public class StudentOperation implements StudentInterface {
     }
 
     /**
-     * method for getting student by emailid
+     * method for getting student by emailId
      */
     @Override
     public void getStudentByEmailId() {

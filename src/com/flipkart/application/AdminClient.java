@@ -232,7 +232,7 @@ public class AdminClient {
         System.out.print("Enter New Password: ");
         String newPassword = sc.nextLine();
         boolean isPasswordUpdated = userInterface.updateUserPassword(newPassword);
-        if(isPasswordUpdated)
+        if (isPasswordUpdated)
             logger.info("User Password Updated Successfully");
     }
 
@@ -241,7 +241,7 @@ public class AdminClient {
      */
     private void handleLogout() {
         boolean userLoggedOut = userInterface.logout();
-        if(userLoggedOut) {
+        if (userLoggedOut) {
             logger.info("You are successfully logged out.");
         }
     }

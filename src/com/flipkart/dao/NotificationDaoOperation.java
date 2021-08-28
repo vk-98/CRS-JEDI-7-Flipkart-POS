@@ -25,16 +25,17 @@ public class NotificationDaoOperation implements NotificationDaoInterface {
 
     /**
      * Method for sending the notification to student.
-     * @param studentId
-     * @param notificationContent
+     *
+     * @param studentId           unique Id for a student
+     * @param notificationContent Content of the Notification
      * @return notification sent status
      */
     @Override
-    public boolean sendNotification(int studentId, String notificationContent){
+    public boolean sendNotification(int studentId, String notificationContent) {
         try {
             PreparedStatement ps = conn.prepareStatement(SqlQueries.SEND_NOTIFICATION);
             ps.setInt(1, studentId);
-            ps.setString(2,notificationContent);
+            ps.setString(2, notificationContent);
             return ps.executeUpdate() == 1;
         } catch (SQLException e) {
             logger.info("Error: " + e.getMessage());
@@ -44,29 +45,27 @@ public class NotificationDaoOperation implements NotificationDaoInterface {
 
     /**
      * Method to show notifications for specific studentID
-     * @param studentId
-     * @return list of notifications
-     * @throws SQLException
+     *
+     * @param studentId Unique Id for a student
+     * @return List of notifications
      */
     @Override
     public List<Notification> getNotifications(int studentId) {
-        try{
+        try {
             PreparedStatement ps = conn.prepareStatement(SqlQueries.SHOW_NOTIFICATIONS);
 
             ps.setInt(1, studentId);
 
             ResultSet rs = ps.executeQuery();
             List<Notification> notifications = new ArrayList<Notification>();
-            while(rs.next())
-            {
+            while (rs.next()) {
                 Notification notification = new Notification();
                 notification.setNotificationId(rs.getInt("id"));
                 notification.setContent(rs.getString("notificationContent"));
                 notifications.add(notification);
             }
             return notifications;
-        }
-        catch(SQLException e){
+        } catch (SQLException e) {
             logger.info("Error: " + e.getMessage());
         }
         return null;

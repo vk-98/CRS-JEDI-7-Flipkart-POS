@@ -19,9 +19,9 @@ public class UserOperation implements UserInterface {
     /**
      * method for validating user with email and password
      *
-     * @param emailId
-     * @param password
-     * @return isAutheniticated
+     * @param emailId  emailId of the User
+     * @param password password for the User
+     * @return returns true if validation is successful
      */
     @Override
     public boolean validateUser(String emailId, String password) {
@@ -32,8 +32,8 @@ public class UserOperation implements UserInterface {
     /**
      * method for updating user password
      *
-     * @param newPassword
-     * @return isPasswordUpdated
+     * @param newPassword New Password of the user
+     * @return returns true if Password is Updated
      */
     @Override
     public boolean updateUserPassword(String newPassword) {
@@ -43,7 +43,7 @@ public class UserOperation implements UserInterface {
     /**
      * method for logging out the user.
      *
-     * @return isUserLoggedOut
+     * @return returns true if user logged out successfully
      */
     public boolean logout() {
         user = null;

@@ -15,7 +15,7 @@ import java.util.List;
 
 /**
  * @author JEDI-07
- * Implementation of Admin Operation
+ * Implementation of Admin Interface
  */
 public class AdminOperation implements AdminInterface {
     private static Logger logger = Logger.getLogger(AdminOperation.class);
@@ -25,10 +25,10 @@ public class AdminOperation implements AdminInterface {
     /**
      * method for adding course into the catalogue
      *
-     * @param courseName
-     * @param courseDescription
-     * @param courseFee
-     * @return isCourseAdded
+     * @param courseName        Name of the course
+     * @param courseDescription A brief description of course
+     * @param courseFee         Fee assigned to a course
+     * @return returns true if the course is successfully added
      */
     @Override
     public boolean addCourse(String courseName, String courseDescription, double courseFee) {
@@ -38,8 +38,8 @@ public class AdminOperation implements AdminInterface {
     /**
      * method for removing course
      *
-     * @param courseId
-     * @return isCourseRemoved
+     * @param courseId unique Id to represent a course
+     * @return returns true if the course is successfully removed
      */
     @Override
     public boolean removeCourse(int courseId) {
@@ -58,8 +58,8 @@ public class AdminOperation implements AdminInterface {
     /**
      * method for approving students admission request.
      *
-     * @param studentId
-     * @return isApproved
+     * @param studentId unique Id for a student
+     * @return returns true if the student's request is approved successfully
      */
     @Override
     public boolean approveStudentRequest(int studentId) {
@@ -83,13 +83,13 @@ public class AdminOperation implements AdminInterface {
     /**
      * method for adding professor
      *
-     * @param name
-     * @param emailId
-     * @param password
-     * @param phoneNo
-     * @param department
-     * @param designation
-     * @return isProfessorAdded
+     * @param name        name of the Professor
+     * @param emailId     emailId of the Professor
+     * @param password    password for the Professor
+     * @param phoneNo     Phone Number of the Professor
+     * @param department  Department of the Professor
+     * @param designation Designation of the Professor
+     * @return returns true if Professor is added successfully
      */
     @Override
     public boolean addProfessor(String name, String emailId, String password, String phoneNo, String department, String designation) {
@@ -99,7 +99,7 @@ public class AdminOperation implements AdminInterface {
     /**
      * method for getting all admission requests
      *
-     * @return List of students
+     * @return List of Students who made Admission Request
      */
     @Override
     public List<Student> getAdmissionRequests() {
@@ -107,7 +107,7 @@ public class AdminOperation implements AdminInterface {
     }
 
     /**
-     * method for geting all the professors
+     * method for getting all the professors
      *
      * @return List of Professors
      */

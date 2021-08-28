@@ -30,9 +30,9 @@ public class SemesterRegistrationOperation implements SemesterRegistrationInterf
     /**
      * method for adding course for the logged in user
      *
-     * @param courseId
-     * @param isPrimary
-     * @return isCourseAdded
+     * @param courseId  unique Id to represent a course
+     * @param isPrimary isPrimary Indicates if the course is primary or not
+     * @return returns true if the course is added successfully
      */
     @Override
     public boolean addCourse(int courseId, int isPrimary) {
@@ -85,10 +85,10 @@ public class SemesterRegistrationOperation implements SemesterRegistrationInterf
 
 
     /**
-     * method fro dropping course
+     * method for dropping course
      *
-     * @param courseId
-     * @return isCourseDropped
+     * @param courseId unique Id to represent a course
+     * @return returns true if the course is dropped successfully
      */
     @Override
     public boolean dropCourse(int courseId) {
@@ -113,7 +113,7 @@ public class SemesterRegistrationOperation implements SemesterRegistrationInterf
     /**
      * method for getting registered courses
      *
-     * @return list of opted courses
+     * @return list of registered courses
      */
     @Override
     public List<OptedCourse> getRegisteredCourses() {
@@ -123,7 +123,7 @@ public class SemesterRegistrationOperation implements SemesterRegistrationInterf
     /**
      * method for getting selected courses
      *
-     * @return list of optedcourses
+     * @return list of selected courses
      */
     @Override
     public List<OptedCourse> getSelectedCourses() {
@@ -134,7 +134,7 @@ public class SemesterRegistrationOperation implements SemesterRegistrationInterf
     /**
      * method for submitting course choices
      *
-     * @return isChoiceSubmitted
+     * @return returns true if course choices are submitted successfully
      */
     @Override
     public boolean submitCourseChoices() {
@@ -208,7 +208,7 @@ public class SemesterRegistrationOperation implements SemesterRegistrationInterf
     /**
      * method for getting the pending fee.
      *
-     * @return pendingFee
+     * @return pending Fee
      */
     @Override
     public double getPendingFee() {
@@ -218,8 +218,8 @@ public class SemesterRegistrationOperation implements SemesterRegistrationInterf
     /**
      * method for paying fee
      *
-     * @param amount
-     * @return isFeePayementDone
+     * @param amount Amount to be paid
+     * @return returns true if payment is successful
      */
     @Override
     public boolean payFee(double amount) {

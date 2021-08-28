@@ -15,8 +15,9 @@ public class NotificationOperation implements NotificationInterface {
 
     /**
      * method for sending notification to student
-     * @param notificationContent
-     * @return
+     *
+     * @param notificationContent Content of the Notification
+     * @return returns true if the Notification is sent successfully
      */
     @Override
     public boolean sendNotification(String notificationContent) {
@@ -24,7 +25,8 @@ public class NotificationOperation implements NotificationInterface {
     }
 
     /**
-     * method for retreiving all the notifications
+     * method for retrieving all the notifications
+     *
      * @return list of all the notifications
      */
     @Override

@@ -16,7 +16,7 @@ import java.util.List;
 
 /**
  * @author JEDI-07
- * Admin Client
+ * SmesterRegistration for DAO Operation
  */
 public class SemesterRegistrationDaoOperation implements SemesterRegistrationDaoInterface {
 
@@ -25,7 +25,11 @@ public class SemesterRegistrationDaoOperation implements SemesterRegistrationDao
 
     private static Logger logger = Logger.getLogger(SemesterRegistrationDaoOperation.class);
 
-
+    /**
+     * method for Student registration for Semester
+     *
+     * @return returns true if student successfully registers
+     */
     @Override
     public boolean registerForSemester() {
         try {
@@ -38,13 +42,18 @@ public class SemesterRegistrationDaoOperation implements SemesterRegistrationDao
         return false;
     }
 
+    /**
+     * method to get Semester Id
+     *
+     * @return returns the semesterId
+     */
     @Override
     public int getSemesterId() {
         try {
             PreparedStatement ps = conn.prepareStatement(SqlQueries.GET_SEMESTER_ID);
             ps.setInt(1, StudentOperation.student.getStudentId());
             ResultSet rs = ps.executeQuery();
-            if(rs.next()) {
+            if (rs.next()) {
                 return rs.getInt("id");
             }
         } catch (SQLException e) {
@@ -53,6 +62,12 @@ public class SemesterRegistrationDaoOperation implements SemesterRegistrationDao
         return 0;
     }
 
+    /**
+     * method to get number of courses selected by student
+     *
+     * @param isPrimary Indicates if the course is primary or not
+     * @return returns the number of courses selected by student
+     */
     @Override
     public int getCourseCount(int isPrimary) {
         try {
@@ -60,7 +75,7 @@ public class SemesterRegistrationDaoOperation implements SemesterRegistrationDao
             ps.setInt(1, StudentOperation.student.getStudentId());
             ps.setInt(2, isPrimary);
             ResultSet rs = ps.executeQuery();
-            if(rs.next()) {
+            if (rs.next()) {
                 return rs.getInt(1);
             }
         } catch (SQLException e) {
@@ -69,13 +84,19 @@ public class SemesterRegistrationDaoOperation implements SemesterRegistrationDao
         return 0;
     }
 
+    /**
+     * method to check if a course is available for the semster
+     *
+     * @param courseId unique Id to represent a course
+     * @return returns true if course is available for semester
+     */
     @Override
     public boolean checkAvailability(int courseId) {
         try {
             PreparedStatement ps = conn.prepareStatement(SqlQueries.CHECK_COURSE_AVAILABILITY);
             ps.setInt(1, courseId);
             ResultSet rs = ps.executeQuery();
-            if(rs.next()) {
+            if (rs.next()) {
                 return rs.getInt("studentCount") < 10;
             }
         } catch (SQLException e) {
@@ -84,14 +105,19 @@ public class SemesterRegistrationDaoOperation implements SemesterRegistrationDao
         return false;
     }
 
+    /**
+     * method to get the Registration status of Semester by student
+     *
+     * @return returns true if he has successfully registerd for the semester
+     */
     @Override
     public boolean getRegistrationStatus() {
         try {
             PreparedStatement ps = conn.prepareStatement(SqlQueries.GET_REGISTRATION_STATUS);
             ps.setInt(1, StudentOperation.student.getStudentId());
             ResultSet rs = ps.executeQuery();
-            if(rs.next()){
-                return rs.getInt("registrationStatus")==1;
+            if (rs.next()) {
+                return rs.getInt("registrationStatus") == 1;
             }
         } catch (SQLException e) {
             logger.info("Error: " + e.getMessage());
@@ -100,11 +126,12 @@ public class SemesterRegistrationDaoOperation implements SemesterRegistrationDao
     }
 
     /**
-     * Method to add a course for a given student
-     * @param courseId
-     * @param isPrimary
-     * @return boolean indicating if the course is added successfully
-     * @throws SQLException
+     * Method to add course
+     *
+     * @param courseId   unique Id to represent a course
+     * @param semesterId Id of the Current Semester
+     * @param isPrimary  Indicates if the course is primary or not
+     * @return returns true if the course is added successfully
      */
     @Override
     public boolean addCourse(int courseId, int semesterId, int isPrimary) {
@@ -123,12 +150,11 @@ public class SemesterRegistrationDaoOperation implements SemesterRegistrationDao
     }
 
 
-
     /**
-     * Method to drop a course chosen by a student
-     * @param courseId
-     * @return boolean indicating if the course is dropped successfully
-     * @throws SQLException
+     * Method to Drop Course
+     *
+     * @param courseId unique Id to represent a course
+     * @return returns true if the course is dropped successfully
      */
     @Override
     public boolean dropCourse(int courseId) {
@@ -141,16 +167,16 @@ public class SemesterRegistrationDaoOperation implements SemesterRegistrationDao
             int rowAffected = ps.executeUpdate();
             return rowAffected == 1;
         } catch (SQLException e) {
-           logger.info("Error: " + e.getMessage());
+            logger.info("Error: " + e.getMessage());
         }
         return false;
     }
 
 
     /**
-     * Method to view all available courses
-     * @return list of courses available to register
-     * @throws SQLException
+     * Method to View all the courses
+     *
+     * @return List of courses
      */
     @Override
     public List<Course> viewCourses() {
@@ -181,9 +207,9 @@ public class SemesterRegistrationDaoOperation implements SemesterRegistrationDao
 
 
     /**
-     * Method to view all registered courses of the given student
-     * @return list of all courses registered by the student
-     * @throws SQLException
+     * Method to Get List of Registered  courses of the Student for a semester
+     *
+     * @return List of Registered Courses
      */
     @Override
     public List<OptedCourse> getRegisteredCourses() {
@@ -199,7 +225,7 @@ public class SemesterRegistrationDaoOperation implements SemesterRegistrationDao
                 oc.setCourseName(rs.getString("courseName"));
                 oc.setStudentCount(rs.getInt("studentCount"));
                 oc.setCourseFee(rs.getDouble("courseFee"));
-                oc.setPrimary(rs.getInt("isPrimary")==1);
+                oc.setPrimary(rs.getInt("isPrimary") == 1);
 
                 registeredCourseList.add(oc);
             }
@@ -211,6 +237,11 @@ public class SemesterRegistrationDaoOperation implements SemesterRegistrationDao
         return null;
     }
 
+    /**
+     * Method to Get List of Selected  courses of the Student for a semester
+     *
+     * @return List of Selected Courses
+     */
     @Override
     public List<OptedCourse> getSelectedCourses() {
         try {
@@ -226,7 +257,7 @@ public class SemesterRegistrationDaoOperation implements SemesterRegistrationDao
                 oc.setCourseName(rs.getString("courseName"));
                 oc.setStudentCount(rs.getInt("studentCount"));
                 oc.setCourseFee(rs.getDouble("courseFee"));
-                oc.setPrimary(rs.getInt("isPrimary")==1);
+                oc.setPrimary(rs.getInt("isPrimary") == 1);
 
                 registeredCourseList.add(oc);
             }
@@ -240,10 +271,10 @@ public class SemesterRegistrationDaoOperation implements SemesterRegistrationDao
 
 
     /**
-     * Method to get count of primary and secondary courses opted by a student
-     * @param studentId
-     * @return primary and secondary course counts
-     * @throws SQLException
+     * Method to get count of Primary and Secondary courses of a student for a Semester
+     *
+     * @param studentId unique Id for a student
+     * @return List of count of Primary and Secondary courses
      */
     @Override
     public List<Integer> getPrimarySecondaryCoursesCount(int studentId) {
@@ -273,10 +304,10 @@ public class SemesterRegistrationDaoOperation implements SemesterRegistrationDao
 
 
     /**
-     * Method to get the first opted courseID among all the courses chosen by the student whose seat is not available
-     * @param studentId
-     * @return the first courseID or -1 if all courses can accommodate the  student
-     * @throws SQLException
+     * Method to get courseId if seat is not available
+     *
+     * @param studentId unique Id for a student
+     * @return Returns CourseId if seat is not available
      */
     @Override
     public int getCourseIdIfSeatNotAvailable(int studentId) {
@@ -308,9 +339,10 @@ public class SemesterRegistrationDaoOperation implements SemesterRegistrationDao
 
 
     /**
-     * Method to calculate total fee
-     * @param studentId
-     * @return total semester fee
+     * Method to calculate fee for the Semester to a student
+     *
+     * @param studentId unique Id for a student
+     * @return returns Calculated Semester fee
      * @throws SQLException
      */
     @Override
@@ -324,31 +356,30 @@ public class SemesterRegistrationDaoOperation implements SemesterRegistrationDao
                 return rs.getDouble(1);
             }
         } catch (SQLException e) {
-           logger.info("Error: " + e.getMessage());
+            logger.info("Error: " + e.getMessage());
         }
         return 0;
     }
 
 
     /**
-     * Method to check if the student is already registered for the specified course
-     * @param courseId
-     * @return boolean indicating if the student is already registered for the course
-     * @throws SQLException
+     * Method to find if course is already registered
+     *
+     * @param courseId unique Id to represent a course
+     * @return returns true if course is already registered or not
      */
     @Override
-    public boolean isCourseAlreadyRegistered(int courseId)  {
-        try{
-            PreparedStatement ps= conn.prepareStatement(SqlQueries.CHECK_COURSE_STUDENT);
+    public boolean isCourseAlreadyRegistered(int courseId) {
+        try {
+            PreparedStatement ps = conn.prepareStatement(SqlQueries.CHECK_COURSE_STUDENT);
             ps.setInt(1, StudentOperation.student.getStudentId());
-            ps.setInt(2,courseId);
+            ps.setInt(2, courseId);
 
-            ResultSet rs= ps.executeQuery();
-            if(rs.next())
-            {
-                return rs.getInt(1)>=1;
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) >= 1;
             }
-        }catch(SQLException e){
+        } catch (SQLException e) {
             logger.info(e.getMessage());
         }
         return false;
@@ -356,9 +387,10 @@ public class SemesterRegistrationDaoOperation implements SemesterRegistrationDao
 
 
     /**
-     * Method to get registration status of the student
-     * @param studentId
-     * @return boolean indicating the registration status of the student
+     * Method to get registration status of a student for a semester
+     *
+     * @param studentId unique Id for a student
+     * @return returns true if the student is registered for the semester
      * @throws SQLException
      */
     @Override
@@ -379,11 +411,12 @@ public class SemesterRegistrationDaoOperation implements SemesterRegistrationDao
     }
 
     /**
-     * Method to get payment status of the student
-     * @return boolean indicating the payment status
+     * Method to Get Payment Status of student
+     *
+     * @return returns true if Payment is done successfully by the student
      */
     @Override
-    public boolean getPaymentStatus()  {
+    public boolean getPaymentStatus() {
         try {
             PreparedStatement ps = conn.prepareStatement(SqlQueries.GET_PAYMENT_STATUS);
             ps.setInt(1, StudentOperation.student.getStudentId());
@@ -398,10 +431,11 @@ public class SemesterRegistrationDaoOperation implements SemesterRegistrationDao
 
 
     /**
-     * Method to set registration status of the student
-     * @param studentId
-     * @param status
-     * @return boolean indicating if registration status of the student is updated as requested
+     * Method to Set Registration status of the student
+     *
+     * @param studentId unique Id for a student
+     * @param status    the status to be set
+     * @return returns true if registration status is set successfully
      * @throws SQLException
      */
     @Override
@@ -423,10 +457,11 @@ public class SemesterRegistrationDaoOperation implements SemesterRegistrationDao
 
 
     /**
-     * Method to set status of payment for a given student
-     * @param studentId
-     * @param status
-     * @return boolean indicating if payment status of the student is updated as requested
+     * Method to Set Payment status of the student
+     *
+     * @param studentId unique Id for a student
+     * @param status    the status to be set
+     * @return returns true if payment status is set successfully
      * @throws SQLException
      */
     @Override
@@ -447,9 +482,10 @@ public class SemesterRegistrationDaoOperation implements SemesterRegistrationDao
     }
 
     /**
-     * Method for allocating a course to student.
-     * @param courseId
-     * @return
+     * Method to allot course
+     *
+     * @param courseId unique Id to represent a course
+     * @return returns true if course is allotted successfully
      */
     @Override
     public boolean allotCourse(int courseId) {
@@ -466,9 +502,10 @@ public class SemesterRegistrationDaoOperation implements SemesterRegistrationDao
     }
 
     /**
-     * Method for registering for the semester, marking registered=true and updating fee.
-     * @param courseFee
-     * @return
+     * Method to Submit Registration
+     *
+     * @param courseFee Fee assigned to a course
+     * @return returns true if registration submitted successfully
      */
     @Override
     public boolean submitRegistration(double courseFee) {
@@ -484,15 +521,16 @@ public class SemesterRegistrationDaoOperation implements SemesterRegistrationDao
     }
 
     /**
-     * Method for updating the student count in courses table.
-     * @param courseId
-     * @return
+     * Method to Update Student count for a course
+     *
+     * @param courseId unique Id to represent a course
+     * @return returns true if Student count is updated
      */
     @Override
     public boolean updateStudentCount(int courseId) {
         try {
             PreparedStatement ps = conn.prepareStatement(SqlQueries.UPDATE_STUDENT_COUNT);
-            ps.setInt(1,courseId);
+            ps.setInt(1, courseId);
             return ps.executeUpdate() == 1;
         } catch (SQLException e) {
             logger.info("Error: " + e.getMessage());
@@ -500,14 +538,19 @@ public class SemesterRegistrationDaoOperation implements SemesterRegistrationDao
         return false;
     }
 
+    /**
+     * Method to get Pending fee
+     *
+     * @return returns the pending fee
+     */
     @Override
     public double getPendingFee() {
         try {
             PreparedStatement ps = conn.prepareStatement(SqlQueries.GET_PENDING_FEE);
             ps.setInt(1, StudentOperation.student.getStudentId());
             ResultSet rs = ps.executeQuery();
-            if(rs.next()) {
-                if(rs.getInt("feeStatus") == 0 && rs.getInt("registrationStatus")==1) {
+            if (rs.next()) {
+                if (rs.getInt("feeStatus") == 0 && rs.getInt("registrationStatus") == 1) {
                     return rs.getDouble("totalFees");
                 }
             }
@@ -516,6 +559,13 @@ public class SemesterRegistrationDaoOperation implements SemesterRegistrationDao
         }
         return 0;
     }
+
+    /**
+     * Method to Pay fee
+     *
+     * @param amount Amount to be paid
+     * @return returns true if payment is successful
+     */
 
     @Override
     public boolean payFee(double amount) {
@@ -528,8 +578,6 @@ public class SemesterRegistrationDaoOperation implements SemesterRegistrationDao
         }
         return false;
     }
-
-
 
 
 }

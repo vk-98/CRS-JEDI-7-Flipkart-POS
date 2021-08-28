@@ -17,11 +17,11 @@ public class StudentClient {
 
     private static Logger logger = Logger.getLogger(StudentClient.class);
     Scanner sc = new Scanner(System.in);
-    CourseInterface courseInterface = new CourseInterfaceImpl();
-    SemesterRegistrationInterface semesterRegistrationInterface = new SemesterRegistrationInterfaceImpl();
-    UserInterface userInterface = new UserInterfaceImpl();
-    StudentInterface studentInterface = new StudentInterfaceImpl();
-    NotificationInterface notificationInterface = new NotificationImpl();
+    CourseInterface courseInterface = new CourseOperation();
+    SemesterRegistrationInterface semesterRegistrationInterface = new SemesterRegistrationOperation();
+    UserInterface userInterface = new UserOperation();
+    StudentInterface studentInterface = new StudentOperation();
+    NotificationOperation notificationOperation = new NotificationImpl();
     SemesterClient semesterClient = new SemesterClient();
 
 
@@ -32,7 +32,7 @@ public class StudentClient {
 
         studentInterface.getStudent();
 
-        if (!StudentInterfaceImpl.student.isApproved()) {
+        if (!StudentOperation.student.isApproved()) {
             logger.info("Your admission request is still pending..., login later");
             return;
         }
@@ -151,7 +151,7 @@ public class StudentClient {
      * method for displaying all notifications
      */
     private void handleShowNotification() {
-        List<Notification> notifications = notificationInterface.getNotifications();
+        List<Notification> notifications = notificationOperation.getNotifications();
         if (notifications == null || notifications.size() == 0) {
             logger.info("No Notification at the moment.");
         } else {
@@ -177,6 +177,6 @@ public class StudentClient {
      * method for logging out.
      */
     private void handleLogout() {
-        UserInterfaceImpl.logout();
+        UserOperation.logout();
     }
 }

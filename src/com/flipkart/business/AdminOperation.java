@@ -1,7 +1,5 @@
 package com.flipkart.business;
 
-import com.flipkart.application.CRSApplicationClient;
-import com.flipkart.bean.Admin;
 import com.flipkart.bean.Course;
 import com.flipkart.bean.Professor;
 import com.flipkart.bean.Student;
@@ -10,18 +8,15 @@ import com.flipkart.dao.AdminDaoOperation;
 import com.flipkart.dao.StudentDaoInterface;
 import com.flipkart.dao.StudentDaoOperation;
 import com.flipkart.exceptions.CourseNotFoundException;
-import com.flipkart.exceptions.ProfessorNotAddedException;
 import com.flipkart.exceptions.StudentAlreadyApprovedException;
 import com.flipkart.exceptions.StudentNotFoundException;
 import org.apache.log4j.Logger;
 
-import java.sql.SQLOutput;
-import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.List;
 
-public class AdminInterfaceImpl implements AdminInterface {
-    private static Logger logger = Logger.getLogger(AdminInterfaceImpl.class);
+public class AdminOperation implements AdminInterface {
+    private static Logger logger = Logger.getLogger(AdminOperation.class);
     AdminDaoInterface adminDaoInterface = new AdminDaoOperation();
     StudentDaoInterface studentDaoInterface = new StudentDaoOperation();
 

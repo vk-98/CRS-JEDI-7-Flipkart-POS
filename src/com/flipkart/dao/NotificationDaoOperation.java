@@ -1,8 +1,7 @@
 package com.flipkart.dao;
 
-import com.flipkart.application.CRSApplicationClient;
 import com.flipkart.bean.Notification;
-import com.flipkart.business.StudentInterfaceImpl;
+import com.flipkart.business.StudentOperation;
 import com.flipkart.constants.SqlQueries;
 import com.flipkart.utils.DBUtil;
 import org.apache.log4j.Logger;
@@ -29,7 +28,7 @@ public class NotificationDaoOperation implements NotificationDaoInterface {
     public boolean sendNotification(String notificationContent){
         try {
             PreparedStatement ps = conn.prepareStatement(SqlQueries.SEND_NOTIFICATION);
-            ps.setInt(1, StudentInterfaceImpl.student.getStudentId());
+            ps.setInt(1, StudentOperation.student.getStudentId());
             ps.setString(2,notificationContent);
             return ps.executeUpdate() == 1;
         } catch (SQLException e) {

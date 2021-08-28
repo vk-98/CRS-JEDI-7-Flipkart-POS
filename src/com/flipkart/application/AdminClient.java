@@ -12,9 +12,9 @@ import org.apache.log4j.Logger;
 public class AdminClient {
     private static Logger logger = Logger.getLogger(AdminClient.class);
     Scanner sc = new Scanner(System.in);
-    AdminInterface adminInterface = new AdminInterfaceImpl();
-    CourseInterface courseInterface = new CourseInterfaceImpl();
-    UserInterface userInterface = new UserInterfaceImpl();
+    AdminInterface adminInterface = new AdminOperation();
+    CourseInterface courseInterface = new CourseOperation();
+    UserInterface userInterface = new UserOperation();
 
     /**
      * method for admin menu
@@ -175,7 +175,7 @@ public class AdminClient {
      * method for logging out.
      */
     private void handleLogout() {
-        UserInterfaceImpl.logout();
+        UserOperation.logout();
     }
 
     /**

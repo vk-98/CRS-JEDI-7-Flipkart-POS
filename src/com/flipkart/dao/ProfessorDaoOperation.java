@@ -4,7 +4,7 @@ import com.flipkart.application.CRSApplicationClient;
 import com.flipkart.bean.Course;
 import com.flipkart.bean.Professor;
 import com.flipkart.bean.Student;
-import com.flipkart.business.ProfessorInterfaceImpl;
+import com.flipkart.business.ProfessorOperation;
 import com.flipkart.constants.SqlQueries;
 import com.flipkart.utils.DBUtil;
 import org.apache.log4j.Logger;
@@ -58,7 +58,7 @@ public class ProfessorDaoOperation implements ProfessorDaoInterface {
     public List<Course> getCoursesByProfessorId() {
         try {
             PreparedStatement ps = conn.prepareStatement(SqlQueries.VIEW_SELECTED_COURSES_FOR_PROF);
-            ps.setInt(1, ProfessorInterfaceImpl.professor.getProfessorId());
+            ps.setInt(1, ProfessorOperation.professor.getProfessorId());
             ResultSet rs = ps.executeQuery();
 
             List<Course> courses = new ArrayList<Course>();
@@ -201,7 +201,7 @@ public class ProfessorDaoOperation implements ProfessorDaoInterface {
         System.out.println("inside dao");
         try {
             PreparedStatement ps = conn.prepareStatement(SqlQueries.SELECT_COURSE_FOR_PROF);
-            ps.setInt(1, ProfessorInterfaceImpl.professor.getProfessorId());
+            ps.setInt(1, ProfessorOperation.professor.getProfessorId());
             ps.setInt(2, courseId);
             return ps.executeUpdate() == 1;
         }catch (SQLException e) {
@@ -219,7 +219,7 @@ public class ProfessorDaoOperation implements ProfessorDaoInterface {
         try{
             PreparedStatement ps = conn.prepareStatement(SqlQueries.IS_COURSE_AVAILABLE_FOR_PROF);
             ps.setInt(1, courseId);
-            ps.setInt(2, ProfessorInterfaceImpl.professor.getProfessorId());
+            ps.setInt(2, ProfessorOperation.professor.getProfessorId());
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
                 return true;

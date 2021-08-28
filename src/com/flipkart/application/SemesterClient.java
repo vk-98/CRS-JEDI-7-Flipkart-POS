@@ -1,7 +1,7 @@
 package com.flipkart.application;
 
 import com.flipkart.business.SemesterRegistrationInterface;
-import com.flipkart.business.SemesterRegistrationInterfaceImpl;
+import com.flipkart.business.SemesterRegistrationOperation;
 import org.apache.log4j.Logger;
 
 import java.util.Scanner;
@@ -15,7 +15,7 @@ public class SemesterClient {
     private static Logger logger = Logger.getLogger(SemesterClient.class);
     Scanner sc = new Scanner(System.in);
 
-    SemesterRegistrationInterface semesterRegistrationInterface = new SemesterRegistrationInterfaceImpl();
+    SemesterRegistrationInterface semesterRegistrationInterface = new SemesterRegistrationOperation();
 
 
     /**

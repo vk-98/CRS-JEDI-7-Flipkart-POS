@@ -8,12 +8,12 @@ import org.apache.log4j.Logger;
 
 import java.util.List;
 
-public class StudentInterfaceImpl implements StudentInterface {
-    private static Logger logger = Logger.getLogger(StudentInterfaceImpl.class);
+public class StudentOperation implements StudentInterface {
+    private static Logger logger = Logger.getLogger(StudentOperation.class);
     public static Student student = null;
     StudentDaoInterface studentDaoInterface = new StudentDaoOperation();
     SemesterRegistrationDaoInterface semesterRegistrationDaoInterface = new SemesterRegistrationDaoOperation();
-    SemesterRegistrationInterface semesterRegistrationInterface = new SemesterRegistrationInterfaceImpl();
+    SemesterRegistrationInterface semesterRegistrationInterface = new SemesterRegistrationOperation();
 
     @Override
     public Student register(String studentName, String studentEmailId, String studentPassword, String studentPhoneNo) {
@@ -49,13 +49,13 @@ public class StudentInterfaceImpl implements StudentInterface {
         boolean paymentStatus = semesterRegistrationDaoInterface.getPaymentStatus();
         if(paymentStatus) {
             System.out.println("yaha1");
-            return studentDaoInterface.getGrades(StudentInterfaceImpl.student.getStudentId());
+            return studentDaoInterface.getGrades(StudentOperation.student.getStudentId());
         }
         return null;
     }
 
     @Override
     public void getStudent() {
-        student = studentDaoInterface.getStudentByEmailId(UserInterfaceImpl.user.getUserEmailId());
+        student = studentDaoInterface.getStudentByEmailId(UserOperation.user.getUserEmailId());
     }
 }

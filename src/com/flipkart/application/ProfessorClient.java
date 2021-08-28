@@ -1,9 +1,9 @@
 package com.flipkart.application;
 
 import com.flipkart.business.ProfessorInterface;
-import com.flipkart.business.ProfessorInterfaceImpl;
+import com.flipkart.business.ProfessorOperation;
 import com.flipkart.business.UserInterface;
-import com.flipkart.business.UserInterfaceImpl;
+import com.flipkart.business.UserOperation;
 import org.apache.log4j.Logger;
 
 import java.util.Scanner;
@@ -16,8 +16,8 @@ public class ProfessorClient {
 
     private static Logger logger = Logger.getLogger(ProfessorClient.class);
     static Scanner sc = new Scanner(System.in);
-    ProfessorInterface professorInterface = new ProfessorInterfaceImpl();
-    UserInterface userInterface = new UserInterfaceImpl();
+    ProfessorInterface professorInterface = new ProfessorOperation();
+    UserInterface userInterface = new UserOperation();
 
     /**
      * method for professor menus
@@ -151,7 +151,7 @@ public class ProfessorClient {
      * method for logging out.
      */
     private void handleLogout() {
-        UserInterfaceImpl.logout();
+        UserOperation.logout();
     }
 
 }

@@ -1,18 +1,16 @@
 package com.flipkart.business;
 
-import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.List;
 
-import com.flipkart.application.CRSApplicationClient;
 import com.flipkart.bean.Course;
 import com.flipkart.dao.AdminDaoInterface;
 import com.flipkart.dao.AdminDaoOperation;
 import org.apache.log4j.Logger;
 
 
-public class CourseInterfaceImpl implements CourseInterface {
-    private static Logger logger = Logger.getLogger(CourseInterfaceImpl.class);
+public class CourseOperation implements CourseInterface {
+    private static Logger logger = Logger.getLogger(CourseOperation.class);
     AdminDaoInterface adminDaoInterface = new AdminDaoOperation();
     
     @Override

@@ -4,7 +4,7 @@ import com.flipkart.bean.Notification;
 
 import java.util.List;
 
-public interface NotificationInterface {
+public interface NotificationOperation {
 
     public boolean sendNotification(String notificationContent);
 

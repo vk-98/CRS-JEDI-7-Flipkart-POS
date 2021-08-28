@@ -1,6 +1,5 @@
 package com.flipkart.business;
 
-import com.flipkart.application.CRSApplicationClient;
 import com.flipkart.bean.Course;
 import com.flipkart.bean.Professor;
 import com.flipkart.bean.Student;
@@ -15,8 +14,8 @@ import java.util.List;
  */
 
 
-public class ProfessorInterfaceImpl implements ProfessorInterface {
-    private static Logger logger = Logger.getLogger(ProfessorInterfaceImpl.class);
+public class ProfessorOperation implements ProfessorInterface {
+    private static Logger logger = Logger.getLogger(ProfessorOperation.class);
     public static Professor professor = null;
     ProfessorDaoInterface professorDaoInterface = new ProfessorDaoOperation();
 
@@ -24,7 +23,7 @@ public class ProfessorInterfaceImpl implements ProfessorInterface {
      * Method to retrieve Professor Details
      */
     public void getProfessor() {
-        professor = professorDaoInterface.getProfessorByUserId(UserInterfaceImpl.user.getId());
+        professor = professorDaoInterface.getProfessorByUserId(UserOperation.user.getId());
     }
     /**
     *Method to add Grade in the database

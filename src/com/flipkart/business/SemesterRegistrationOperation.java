@@ -1,13 +1,11 @@
 package com.flipkart.business;
 
-import com.flipkart.bean.Notification;
 import com.flipkart.bean.OptedCourse;
 import com.flipkart.dao.NotificationDaoInterface;
 import com.flipkart.dao.NotificationDaoOperation;
 import com.flipkart.dao.SemesterRegistrationDaoInterface;
 import com.flipkart.dao.SemesterRegistrationDaoOperation;
 import com.flipkart.exceptions.CourseCountException;
-import com.flipkart.exceptions.CourseLimitExceededException;
 import com.flipkart.exceptions.NoRegisteredCourseException;
 import com.flipkart.exceptions.SeatNotAvailableException;
 import org.apache.log4j.Logger;
@@ -15,15 +13,14 @@ import org.apache.log4j.Logger;
 import java.sql.SQLException;
 import java.util.Formatter;
 import java.util.List;
-import java.util.LongSummaryStatistics;
 import java.util.stream.Collectors;
 
-public class SemesterRegistrationInterfaceImpl implements SemesterRegistrationInterface {
+public class SemesterRegistrationOperation implements SemesterRegistrationInterface {
 
     SemesterRegistrationDaoInterface semesterRegistrationDaoInterface = new SemesterRegistrationDaoOperation();
     NotificationDaoInterface notificationDaoInterface = new NotificationDaoOperation();
 
-    private static Logger logger = Logger.getLogger(SemesterRegistrationInterfaceImpl.class);
+    private static Logger logger = Logger.getLogger(SemesterRegistrationOperation.class);
 
 
     /**

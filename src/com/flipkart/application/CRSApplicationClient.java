@@ -2,9 +2,9 @@ package com.flipkart.application;
 
 import com.flipkart.bean.Student;
 import com.flipkart.business.StudentInterface;
-import com.flipkart.business.StudentInterfaceImpl;
+import com.flipkart.business.StudentOperation;
 import com.flipkart.business.UserInterface;
-import com.flipkart.business.UserInterfaceImpl;
+import com.flipkart.business.UserOperation;
 import com.flipkart.constants.Roles;
 import com.flipkart.exceptions.CourseCountException;
 import com.flipkart.exceptions.NoRegisteredCourseException;
@@ -26,8 +26,8 @@ public class CRSApplicationClient {
     static AdminClient adminClient = new AdminClient();
     static ProfessorClient professorClient = new ProfessorClient();
     static StudentClient studentClient = new StudentClient();
-    static StudentInterface studentInterface = new StudentInterfaceImpl();
-    static UserInterface userInterface = new UserInterfaceImpl();
+    static StudentInterface studentInterface = new StudentOperation();
+    static UserInterface userInterface = new UserOperation();
 
     public static void main(String[] args) throws SQLException, StudentNotRegisteredException, CourseCountException, NoRegisteredCourseException, SeatNotAvailableException {
         System.out.println("#######################################################################################");
@@ -85,7 +85,7 @@ public class CRSApplicationClient {
         boolean verified = userInterface.validateUser(emailId, password);
 
         if (verified) {
-            String role = UserInterfaceImpl.user.getRole();
+            String role = UserOperation.user.getRole();
 
             if (Roles.Admin.equals(role)) {
                 adminClient.showMenu();

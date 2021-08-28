@@ -7,7 +7,7 @@ import com.flipkart.constants.Roles;
 import com.flipkart.dao.UserDaoOperation;
 import org.apache.log4j.Logger;
 
-public class UserInterfaceImpl implements UserInterface {
+public class UserOperation implements UserInterface {
     private static Logger logger = Logger.getLogger(CRSApplicationClient.class);
     public static User user = null;
     UserDaoOperation userDaoOperation = new UserDaoOperation();

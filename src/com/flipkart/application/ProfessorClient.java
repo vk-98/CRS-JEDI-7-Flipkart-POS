@@ -168,13 +168,13 @@ public class ProfessorClient {
      * method for handling student grading
      */
     private void handleStudentGrading() {
-        System.out.println("Enter student Id: ");
+        System.out.print("Enter student Id: ");
         int studentId = sc.nextInt();
 
-        System.out.println("Enter courseId: ");
+        System.out.print("Enter courseId: ");
         int courseId = sc.nextInt();
 
-        System.out.println("Enter Grade: ");
+        System.out.print("Enter Grade: ");
         double grade = sc.nextDouble();
 
         boolean graded = professorInterface.addGrade(studentId, courseId, grade);

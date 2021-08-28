@@ -5,6 +5,7 @@ import com.flipkart.bean.Professor;
 import com.flipkart.bean.Student;
 import com.flipkart.dao.ProfessorDaoInterface;
 import com.flipkart.dao.ProfessorDaoOperation;
+import com.flipkart.exceptions.CourseNotSelectedExcpetion;
 import org.apache.log4j.Logger;
 
 import java.util.Formatter;
@@ -36,23 +37,26 @@ public class ProfessorOperation implements ProfessorInterface {
      */
     @Override
     public boolean addGrade(int studentId, int courseId, double grade) {
-        // Exception
-        boolean courseSelected = professorDaoInterface.isCourseSelected(professor.getProfessorId(), courseId);
-        if (!courseSelected) {
-            logger.info("Invalid Course ID");
-            return false;
+        try {
+            boolean courseSelected = professorDaoInterface.isCourseSelected(professor.getProfessorId(), courseId);
+            if (!courseSelected) {
+                throw new CourseNotSelectedExcpetion(courseId);
+            }
+            boolean isStudentEnrolled = professorDaoInterface.isStudentEnrolled(studentId, courseId);
+            if (!isStudentEnrolled) {
+                logger.info("Student Not Enrolled in the course");
+                return false;
+            }
+            boolean studentGraded = professorDaoInterface.isStudentAlreadyGraded(studentId, courseId);
+            if (studentGraded) {
+                logger.info("Student Is Already Graded");
+                return false;
+            }
+            return professorDaoInterface.addGrade(studentId, courseId, grade);
+        }catch (CourseNotSelectedExcpetion e) {
+            logger.info(e.getMessage());
         }
-        boolean isStudentEnrolled = professorDaoInterface.isStudentEnrolled(studentId, courseId);
-        if (!isStudentEnrolled) {
-            logger.info("Student Not Enrolled in the course");
-            return false;
-        }
-        boolean studentGraded = professorDaoInterface.isStudentAlreadyGraded(studentId, courseId);
-        if (studentGraded) {
-            logger.info("Student Is Already Graded");
-            return false;
-        }
-        return professorDaoInterface.addGrade(studentId, courseId, grade);
+        return false;
     }
 
     /**

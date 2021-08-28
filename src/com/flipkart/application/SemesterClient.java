@@ -66,7 +66,7 @@ public class SemesterClient {
      */
     private void handleAddCourse(int isPrimary) {
         if(isPrimary == 1) {
-            System.out.println("Enter primary courseID: ");
+            System.out.print("Enter primary courseID: ");
             int courseId = sc.nextInt();
             semesterRegistrationInterface.addCourse(courseId, 1);
         }else {

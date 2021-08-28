@@ -1,5 +1,6 @@
 package com.flipkart.application;
 
+import com.flipkart.bean.Course;
 import com.flipkart.bean.Grade;
 import com.flipkart.bean.Notification;
 import com.flipkart.business.*;
@@ -102,17 +103,35 @@ public class StudentClient {
      * method for view courses.
      */
     private void handleViewCourses() {
-        System.out.println("View Courses");
-        courseInterface.viewCourses();
+        List<Course> courses = courseInterface.getCourses();
+        if (courses == null || courses.size() == 0) {
+            logger.info("No Available Courses");
+        } else {
+            Formatter fmt = new Formatter();
+            fmt.format(
+                    "%30s  %30s  %30s  %30s  %30s  %30s\n", "CourseID", "CourseName", "CourseDescription", "ProfessorID", "CourseFee", "StudentCount"
+            );
+            for (Course c : courses) {
+                fmt.format(
+                        "%30s  %30s  %30s  %30s  %30s  %30s\n",
+                        c.getCourseId(),
+                        c.getCourseName(),
+                        c.getCourseDescription(),
+                        c.getProfessorId(),
+                        c.getCourseFee(),
+                        c.getStudentCount()
+                );
+
+            }
+            System.out.println(fmt);
+        }
     }
 
     /**
      * method for fee payment of loggedin student
      */
     public void handleFeePayment() {
-
         double feePending = semesterRegistrationInterface.getPendingFee();
-
         if (feePending != 0) {
             System.out.println("Paying Fee: " + feePending);
             boolean feePayed = semesterRegistrationInterface.payFee(feePending);

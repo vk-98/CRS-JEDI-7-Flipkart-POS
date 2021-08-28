@@ -22,7 +22,7 @@ public class CourseOperation implements CourseInterface {
      * @return List of courses.
      */
     @Override
-    public List<Course> viewCourses() {
+    public List<Course> getCourses() {
         return adminDaoInterface.viewCourses();
     }
 

@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 /**
  * @author JEDI-07
- * Admin Client
+ * Implementation of Semester Registration Interface
  */
 public class SemesterRegistrationOperation implements SemesterRegistrationInterface {
 
@@ -36,7 +36,7 @@ public class SemesterRegistrationOperation implements SemesterRegistrationInterf
      */
     @Override
     public boolean addCourse(int courseId, int isPrimary)  {
-
+        // Exception
         boolean isRegistered = semesterRegistrationDaoInterface.getRegistrationStatus();
 
         if (isRegistered) {
@@ -257,7 +257,4 @@ public class SemesterRegistrationOperation implements SemesterRegistrationInterf
         }
         return feePayment;
     }
-
-
-
 }

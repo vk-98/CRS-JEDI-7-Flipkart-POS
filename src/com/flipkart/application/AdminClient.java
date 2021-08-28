@@ -94,7 +94,7 @@ public class AdminClient {
      * method for view courses
      */
     private void handleViewCourses() {
-        List<Course> courses = courseInterface.viewCourses();
+        List<Course> courses = courseInterface.getCourses();
         if (courses == null || courses.size() == 0) {
             logger.info("No Available Courses");
         } else {

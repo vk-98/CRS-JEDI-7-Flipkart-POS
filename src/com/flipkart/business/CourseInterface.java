@@ -14,5 +14,5 @@ public interface CourseInterface {
      *
      * @return List of courses.
      */
-    List<Course> viewCourses();
+    List<Course> getCourses();
 }

@@ -7,6 +7,10 @@ import com.flipkart.bean.Course;
 import com.flipkart.bean.Grade;
 import com.flipkart.bean.OptedCourse;
 
+/**
+ * @author JEDI-07
+ * Admin Client
+ */
 public interface SemesterRegistrationDaoInterface {
 
     public boolean registerForSemester();

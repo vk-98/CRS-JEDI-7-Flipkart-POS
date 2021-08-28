@@ -16,8 +16,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-/*
-    Implementation for Professor Dao Operation
+/**
+ * @author JEDI-07
+ * Admin Client
  */
 public class ProfessorDaoOperation implements ProfessorDaoInterface {
     private static Logger logger = Logger.getLogger(CRSApplicationClient.class);

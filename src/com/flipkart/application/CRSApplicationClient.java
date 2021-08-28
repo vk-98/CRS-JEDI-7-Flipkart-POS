@@ -82,9 +82,9 @@ public class CRSApplicationClient {
         System.out.print("Enter Password: ");
         String password = sc.nextLine();
 
-        boolean verified = userInterface.validateUser(emailId, password);
+        boolean isAuthenticated = userInterface.validateUser(emailId, password);
 
-        if (verified) {
+        if (isAuthenticated) {
             String role = UserOperation.user.getRole();
 
             if (Roles.Admin.equals(role)) {

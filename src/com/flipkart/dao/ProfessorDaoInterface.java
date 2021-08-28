@@ -5,8 +5,11 @@ import com.flipkart.bean.Professor;
 import com.flipkart.bean.Student;
 
 import java.util.List;
-//Interface for Professor Dao Operations
 
+/**
+ * @author JEDI-07
+ * Admin Client
+ */
 public interface ProfessorDaoInterface {
     /**
      * Method to retrieve Professor Details using userId

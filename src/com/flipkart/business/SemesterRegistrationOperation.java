@@ -15,6 +15,10 @@ import java.util.Formatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * @author JEDI-07
+ * Admin Client
+ */
 public class SemesterRegistrationOperation implements SemesterRegistrationInterface {
 
     SemesterRegistrationDaoInterface semesterRegistrationDaoInterface = new SemesterRegistrationDaoOperation();

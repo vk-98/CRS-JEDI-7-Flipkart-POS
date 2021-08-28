@@ -17,40 +17,61 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author JEDI-07
+ * Implementation of admin dao interface
+ */
 public class AdminDaoOperation implements AdminDaoInterface {
     private static Logger logger = Logger.getLogger(CRSApplicationClient.class);
     Connection conn = DBUtil.getConnection();
     UserDaoInterface userDaoInterface = new UserDaoOperation();
 
+    /**
+     * method for adding course into database
+     * @param courseName
+     * @param courseDescription
+     * @param courseFee
+     * @return isCourseCreated
+     */
     @Override
-    public void addCourse(Course course) {
+    public boolean addCourse(String courseName, String courseDescription, double courseFee) {
         try {
             PreparedStatement ps = conn.prepareStatement(SqlQueries.ADD_COURSE);
-            ps.setString(1, course.getCourseName());
-            ps.setString(2, course.getCourseDescription());
-            ps.setDouble(3, course.getCourseFee());
+            ps.setString(1, courseName);
+            ps.setString(2, courseDescription);
+            ps.setDouble(3, courseFee);
 
-            int rowAffected = ps.executeUpdate();
+            return ps.executeUpdate() == 1;
 
         } catch (SQLException e) {
             logger.info("Error: " + e.getMessage());
         }
+        return false;
     }
 
+    /**
+     * method for removing course from the database
+     * @param courseId
+     * @return courseRemoved
+     */
     @Override
-    public int removeCourse(int courseId) {
+    public boolean removeCourse(int courseId) {
         try {
             PreparedStatement ps = conn.prepareStatement(SqlQueries.REMOVE_COURSE);
             ps.setInt(1, courseId);
-            return ps.executeUpdate();
+            return ps.executeUpdate() == 1;
         } catch (SQLException e) {
             logger.info("Error: " + e.getMessage());
         }
-        return 0;
+        return false;
     }
 
+    /**
+     * method for getting all admission requests
+     * @return List of students
+     */
     @Override
-    public List<Student> viewPendingAdmissions() {
+    public List<Student> getPendingAdmissions() {
         try {
             PreparedStatement ps = conn.prepareStatement(SqlQueries.LIST_APPROVAL_REQUESTS);
             ResultSet rs = ps.executeQuery();
@@ -69,6 +90,11 @@ public class AdminDaoOperation implements AdminDaoInterface {
         return null;
     }
 
+    /**
+     * method to approve a student by student id
+     * @param studentId
+     * @return
+     */
     @Override
     public boolean approveStudent(int studentId) {
         try {
@@ -82,10 +108,21 @@ public class AdminDaoOperation implements AdminDaoInterface {
         return false;
     }
 
+    /**
+     * method for adding professor into the database
+     * @param name
+     * @param emailId
+     * @param password
+     * @param phoneNo
+     * @param department
+     * @param designation
+     * @return IsProfessorAdded
+     */
     @Override
     public boolean addProfessor(String name, String emailId, String password, String phoneNo, String department, String designation) {
-        boolean isSuccess = userDaoInterface.createUser(name, emailId, password, Roles.Professor, phoneNo);
-        if (isSuccess) {
+        //Exception
+        boolean IsUserCreated = userDaoInterface.createUser(name, emailId, password, Roles.Professor, phoneNo);
+        if (IsUserCreated) {
             int id = userDaoInterface.getUserIdByEmail(emailId);
             try {
                 PreparedStatement ps = conn.prepareStatement(SqlQueries.ADD_PROFESSOR);
@@ -123,13 +160,17 @@ public class AdminDaoOperation implements AdminDaoInterface {
         return null;
     }
 
+    /**
+     * method for geting all the professors
+     * @return List of Professors
+     */
     @Override
-    public List<Professor> viewProfessors() {
+    public List<Professor> getProfessors() {
         try {
             PreparedStatement ps = conn.prepareStatement(SqlQueries.LIST_PROFESSORS);
             ResultSet rs = ps.executeQuery();
             List<Professor> professors = new ArrayList<Professor>();
-            while(rs.next()) {
+            while (rs.next()) {
                 Professor p = new Professor();
                 p.setProfessorId(rs.getInt("id"));
                 p.setUserName(rs.getString("name"));
@@ -139,7 +180,7 @@ public class AdminDaoOperation implements AdminDaoInterface {
                 professors.add(p);
             }
             return professors;
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             logger.info("Error: " + e.getMessage());
         }
         return null;

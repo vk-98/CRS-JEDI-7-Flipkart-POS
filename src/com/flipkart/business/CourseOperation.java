@@ -8,33 +8,22 @@ import com.flipkart.dao.AdminDaoInterface;
 import com.flipkart.dao.AdminDaoOperation;
 import org.apache.log4j.Logger;
 
-
+/**
+ * @author JEDI-07
+ * Implementation of Course Interface
+ */
 public class CourseOperation implements CourseInterface {
     private static Logger logger = Logger.getLogger(CourseOperation.class);
     AdminDaoInterface adminDaoInterface = new AdminDaoOperation();
-    
-    @Override
-    public void viewCourses() {
-        List<Course> courses = adminDaoInterface.viewCourses();
-        if (courses == null || courses.size() == 0) {
-            logger.info("No Available Courses");
-        } else {
-            Formatter fmt = new Formatter();
-            fmt.format("%30s  %30s  %30s  %30s  %30s  %30s\n", "CourseID", "CourseName", "CourseDescription", "ProfessorID", "CourseFee", "StudentCount");
-            for (Course c : courses) {
-                fmt.format(
-                        "%30s  %30s  %30s  %30s  %30s  %30s\n",
-                        c.getCourseId(),
-                        c.getCourseName(),
-                        c.getCourseDescription(),
-                        c.getProfessorId(),
-                        c.getCourseFee(),
-                        c.getStudentCount()
-                );
 
-            }
-            System.out.println(fmt);
-        }
+    /**
+     * method for viewing all the available courses in catalogue
+     *
+     * @return List of courses.
+     */
+    @Override
+    public List<Course> viewCourses() {
+        return adminDaoInterface.viewCourses();
     }
 
 

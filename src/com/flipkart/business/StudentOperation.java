@@ -8,6 +8,10 @@ import org.apache.log4j.Logger;
 
 import java.util.List;
 
+/**
+ * @author JEDI-07
+ * Admin Client
+ */
 public class StudentOperation implements StudentInterface {
     private static Logger logger = Logger.getLogger(StudentOperation.class);
     public static Student student = null;

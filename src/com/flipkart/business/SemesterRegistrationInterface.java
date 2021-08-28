@@ -6,6 +6,10 @@ import com.flipkart.exceptions.SeatNotAvailableException;
 
 import java.sql.SQLException;
 
+/**
+ * @author JEDI-07
+ * Admin Client
+ */
 public interface SemesterRegistrationInterface {
 
     boolean addCourse(int courseId, int isPrimary) ;

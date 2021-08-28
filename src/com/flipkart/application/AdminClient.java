@@ -1,7 +1,12 @@
 package com.flipkart.application;
 
+import java.util.Formatter;
+import java.util.List;
 import java.util.Scanner;
 
+import com.flipkart.bean.Course;
+import com.flipkart.bean.Professor;
+import com.flipkart.bean.Student;
 import com.flipkart.business.*;
 import org.apache.log4j.Logger;
 
@@ -89,7 +94,28 @@ public class AdminClient {
      * method for view courses
      */
     private void handleViewCourses() {
-        courseInterface.viewCourses();
+        List<Course> courses = courseInterface.viewCourses();
+        if (courses == null || courses.size() == 0) {
+            logger.info("No Available Courses");
+        } else {
+            Formatter fmt = new Formatter();
+            fmt.format(
+                    "%30s  %30s  %30s  %30s  %30s  %30s\n", "CourseID", "CourseName", "CourseDescription", "ProfessorID", "CourseFee", "StudentCount"
+            );
+            for (Course c : courses) {
+                fmt.format(
+                        "%30s  %30s  %30s  %30s  %30s  %30s\n",
+                        c.getCourseId(),
+                        c.getCourseName(),
+                        c.getCourseDescription(),
+                        c.getProfessorId(),
+                        c.getCourseFee(),
+                        c.getStudentCount()
+                );
+
+            }
+            System.out.println(fmt);
+        }
     }
 
     /**
@@ -97,7 +123,7 @@ public class AdminClient {
      */
     private void handleAddCourse() {
 
-        System.out.println("Enter details of the course to be added :");
+        System.out.println("Enter details of the course to be added: ");
 
         System.out.print("Course Name: ");
         String courseName = sc.nextLine();
@@ -108,17 +134,23 @@ public class AdminClient {
         System.out.print("Course Fee: ");
         double courseFee = sc.nextDouble();
 
-        adminInterface.addCourse(courseName, description, courseFee);
+        boolean isCourseAdded = adminInterface.addCourse(courseName, description, courseFee);
+        if (isCourseAdded)
+            logger.info("Course Added Successfully");
     }
 
     /**
      * method for removing course
      */
     private void handleRemoveCourse() {
+
         System.out.print("Enter ID of the course to be deleted: ");
         int courseId = sc.nextInt();
 
-        adminInterface.removeCourse(courseId);
+        boolean isCourseRemoved = adminInterface.removeCourse(courseId);
+
+        if (isCourseRemoved)
+            logger.info("Course removed successfully");
     }
 
     /**
@@ -128,38 +160,69 @@ public class AdminClient {
         System.out.println("Enter details of the Professor to be added: ");
 
         System.out.print("Enter Name - ");
-        String professorName = sc.next();
+        String professorName = sc.nextLine();
 
         System.out.print("Enter Email Id - ");
-        String emailId = sc.next();
+        String emailId = sc.nextLine();
 
         System.out.print("Enter Password - ");
-        String password = sc.next();
+        String password = sc.nextLine();
 
         System.out.print("Enter Phone No - ");
-        String phoneNo = sc.next();
+        String phoneNo = sc.nextLine();
 
         System.out.print("Enter Department - ");
-        String department = sc.next();
+        String department = sc.nextLine();
 
         System.out.print("Enter Designation - ");
-        String designation = sc.next();
+        String designation = sc.nextLine();
 
-        adminInterface.addProfessor(professorName, emailId, password, phoneNo, department, designation);
+        boolean isProfessorAdded = adminInterface.addProfessor(
+                professorName,
+                emailId,
+                password,
+                phoneNo,
+                department,
+                designation
+        );
+
+        if (isProfessorAdded) {
+            logger.info("Professor created successfully.");
+        }
     }
 
     /**
      * method for viewing all available course
      */
     private void handleViewProfessor() {
-        adminInterface.viewProfessors();
+        List<Professor> professors = adminInterface.getProfessors();
+        if (professors == null || professors.size() == 0) {
+            logger.info("No Professors registered");
+        } else {
+            Formatter fmt = new Formatter();
+            fmt.format("%30s %30s %30s %30s %30s\n", "ProfId", "ProfName", "ProfEmail ID", "ProfDepartment", "ProfDesignation");
+            for (Professor p : professors) {
+                fmt.format("%30s %30s %30s %30s %30s\n", p.getProfessorId(), p.getUserName(), p.getUserEmailId(), p.getDepartment(), p.getDesignation());
+            }
+            System.out.println(fmt);
+        }
     }
 
     /**
      * method for viewing all available admission requests.
      */
     private void handelViewAdmissionRequests() {
-        adminInterface.listAdmissionRequests();
+        List<Student> admissionRequests = adminInterface.getAdmissionRequests();
+        if (admissionRequests == null || admissionRequests.size() == 0) {
+            logger.info("No pending addmission requests");
+        } else {
+            Formatter fmt = new Formatter();
+            fmt.format("%30s %30s %30s\n", "StudentID", "StudentName", "StudentEmailId");
+            for (Student st : admissionRequests) {
+                fmt.format("%30s %30s %30s\n", st.getStudentId(), st.getUserName(), st.getUserEmailId());
+            }
+            System.out.println(fmt);
+        }
     }
 
     /**
@@ -167,15 +230,20 @@ public class AdminClient {
      */
     private void handleUpdatePassword() {
         System.out.print("Enter New Password: ");
-        String newPassword = sc.next();
-        userInterface.updateUserPassword(newPassword);
+        String newPassword = sc.nextLine();
+        boolean isPasswordUpdated = userInterface.updateUserPassword(newPassword);
+        if(isPasswordUpdated)
+            logger.info("User Password Updated Successfully");
     }
 
     /**
      * method for logging out.
      */
     private void handleLogout() {
-        UserOperation.logout();
+        boolean userLoggedOut = userInterface.logout();
+        if(userLoggedOut) {
+            logger.info("You are successfully logged out.");
+        }
     }
 
     /**
@@ -184,7 +252,9 @@ public class AdminClient {
     private void handleApproveStudentAdmissionRequest() {
         System.out.print("Enter Student Id - ");
         int studentId = sc.nextInt();
-
-        adminInterface.approveStudentRequest(studentId);
+        boolean isApproved = adminInterface.approveStudentRequest(studentId);
+        if (isApproved) {
+            logger.info("Student Addmission Request approved");
+        }
     }
 }

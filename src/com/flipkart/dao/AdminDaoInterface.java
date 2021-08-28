@@ -7,18 +7,57 @@ import com.flipkart.bean.User;
 
 import java.util.List;
 
+/**
+ * @author JEDI-07
+ * Admin Dao Interface
+ */
 public interface AdminDaoInterface {
-    public void addCourse(Course course);
+    /**
+     * method for adding course into database
+     * @param courseName
+     * @param courseDescription
+     * @param courseFee
+     * @return isCourseCreated
+     */
+    boolean addCourse(String courseName, String courseDescription, double courseFee);
 
-    public int removeCourse(int courseId);
+    /**
+     * method for removing course from the database
+     * @param courseId
+     * @return courseRemoved
+     */
+    boolean removeCourse(int courseId);
 
-    public List<Student> viewPendingAdmissions();
+    /**
+     * method for getting all admission requests
+     * @return List of students
+     */
+    List<Student> getPendingAdmissions();
 
-    public boolean approveStudent(int studentId);
+    /**
+     * method to approve a student by student id
+     * @param studentId
+     * @return
+     */
+    boolean approveStudent(int studentId);
 
-    public boolean addProfessor(String name, String emailId, String password, String phoneNo, String department, String designation);
+    /**
+     * method for adding professor into the database
+     * @param name
+     * @param emailId
+     * @param password
+     * @param phoneNo
+     * @param department
+     * @param designation
+     * @return IsProfessorAdded
+     */
+    boolean addProfessor(String name, String emailId, String password, String phoneNo, String department, String designation);
 
-    public List<Course> viewCourses();
+    List<Course> viewCourses();
 
-    public List<Professor> viewProfessors();
+    /**
+     * method for geting all the professors
+     * @return List of Professors
+     */
+    List<Professor> getProfessors();
 }

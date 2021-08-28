@@ -13,6 +13,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author JEDI-07
+ * Admin Client
+ */
 public class NotificationDaoOperation implements NotificationDaoInterface {
 
     static Connection conn = DBUtil.getConnection();

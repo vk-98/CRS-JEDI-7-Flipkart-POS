@@ -177,6 +177,9 @@ public class StudentClient {
      * method for logging out.
      */
     private void handleLogout() {
-        UserOperation.logout();
+        boolean userLoggedOut = userInterface.logout();
+        if(userLoggedOut) {
+            logger.info("You are successfully logged out.");
+        }
     }
 }

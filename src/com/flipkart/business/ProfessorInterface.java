@@ -1,7 +1,8 @@
 package com.flipkart.business;
 
 /**
- * Interface for Professor Operations
+ * @author JEDI-07
+ * Admin Client
  */
 public interface ProfessorInterface {
 

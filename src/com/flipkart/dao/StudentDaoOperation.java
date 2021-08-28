@@ -14,6 +14,10 @@ import com.flipkart.constants.SqlQueries;
 import com.flipkart.utils.DBUtil;
 import org.apache.log4j.Logger;
 
+/**
+ * @author JEDI-07
+ * Implementation of Student Dao Interface
+ */
 public class StudentDaoOperation implements StudentDaoInterface {
 
     static Connection conn = DBUtil.getConnection();
@@ -22,7 +26,6 @@ public class StudentDaoOperation implements StudentDaoInterface {
     /**
      * Method to add Student
      * @return boolean indicating if the student is added successfully
-     * @throws SQLException
      */
     @Override
     public boolean addStudent(String studentName, String studentEmailId, String studentPassword, String studentPhoneNo) {
@@ -76,6 +79,12 @@ public class StudentDaoOperation implements StudentDaoInterface {
         }
         return null;
     }
+
+    /**
+     * method for getiing student by student Id
+     * @param studentId
+     * @return
+     */
     @Override
     public Student getStudentByStudentId(int studentId) {
         try {

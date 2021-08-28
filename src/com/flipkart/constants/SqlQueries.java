@@ -1,5 +1,10 @@
 package com.flipkart.constants;
 
+
+/**
+ * @author JEDI-07
+ * Admin Client
+ */
 public class SqlQueries {
 
 

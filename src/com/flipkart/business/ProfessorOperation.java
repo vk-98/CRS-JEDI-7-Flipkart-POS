@@ -9,11 +9,11 @@ import org.apache.log4j.Logger;
 
 import java.util.Formatter;
 import java.util.List;
+
 /**
- * Implementation of Professor Operations
+ * @author JEDI-07
+ * Admin Client
  */
-
-
 public class ProfessorOperation implements ProfessorInterface {
     private static Logger logger = Logger.getLogger(ProfessorOperation.class);
     public static Professor professor = null;

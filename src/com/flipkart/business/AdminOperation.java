@@ -1,6 +1,5 @@
 package com.flipkart.business;
 
-import com.flipkart.bean.Course;
 import com.flipkart.bean.Professor;
 import com.flipkart.bean.Student;
 import com.flipkart.dao.AdminDaoInterface;
@@ -12,90 +11,105 @@ import com.flipkart.exceptions.StudentAlreadyApprovedException;
 import com.flipkart.exceptions.StudentNotFoundException;
 import org.apache.log4j.Logger;
 
-import java.util.Formatter;
 import java.util.List;
 
+/**
+ * @author JEDI-07
+ * Implementation of Admin Operation
+ */
 public class AdminOperation implements AdminInterface {
     private static Logger logger = Logger.getLogger(AdminOperation.class);
     AdminDaoInterface adminDaoInterface = new AdminDaoOperation();
     StudentDaoInterface studentDaoInterface = new StudentDaoOperation();
 
+    /**
+     * method for adding course into the catalogue
+     *
+     * @param courseName
+     * @param courseDescription
+     * @param courseFee
+     * @return isCourseAdded
+     */
     @Override
-    public void addCourse(String courseName, String courseDescription, double courseFee) {
-        Course course = new Course(courseName, courseDescription, courseFee);
-        adminDaoInterface.addCourse(course);
-        logger.info("Course Added Successfully");
+    public boolean addCourse(String courseName, String courseDescription, double courseFee) {
+        return adminDaoInterface.addCourse(courseName, courseDescription, courseFee);
     }
 
+    /**
+     * method for removing course
+     *
+     * @param courseId
+     * @return isCourseRemoved
+     */
     @Override
-    public void removeCourse(int courseId) {
+    public boolean removeCourse(int courseId) {
         try {
-            int rowsAffected = adminDaoInterface.removeCourse(courseId);
-            if (rowsAffected == 0) {
+            boolean courseRemoved = adminDaoInterface.removeCourse(courseId);
+            if (courseRemoved) {
                 throw new CourseNotFoundException(courseId);
             }
-            logger.info("Course removed successfully");
+            return true;
         } catch (CourseNotFoundException e) {
             logger.info(e.getMessage());
         }
+        return false;
     }
 
+    /**
+     * method for approving students admission request.
+     * @param studentId
+     * @return isApproved
+     */
     @Override
-    public void approveStudentRequest(int studentId) {
-
+    public boolean approveStudentRequest(int studentId) {
         try {
-            Student st = studentDaoInterface.getStudentByStudentId(studentId);
-            if (st == null) {
+            Student student = studentDaoInterface.getStudentByStudentId(studentId);
+            if (student == null) {
                 throw new StudentNotFoundException(studentId);
             }
-            if (st.isApproved()) {
+            if (student.isApproved()) {
                 throw new StudentAlreadyApprovedException(studentId);
             }
-            boolean isApproved = adminDaoInterface.approveStudent(studentId);
-            if (isApproved) {
-                logger.info("Student Addmission Request approved");
-            }
+            return adminDaoInterface.approveStudent(studentId);
         } catch (StudentNotFoundException e) {
             logger.info(e.getMessage());
         } catch (StudentAlreadyApprovedException e) {
             logger.info(e.getMessage());
         }
+        return false;
     }
 
+    /**
+     * method for adding professor
+     *
+     * @param name
+     * @param emailId
+     * @param password
+     * @param phoneNo
+     * @param department
+     * @param designation
+     * @return isProfessorAdded
+     */
     @Override
-    public void addProfessor(String name, String emailId, String password, String phoneNo, String department, String designation) {
-        boolean added = adminDaoInterface.addProfessor(name, emailId, password, phoneNo, department, designation);
-        if (added) logger.info("Professor created successfully.");
-        else logger.info("Professor not added.");
+    public boolean addProfessor(String name, String emailId, String password, String phoneNo, String department, String designation) {
+        return adminDaoInterface.addProfessor(name, emailId, password, phoneNo, department, designation);
     }
 
+    /**
+     * method for getting all admission requests
+     * @return List of students
+     */
     @Override
-    public void listAdmissionRequests() {
-        List<Student> requests = adminDaoInterface.viewPendingAdmissions();
-        if (requests == null || requests.size() == 0) {
-            logger.info("No pending addmission requests");
-        } else {
-            Formatter fmt = new Formatter();
-            fmt.format("%30s %30s %30s\n", "StudentID", "StudentName", "StudentEmailId");
-            for (Student st : requests) {
-                fmt.format("%30s %30s %30s\n",st.getStudentId(), st.getUserName(), st.getUserEmailId());
-            }
-            System.out.println(fmt);
-        }
+    public List<Student> getAdmissionRequests() {
+        return adminDaoInterface.getPendingAdmissions();
     }
 
+    /**
+     * method for geting all the professors
+     * @return List of Professors
+     */
     @Override
-    public void viewProfessors() {
-        List<Professor> professors = adminDaoInterface.viewProfessors();
-        if (professors == null || professors.size() == 0) {
-            logger.info("No Professors registered");
-        } else {
-            Formatter fmt = new Formatter();
-            fmt.format("%30s %30s %30s %30s %30s\n", "ProfId", "ProfName","ProfEmail ID", "ProfDepartment", "ProfDesignation");
-            for (Professor p : professors) {
-                fmt.format("%30s %30s %30s %30s %30s\n",p.getProfessorId(),p.getUserName(), p.getUserEmailId(),p.getDepartment(),p.getDesignation());
-            }
-            System.out.println(fmt);
-        }
+    public List<Professor> getProfessors() {
+        return adminDaoInterface.getProfessors();
     }
 }

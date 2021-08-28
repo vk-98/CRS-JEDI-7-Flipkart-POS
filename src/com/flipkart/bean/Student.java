@@ -20,7 +20,7 @@ public class Student extends User {
      * @param phoneNo: user phone number
      */
     public Student(String userName, String userEmailId, String userPassword, String phoneNo) {
-        super(userName, userEmailId, userPassword, phoneNo, Roles.Student);
+        super(userName, userEmailId, userPassword, Roles.Student, phoneNo);
         this.isApproved = false;
     }
 

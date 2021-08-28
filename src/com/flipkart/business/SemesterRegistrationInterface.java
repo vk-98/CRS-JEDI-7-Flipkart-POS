@@ -8,21 +8,17 @@ import java.sql.SQLException;
 
 public interface SemesterRegistrationInterface {
 
-    boolean addPrimaryCourse(int studentId, int courseId) throws SQLException;
+    boolean addCourse(int courseId, int isPrimary) ;
 
-    boolean addSecondaryCourse(int studentId, int courseId) throws SQLException;
+    boolean dropCourse(int courseId);
 
-    boolean dropCourse(int studentId, int courseId);
+    void getRegisteredCourses();
 
-    void viewRegisteredCourses(int studentId);
+    void getSelectedCourses();
 
-    double calculateFee(int studentId) throws SQLException;
+    boolean submitCourseChoices() ;
 
-    boolean submitCourseChoices(int studentId) throws NoRegisteredCourseException, CourseCountException, SeatNotAvailableException, SQLException;
+    double getPendingFee();
 
-    boolean getRegistrationStatus(int studentId) throws SQLException;
-    boolean getPaymentStatus(int studentId) throws SQLException;
-
-    void setRegistrationStatus(int studentId, boolean status) throws SQLException;
-    void setPaymentStatus(int studentId, boolean status) throws SQLException;
+    boolean payFee(double amount);
 }

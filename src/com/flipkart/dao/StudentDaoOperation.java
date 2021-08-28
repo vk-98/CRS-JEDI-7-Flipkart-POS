@@ -7,34 +7,33 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.flipkart.bean.Grades;
+import com.flipkart.bean.Grade;
 import com.flipkart.bean.Student;
+import com.flipkart.constants.Roles;
 import com.flipkart.constants.SqlQueries;
-import com.flipkart.exceptions.StudentNotFoundException;
 import com.flipkart.utils.DBUtil;
 import org.apache.log4j.Logger;
 
 public class StudentDaoOperation implements StudentDaoInterface {
 
-    static Connection con = DBUtil.getConnection();
+    static Connection conn = DBUtil.getConnection();
     private static Logger logger = Logger.getLogger(StudentDaoOperation.class);
 
     /**
      * Method to add Student
-     * @param student
      * @return boolean indicating if the student is added successfully
      * @throws SQLException
      */
     @Override
-    public boolean addStudent(Student student) {
+    public boolean addStudent(String studentName, String studentEmailId, String studentPassword, String studentPhoneNo) {
         UserDaoInterface userDaoInterface = new UserDaoOperation();
 
-        boolean isSuccess = userDaoInterface.createUser(student.getUserName(), student.getUserEmailId(), student.getUserPassword(), student.getRole(), student.getPhoneNo());
+        boolean isSuccess = userDaoInterface.createUser(studentName, studentEmailId, studentPassword, Roles.Student, studentPhoneNo);
 
         if (isSuccess) {
-            int id = userDaoInterface.getUserIdByEmail(student.getUserEmailId());
+            int id = userDaoInterface.getUserIdByEmail(studentEmailId);
             try {
-                PreparedStatement ps = con.prepareStatement(SqlQueries.ADD_STUDENT);
+                PreparedStatement ps = conn.prepareStatement(SqlQueries.ADD_STUDENT);
                 ps.setInt(1, id);
                 ps.setInt(2, 0);
 
@@ -52,40 +51,6 @@ public class StudentDaoOperation implements StudentDaoInterface {
 
 
     /**
-     * Method to get studentId from userId
-     * @param userId
-     * @return studentId or -1 if no matching student found
-     * @throws SQLException
-     */
-    @Override
-    public int getStudentById(int userId) {
-        try {
-            PreparedStatement ps = con.prepareStatement(SqlQueries.GET_STUDENT_ID);
-            ps.setInt(1, userId);
-
-
-            ResultSet rs = ps.executeQuery();
-            if(rs.next())
-            {
-                return rs.getInt("id");
-            }
-
-
-
-        } catch (SQLException e) {
-            logger.info("Error: " + e.getMessage());
-        }
-        return -1;
-    }
-
-
-    @Override
-    public boolean isApproved(int studentId) {
-        return false;
-    }
-
-
-    /**
      * Method to get student object from studentID
      * @param studentId
      * @return student object or null if no matching student found
@@ -94,7 +59,7 @@ public class StudentDaoOperation implements StudentDaoInterface {
     @Override
     public Student getStudentByEmailId(String emailId) {
         try {
-            PreparedStatement ps = con.prepareStatement(SqlQueries.GET_STUDENT_BY_EMAIL_ID);
+            PreparedStatement ps = conn.prepareStatement(SqlQueries.GET_STUDENT_BY_EMAIL_ID);
             ps.setString(1, emailId);
             ResultSet rs = ps.executeQuery();
             if(rs.next()) {
@@ -114,7 +79,7 @@ public class StudentDaoOperation implements StudentDaoInterface {
     @Override
     public Student getStudentByStudentId(int studentId) {
         try {
-            PreparedStatement ps = con.prepareStatement(SqlQueries.GET_STUDENT_BY_STUDENT_ID);
+            PreparedStatement ps = conn.prepareStatement(SqlQueries.GET_STUDENT_BY_STUDENT_ID);
             ps.setInt(1, studentId);
             ResultSet rs = ps.executeQuery();
             if(rs.next()) {
@@ -130,20 +95,23 @@ public class StudentDaoOperation implements StudentDaoInterface {
     }
 
     @Override
-    public List<Grades> getGrades(int studentId) {
-
-        List<Grades> grades= new ArrayList<Grades>();
+    public List<Grade> getGrades(int studentId) {
         try {
-            PreparedStatement ps = con.prepareStatement(SqlQueries.GET_STUDENT_GRADES);
+            PreparedStatement ps = conn.prepareStatement(SqlQueries.GET_GRADES);
             ps.setInt(1, studentId);
             ResultSet rs = ps.executeQuery();
-            while(rs.next()) {
-                grades.add(new Grades(rs.getInt("courseId"), rs.getInt("studentId"),rs.getDouble("gpa")));
+            List<Grade> grades = new ArrayList<Grade>();
+            while (rs.next()) {
+                Grade grade = new Grade();
+                grade.setCourseId(rs.getInt("courseId"));
+                grade.setCourseName(rs.getString("courseName"));
+                grade.setGpa(rs.getDouble("gpa"));
+                grades.add(grade);
             }
+            return grades;
         } catch (SQLException e) {
-            logger.info(e.getMessage());
+            logger.info("Error: " + e.getMessage());
         }
-        return grades;
+        return null;
     }
-
 }

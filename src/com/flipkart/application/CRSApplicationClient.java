@@ -15,7 +15,12 @@ import org.apache.log4j.Logger;
 import java.sql.SQLException;
 import java.util.Scanner;
 
+/**
+ * @author JEDI-07
+ * Entry Point of CRS APPLICATION
+ */
 public class CRSApplicationClient {
+
     private static Logger logger = Logger.getLogger(CRSApplicationClient.class);
     static Scanner sc = new Scanner(System.in);
     static AdminClient adminClient = new AdminClient();
@@ -29,20 +34,24 @@ public class CRSApplicationClient {
         System.out.println("#------------------------Welcome to Course Registration System------------------------#");
         System.out.println("#######################################################################################");
 
-        while (true) {
+        boolean exit = false;
+        while (!exit) {
+
             showMenu();
+
             int userInput = sc.nextInt();
             sc.nextLine();
 
-            if (userInput == 3) {
-                break;
-            }
             switch (userInput) {
                 case 1:
-                    login();
+                    handleLogin();
                     break;
                 case 2:
-                    studentRegistration();
+                    handleStudentRegistration();
+                    break;
+                case 3:
+                    handleExit();
+                    exit = true;
                     break;
                 default:
                     logger.warn("Invalid User Input");
@@ -52,6 +61,9 @@ public class CRSApplicationClient {
 
     }
 
+    /**
+     * method for displaying main menu
+     */
     static void showMenu() {
         System.out.println("1. Login");
         System.out.println("2. Student Registration");
@@ -59,8 +71,11 @@ public class CRSApplicationClient {
         System.out.print("Enter User Input: ");
     }
 
-    static void login() throws SQLException, CourseCountException, NoRegisteredCourseException, SeatNotAvailableException {
-        // Taking credentials as input.
+    /**
+     * method for logging in
+     */
+    static void handleLogin() {
+
         System.out.print("Enter EmailId: ");
         String emailId = sc.nextLine();
 
@@ -69,9 +84,7 @@ public class CRSApplicationClient {
 
         boolean verified = userInterface.validateUser(emailId, password);
 
-
         if (verified) {
-
             String role = UserInterfaceImpl.user.getRole();
 
             if (Roles.Admin.equals(role)) {
@@ -88,8 +101,11 @@ public class CRSApplicationClient {
         }
     }
 
-    static void studentRegistration() throws StudentNotRegisteredException {
-        // Taking user input
+    /**
+     * method initiating student registration
+     */
+    static void handleStudentRegistration() {
+
         System.out.print("Enter Student Name: ");
         String studentName = sc.nextLine();
 
@@ -111,4 +127,13 @@ public class CRSApplicationClient {
         }
         logger.info(studentName + " you are successfully registered, please wait for Admin's Approval");
     }
+
+    /**
+     * method for handling exit from application
+     */
+    static void handleExit() {
+        System.out.println("Thanks for your visit");
+    }
 }
+
+

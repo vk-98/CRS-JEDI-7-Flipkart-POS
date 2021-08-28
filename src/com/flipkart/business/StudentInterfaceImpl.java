@@ -1,35 +1,30 @@
 package com.flipkart.business;
 
-import com.flipkart.application.CRSApplicationClient;
-import com.flipkart.bean.Grades;
+import com.flipkart.bean.Grade;
 import com.flipkart.bean.Student;
-import com.flipkart.dao.NotificationDaoOperation;
-import com.flipkart.dao.StudentDaoInterface;
-import com.flipkart.dao.StudentDaoOperation;
+import com.flipkart.dao.*;
 import com.flipkart.exceptions.StudentNotRegisteredException;
 import org.apache.log4j.Logger;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public class StudentInterfaceImpl implements StudentInterface {
     private static Logger logger = Logger.getLogger(StudentInterfaceImpl.class);
     public static Student student = null;
     StudentDaoInterface studentDaoInterface = new StudentDaoOperation();
+    SemesterRegistrationDaoInterface semesterRegistrationDaoInterface = new SemesterRegistrationDaoOperation();
     SemesterRegistrationInterface semesterRegistrationInterface = new SemesterRegistrationInterfaceImpl();
 
     @Override
-    public Student register(String studentName, String studentEmailId, String studentPassword, String studentPhoneNo) throws StudentNotRegisteredException {
+    public Student register(String studentName, String studentEmailId, String studentPassword, String studentPhoneNo) {
         Student student = null;
-
         try {
             StudentDaoInterface studentDao = new StudentDaoOperation();
-
-            student = new Student(studentName, studentEmailId, studentPassword, studentPhoneNo);
-            boolean added = studentDao.addStudent(student);
+            boolean added = studentDao.addStudent(studentName, studentEmailId, studentPassword, studentPhoneNo);
             if (!added) {
-                student = null;
                 throw new StudentNotRegisteredException(studentName);
+            } else {
+                student = new Student(studentName, studentEmailId, studentPassword, studentPhoneNo);
             }
         } catch (StudentNotRegisteredException ex) {
             logger.info(logger.getClass());
@@ -44,41 +39,23 @@ public class StudentInterfaceImpl implements StudentInterface {
     }
 
     @Override
-    public void viewGrades(int studentId) throws SQLException {
-       if(!semesterRegistrationInterface.getPaymentStatus(studentId))
-       {
-          logger.error("Do registration and payment for semester");
-           return;
-       }
-
-       List<Grades> grades= studentDaoInterface.getGrades(studentId);
-
-       if(grades.size()<6)
-       {
-          logger.info("Grades are yet to be added!!!");
-           return;
-       }
-
-        System.out.println("Here are your grades!!!");
-
-        System.out.println("CourseId | Gpa");
-        double sum=0;
-        for (Grades grade:grades) {
-            System.out.println("    "+grade.getRegisterdCourseId()+"     "+grade.getGpa());
-            sum=sum +grade.getGpa();
+    public List<Grade> getGrades() {
+        boolean isRegistered = semesterRegistrationDaoInterface.getRegistrationStatus();
+        if(!isRegistered) {
+            logger.info("Student is not registered for the semester");
+            return null;
         }
 
-        System.out.println("Your cumulative Gpa is :  "+sum);
-
+        boolean paymentStatus = semesterRegistrationDaoInterface.getPaymentStatus();
+        if(paymentStatus) {
+            System.out.println("yaha1");
+            return studentDaoInterface.getGrades(StudentInterfaceImpl.student.getStudentId());
+        }
+        return null;
     }
 
     @Override
-    public void setStudent() {
+    public void getStudent() {
         student = studentDaoInterface.getStudentByEmailId(UserInterfaceImpl.user.getUserEmailId());
-    }
-
-    @Override
-    public boolean payFee(String studentId, String studentRegistrationId, double amount) {
-        return false;
     }
 }

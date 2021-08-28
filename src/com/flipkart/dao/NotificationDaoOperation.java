@@ -2,6 +2,7 @@ package com.flipkart.dao;
 
 import com.flipkart.application.CRSApplicationClient;
 import com.flipkart.bean.Notification;
+import com.flipkart.business.StudentInterfaceImpl;
 import com.flipkart.constants.SqlQueries;
 import com.flipkart.utils.DBUtil;
 import org.apache.log4j.Logger;
@@ -15,34 +16,27 @@ import java.util.List;
 
 public class NotificationDaoOperation implements NotificationDaoInterface {
 
-    static Connection con = DBUtil.getConnection();
+    static Connection conn = DBUtil.getConnection();
     private static Logger logger = Logger.getLogger(NotificationDaoOperation.class);
 
 
     /**
-     * Method to send notification
-     * @param notification object
-     * @return boolean indicating if the notification is sent successfully
-     * @throws SQLException
+     * Method for sending the notification to student.
+     * @param notificationContent
+     * @return notification sent status
      */
     @Override
-    public boolean sendNotification(Notification notification) {
-        try{
-            PreparedStatement ps = con.prepareStatement(SqlQueries.SEND_NOTIFICATION);
-
-            ps.setString(1, notification.getContent());
-            ps.setInt(2,notification.getStudentId());
-
-            int rowAffected = ps.executeUpdate();
-
-          return rowAffected==1;
-      }
-      catch(SQLException e){
-          logger.info("Error: " + e.getMessage());
-      }
+    public boolean sendNotification(String notificationContent){
+        try {
+            PreparedStatement ps = conn.prepareStatement(SqlQueries.SEND_NOTIFICATION);
+            ps.setInt(1, StudentInterfaceImpl.student.getStudentId());
+            ps.setString(2,notificationContent);
+            return ps.executeUpdate() == 1;
+        } catch (SQLException e) {
+            logger.info("Error: " + e.getMessage());
+        }
         return false;
     }
-
 
     /**
      * Method to show notifications for specific studentID
@@ -51,23 +45,26 @@ public class NotificationDaoOperation implements NotificationDaoInterface {
      * @throws SQLException
      */
     @Override
-    public List<String> showNotifications(int studentId) {
-        List<String > notifications= new ArrayList<String>();
+    public List<Notification> getNotifications(int studentId) {
         try{
-            PreparedStatement ps = con.prepareStatement(SqlQueries.SHOW_NOTIFICATIONS);
+            PreparedStatement ps = conn.prepareStatement(SqlQueries.SHOW_NOTIFICATIONS);
 
             ps.setInt(1, studentId);
 
             ResultSet rs = ps.executeQuery();
-
+            List<Notification> notifications = new ArrayList<Notification>();
             while(rs.next())
             {
-                notifications.add(rs.getString("notificationName"));
+                Notification notification = new Notification();
+                notification.setNotificationId(rs.getInt("id"));
+                notification.setContent(rs.getString("notificationContent"));
+                notifications.add(notification);
             }
+            return notifications;
         }
         catch(SQLException e){
             logger.info("Error: " + e.getMessage());
         }
-        return notifications;
+        return null;
     }
 }

@@ -70,8 +70,6 @@ public class UserDaoOperation implements UserDaoInterface {
             ps.setString(5, phoneNo);
 
             int rowAffected = ps.executeUpdate();
-
-            System.out.println("rowa:" + rowAffected);
             return rowAffected == 1;
         } catch (SQLException e) {
             logger.info("Error: " + e.getMessage());

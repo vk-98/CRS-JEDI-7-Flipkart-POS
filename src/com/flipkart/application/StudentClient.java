@@ -1,77 +1,71 @@
 package com.flipkart.application;
 
+import com.flipkart.bean.Grade;
+import com.flipkart.bean.Notification;
 import com.flipkart.business.*;
-import com.flipkart.exceptions.CourseCountException;
-import com.flipkart.exceptions.NoRegisteredCourseException;
-import com.flipkart.exceptions.SeatNotAvailableException;
 import org.apache.log4j.Logger;
 
-import java.sql.SQLException;
+import java.util.Formatter;
+import java.util.List;
 import java.util.Scanner;
 
-
+/**
+ * @author JEDI-07
+ * Student Client
+ */
 public class StudentClient {
+
     private static Logger logger = Logger.getLogger(StudentClient.class);
     Scanner sc = new Scanner(System.in);
     CourseInterface courseInterface = new CourseInterfaceImpl();
-    SemesterRegistrationInterface semRegister = new SemesterRegistrationInterfaceImpl();
+    SemesterRegistrationInterface semesterRegistrationInterface = new SemesterRegistrationInterfaceImpl();
     UserInterface userInterface = new UserInterfaceImpl();
     StudentInterface studentInterface = new StudentInterfaceImpl();
-    NotificationInterface notificationInterface= new NotificationImpl();
-
+    NotificationInterface notificationInterface = new NotificationImpl();
+    SemesterClient semesterClient = new SemesterClient();
 
 
     /**
-     * Method to generate Student Menu for course registration, addition, removal and fee payment
-     * @throws SQLException
-     * @throws CourseCountException
-     * @throws NoRegisteredCourseException
-     * @throws SeatNotAvailableException
+     * method for student menus
      */
-    public void showMenu() throws SQLException, CourseCountException, NoRegisteredCourseException, SeatNotAvailableException {
+    public void showMenu() {
 
-        boolean menuBreakFlag = false;
+        studentInterface.getStudent();
 
-        studentInterface.setStudent();
-
-        if(!StudentInterfaceImpl.student.isApproved()) {
+        if (!StudentInterfaceImpl.student.isApproved()) {
             logger.info("Your admission request is still pending..., login later");
             return;
         }
-
-
         logger.info("User Logged in Successfully");
+        boolean exit = false;
 
-        while (!menuBreakFlag) {
-
+        while (!exit) {
             showStudentMenu();
+
             int userInput = sc.nextInt();
 
             switch (userInput) {
                 case 1:
-                    semesterRegistration(StudentInterfaceImpl.student.getStudentId());
+                    handleSemesterRegistration();
                     break;
                 case 2:
-                    System.out.println("View Courses");
-                    courseInterface.viewCourses();
+                    handleViewCourses();
                     break;
                 case 3:
-                    feePayment(StudentInterfaceImpl.student.getStudentId());
+                    handleFeePayment();
                     break;
                 case 4:
-                    System.out.print("Enter New Password: ");
-                    String newPassword = sc.next();
-                    userInterface.updateUserPassword(newPassword);
+                    handleShowNotification();
                     break;
                 case 5:
-                    notificationInterface.showNotifications(StudentInterfaceImpl.student.getStudentId());
+                    handleViewGrades();
                     break;
                 case 6:
-                    viewGrades(StudentInterfaceImpl.student.getStudentId());
+                    handleUpdatePassword();
                     break;
                 case 7:
-                    menuBreakFlag = true;
-                    UserInterfaceImpl.logout();
+                    handleLogout();
+                    exit = true;
                     break;
                 default:
                     logger.warn("Invalid User Input");
@@ -79,137 +73,110 @@ public class StudentClient {
         }
     }
 
-    static void showStudentMenu() {
-        System.out.println("***************************");
-        System.out.println("*********** Student Menu ************");
-        System.out.println("***************************");
+    /**
+     * method for showing student action menu
+     */
+    private void showStudentMenu() {
+        System.out.println("*********************************************************************************");
+        System.out.println("******************************** Student Menu ***********************************");
+        System.out.println("*********************************************************************************");
         System.out.println("1. Semester Registration");
         System.out.println("2. View Courses");
         System.out.println("3. Pay Fees");
-        System.out.println("4. Update Password");
-        System.out.println("5. Show Notifications");
-        System.out.println("6. View Grades");
+        System.out.println("4. Show Notifications");
+        System.out.println("5. View Grades");
+        System.out.println("6. Update Password");
         System.out.println("7. Logout");
         System.out.print("Enter User Input :");
     }
 
+    /**
+     * method for semester registration.
+     */
+    private void handleSemesterRegistration() {
+        semesterClient.showSemesterMenu();
+    }
 
     /**
-     * Method to generate Student Registration Menu
-     * @throws SQLException
-     * @throws CourseCountException
-     * @throws NoRegisteredCourseException
-     * @throws SeatNotAvailableException
+     * method for view courses.
      */
-    public void semesterRegistration(int studentId) throws CourseCountException, NoRegisteredCourseException, SeatNotAvailableException, SQLException {
-        boolean breakFlag = false;
+    private void handleViewCourses() {
+        System.out.println("View Courses");
+        courseInterface.viewCourses();
+    }
 
+    /**
+     * method for fee payment of loggedin student
+     */
+    public void handleFeePayment() {
 
-        while (!breakFlag) {
+        double feePending = semesterRegistrationInterface.getPendingFee();
 
-            System.out.println("`##### Registration Menu #######`");
-            System.out.println("1. Add Primary Course");
-            System.out.println("2. Add Secondary Course");
-            System.out.println("3. Drop Course");
-            System.out.println("4. View Registered Courses");
-            System.out.println("5. Submit your choices");
-            System.out.println("6. Go back/cancel");
-            System.out.println("Enter Your Choice :");
-
-
-            int userChoice = sc.nextInt();
-
-
-            switch (userChoice) {
-                case 1: {
-                    System.out.println("Enter primary courseID:");
-                    int courseId = sc.nextInt();
-                    semRegister.addPrimaryCourse(studentId, courseId);
-                    break;
-                }
-
-                case 2: {
-                    System.out.println("Enter secondary courseID:");
-                    int courseId = sc.nextInt();
-                    semRegister.addSecondaryCourse(studentId, courseId);
-                    break;
-                }
-
-                case 3: {
-                    System.out.println("Enter courseID to be dropped:");
-                    int courseId = sc.nextInt();
-                    semRegister.dropCourse(studentId, courseId);
-                    break;
-                }
-
-                case 4:
-                    semRegister.viewRegisteredCourses(studentId);
-                    break;
-
-                case 5: {
-                    boolean isSuccess = semRegister.submitCourseChoices(studentId);
-                    if (isSuccess)
-                        breakFlag = true;
-                    break;
-                }
-
-                case 6:
-                    breakFlag = true;
-                    break;
-
-                default:
-                    logger.warn("Invalid Choice !!");
-
+        if (feePending != 0) {
+            System.out.println("Paying Fee: " + feePending);
+            boolean feePayed = semesterRegistrationInterface.payFee(feePending);
+            if (feePayed) {
+                logger.info("Fee payement completed.");
+            } else {
+                logger.error("Fee payment failed");
             }
-
-        }
-
-    }
-
-
-    /**
-     * Method for fee payment of a given student
-     * @param studentId
-     * @throws SQLException
-     */
-    public void feePayment(int studentId) throws SQLException {
-
-        boolean status = semRegister.getRegistrationStatus(studentId);
-        if(!status)
-        {
-            System.out.println("First complete semester registration");
-            return;
-        }
-        status= semRegister.getPaymentStatus(studentId);
-        if(status)
-        {
-            System.out.println("Already paid");
-            return;
-        }
-        double totalFee = semRegister.calculateFee(studentId);
-
-        System.out.println("## Total Fees : " + totalFee);
-        System.out.println("Do you want to proceed");
-        System.out.println("Enter 1 to proceed");
-        System.out.println("Enter 2 to cancel");
-
-        int x= sc.nextInt();
-        if(x==1)
-        {
-            System.out.println("Enter 1 for online payment");
-            System.out.println("Enter 2 for cash/cheque payment");
-            x=sc.nextInt();
-            semRegister.setPaymentStatus(studentId,true);
+        } else {
+            logger.info("No Pending fees.");
         }
     }
 
     /**
-     * Method to show student grades if they are added
-     * @param studentId
-     * @throws SQLException
+     * method to show student grades of regsitered courses.
      */
-    public void viewGrades(int studentId) throws SQLException {
-        studentInterface.viewGrades(studentId);
+    private void handleViewGrades() {
+        List<Grade> grades = studentInterface.getGrades();
+        if (grades == null || grades.size() == 0) {
+            logger.info("No grades available at the moment.");
+        } else {
+            System.out.println("********************* GRADE CARD *********************");
+            Formatter fmt = new Formatter();
+            fmt.format("%10s %20s %10s\n", "CourseId", "CourseName", "GPA");
+            double totalGrades = 0;
+            for (Grade grade : grades) {
+                fmt.format("%10s %20s %10s\n", grade.getCourseId(), grade.getCourseName(), grade.getGpa());
+                totalGrades += grade.getGpa();
+            }
+            System.out.println(fmt);
+            double cgpa = totalGrades / grades.size();
+            System.out.println("Your CGPA is " + cgpa);
+        }
     }
 
+    /**
+     * method for displaying all notifications
+     */
+    private void handleShowNotification() {
+        List<Notification> notifications = notificationInterface.getNotifications();
+        if (notifications == null || notifications.size() == 0) {
+            logger.info("No Notification at the moment.");
+        } else {
+            Formatter fmt = new Formatter();
+            fmt.format("%20s %30s\n", "NotificationId", "NotificationContent");
+            for (Notification notification : notifications) {
+                fmt.format("%20s %30s\n", notification.getNotificationId(), notification.getContent());
+            }
+            System.out.println(fmt);
+        }
+    }
+
+    /**
+     * method for updating password.
+     */
+    private void handleUpdatePassword() {
+        System.out.print("Enter New Password: ");
+        String newPassword = sc.next();
+        userInterface.updateUserPassword(newPassword);
+    }
+
+    /**
+     * method for logging out.
+     */
+    private void handleLogout() {
+        UserInterfaceImpl.logout();
+    }
 }

@@ -2,57 +2,72 @@ package com.flipkart.application;
 
 import com.flipkart.business.ProfessorInterface;
 import com.flipkart.business.ProfessorInterfaceImpl;
+import com.flipkart.business.UserInterface;
 import com.flipkart.business.UserInterfaceImpl;
 import org.apache.log4j.Logger;
 
 import java.util.Scanner;
 
-/*
-Class that displays Professor Client Menu
+/**
+ * @author JEDI-07
+ * Professor Client
  */
 public class ProfessorClient {
+
     private static Logger logger = Logger.getLogger(ProfessorClient.class);
     static Scanner sc = new Scanner(System.in);
     ProfessorInterface professorInterface = new ProfessorInterfaceImpl();
+    UserInterface userInterface = new UserInterfaceImpl();
 
+    /**
+     * method for professor menus
+     */
     public void showMenu() {
-
         logger.info("User Logged in Successfully");
         professorInterface.getProfessor();
-        boolean menuBreakFlag = false;
-        while (!menuBreakFlag) {
+
+        boolean exit = false;
+
+        while (!exit) {
             showMenuItems();
+
             int userInput = sc.nextInt();
 
             switch (userInput) {
                 case 1:
-                    professorInterface.viewAvailableCourses();
+                    handleViewAvailableCourses();
                     break;
                 case 2:
-                    inputsForSelectCourse();
+                    handleSelectCourse();
                     break;
                 case 3:
-                    inputsForDeSelectCourse();
+                    handleDeselectCourse();
                     break;
                 case 4:
-                    professorInterface.viewSelectedCourses();
+                    handleViewSelectedCourse();
                     break;
                 case 5:
-                    inputForViewEnrolledStudents();
+                    handleViewEnrolledStudents();
                     break;
                 case 6:
-                    inputForGradingStudent();
+                    handleStudentGrading();
                     break;
                 case 7:
-                    UserInterfaceImpl.logout();
-                    menuBreakFlag = true;
+                    handleUpdatePassword();
+                    break;
+                case 8:
+                    handleLogout();
+                    exit = true;
                     break;
                 default:
                     System.out.println("Invalid User Input");
             }
         }
     }
-//Method to show all Menu Items
+
+    /**
+     * method for displaying professor action menus
+     */
     private void showMenuItems() {
         System.out.println("1. View Available Course");
         System.out.println("2. Select Course");
@@ -60,33 +75,57 @@ public class ProfessorClient {
         System.out.println("4. View Selected Course");
         System.out.println("5. View Enrolled Students");
         System.out.println("6. Add Grade");
-        System.out.println("7. Logout");
+        System.out.println("7. Update Password");
+        System.out.println("8. Logout");
         System.out.print("Enter User Input: ");
     }
-//Method to view all enrolled students
-    private void inputForViewEnrolledStudents() {
+
+    /**
+     * method for viewing available course to select.
+     */
+    private void handleViewAvailableCourses() {
+        professorInterface.viewAvailableCourses();
+    }
+
+    /**
+     * method for viewing enrolled students in a course
+     */
+    private void handleViewEnrolledStudents() {
         System.out.print("Enter the courseId: ");
         int courseId = sc.nextInt();
         professorInterface.viewEnrolledStudents(courseId);
     }
 
-//Method for Deselection of course by Professor
 
-    private void inputsForDeSelectCourse() {
+    /**
+     * method for deselecting a course
+     */
+    private void handleDeselectCourse() {
         System.out.print("Input courseId you like to Deselect : ");
         int courseId = sc.nextInt();
         professorInterface.deselectCourse(courseId);
     }
-//Method for selection of  course by Professor
 
-    private void inputsForSelectCourse() {
+    /**
+     * method for selecting a course
+     */
+    private void handleSelectCourse() {
         System.out.print("Input courseId you like to select : ");
         int courseId = sc.nextInt();
         professorInterface.selectCourse(courseId);
     }
-//Method for adding grades
 
-    private void inputForGradingStudent() {
+    /**
+     * method for viewing selected course
+     */
+    private void handleViewSelectedCourse() {
+        professorInterface.viewSelectedCourses();
+    }
+
+    /**
+     * method for handling student grading
+     */
+    private void handleStudentGrading() {
         System.out.println("Enter student Id: ");
         int studentId = sc.nextInt();
 
@@ -97,6 +136,22 @@ public class ProfessorClient {
         double grade = sc.nextDouble();
 
         professorInterface.addGrade(studentId, courseId, grade);
+    }
+
+    /**
+     * method for updating password.
+     */
+    private void handleUpdatePassword() {
+        System.out.print("Enter New Password: ");
+        String newPassword = sc.next();
+        userInterface.updateUserPassword(newPassword);
+    }
+
+    /**
+     * method for logging out.
+     */
+    private void handleLogout() {
+        UserInterfaceImpl.logout();
     }
 
 }

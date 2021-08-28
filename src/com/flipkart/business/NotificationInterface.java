@@ -2,8 +2,11 @@ package com.flipkart.business;
 
 import com.flipkart.bean.Notification;
 
-public interface NotificationInterface {
-    void showNotifications(int studentId);
+import java.util.List;
 
-    boolean notificationStatus(String notificationId);
+public interface NotificationInterface {
+
+    public boolean sendNotification(String notificationContent);
+
+    public List<Notification> getNotifications();
 }

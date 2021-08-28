@@ -1,18 +1,17 @@
 package com.flipkart.business;
 
+import com.flipkart.bean.Grade;
 import com.flipkart.bean.Student;
 import com.flipkart.exceptions.StudentNotRegisteredException;
 
-import java.sql.SQLException;
+import java.util.List;
 
 public interface StudentInterface {
-    Student register(String studentName, String studentEmailId, String studentPassword, String studentPhoneNo) throws StudentNotRegisteredException;
+    Student register(String studentName, String studentEmailId, String studentPassword, String studentPhoneNo);
 
     String registerForSemester(String studentId);
 
-    void viewGrades(int studentId) throws SQLException;
+    List<Grade> getGrades();
 
-    void setStudent();
-
-    boolean payFee(String studentId, String studentRegistrationId, double amount);
+    void getStudent();
 }

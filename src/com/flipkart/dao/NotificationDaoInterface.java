@@ -2,11 +2,12 @@ package com.flipkart.dao;
 
 import com.flipkart.bean.Notification;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public interface NotificationDaoInterface {
-    public boolean sendNotification(Notification notification);
+    public boolean sendNotification(String notificationContent);
 
-    public List<String> showNotifications(int studentId);
+    public List<Notification> getNotifications(int studentId);
 
 }

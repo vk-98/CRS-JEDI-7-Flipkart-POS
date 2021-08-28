@@ -43,6 +43,7 @@ public class StudentClient {
             showStudentMenu();
 
             int userInput = sc.nextInt();
+            sc.nextLine();
 
             switch (userInput) {
                 case 1:

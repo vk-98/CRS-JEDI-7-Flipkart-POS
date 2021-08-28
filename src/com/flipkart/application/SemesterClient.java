@@ -28,6 +28,7 @@ public class SemesterClient {
             showSemesterMenuItems();
 
             int userChoice = sc.nextInt();
+            sc.nextLine();
 
             switch (userChoice) {
                 case 1:

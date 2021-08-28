@@ -1,11 +1,14 @@
 package com.flipkart.application;
 
+import com.flipkart.bean.Course;
 import com.flipkart.business.ProfessorInterface;
 import com.flipkart.business.ProfessorOperation;
 import com.flipkart.business.UserInterface;
 import com.flipkart.business.UserOperation;
 import org.apache.log4j.Logger;
 
+import java.util.Formatter;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -32,6 +35,7 @@ public class ProfessorClient {
             showMenuItems();
 
             int userInput = sc.nextInt();
+            sc.nextLine();
 
             switch (userInput) {
                 case 1:
@@ -84,7 +88,17 @@ public class ProfessorClient {
      * method for viewing available course to select.
      */
     private void handleViewAvailableCourses() {
-        professorInterface.viewAvailableCourses();
+        List<Course> courses = professorInterface.getAvailableCourses();
+        if (courses == null || courses.size() == 0) {
+            logger.info("No Courses available");
+        } else {
+            Formatter fmt = new Formatter();
+            fmt.format("%30s %30s %30s %30s %30s\n", "CourseId", "CourseName", "CourseDescription", "CourseFee", "StudentCount");
+            for (Course c : courses) {
+                fmt.format("%30s %30s %30s %30s %30s\n", c.getCourseId(), c.getCourseName(), c.getCourseDescription(), c.getCourseFee(), c.getStudentCount());
+            }
+            System.out.println(fmt);
+        }
     }
 
     /**
@@ -103,7 +117,9 @@ public class ProfessorClient {
     private void handleDeselectCourse() {
         System.out.print("Input courseId you like to Deselect : ");
         int courseId = sc.nextInt();
-        professorInterface.deselectCourse(courseId);
+        boolean isCourseDeselected = professorInterface.deselectCourse(courseId);
+        if(isCourseDeselected)
+            logger.info("Course with course Id: " + courseId + " deselected successfully.");
     }
 
     /**
@@ -112,7 +128,10 @@ public class ProfessorClient {
     private void handleSelectCourse() {
         System.out.print("Input courseId you like to select : ");
         int courseId = sc.nextInt();
-        professorInterface.selectCourse(courseId);
+        boolean isCourseSelected = professorInterface.selectCourse(courseId);
+        if (isCourseSelected)
+            logger.info("Course with courseId " + courseId + " selected.");
+
     }
 
     /**
@@ -152,7 +171,7 @@ public class ProfessorClient {
      */
     private void handleLogout() {
         boolean userLoggedOut = userInterface.logout();
-        if(userLoggedOut) {
+        if (userLoggedOut) {
             logger.info("You are successfully logged out.");
         }
     }

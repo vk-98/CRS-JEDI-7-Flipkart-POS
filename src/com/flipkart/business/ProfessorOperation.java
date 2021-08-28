@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  * @author JEDI-07
- * Admin Client
+ * Implementation of professor interface
  */
 public class ProfessorOperation implements ProfessorInterface {
     private static Logger logger = Logger.getLogger(ProfessorOperation.class);
@@ -20,15 +20,17 @@ public class ProfessorOperation implements ProfessorInterface {
     ProfessorDaoInterface professorDaoInterface = new ProfessorDaoOperation();
 
     /**
-     * Method to retrieve Professor Details
+     * method to retrieve Professor Details
      */
     public void getProfessor() {
         professor = professorDaoInterface.getProfessorByUserId(UserOperation.user.getId());
     }
+
     /**
-    *Method to add Grade in the database
-    *@param studentId
-    *@param courseId
+     * Method to add Grade in the database
+     *
+     * @param studentId
+     * @param courseId
      * @param grade
      */
     @Override
@@ -56,6 +58,7 @@ public class ProfessorOperation implements ProfessorInterface {
 
     /**
      * Method to view all enrolled students in a particular course
+     *
      * @param courseId
      */
     @Override
@@ -98,57 +101,51 @@ public class ProfessorOperation implements ProfessorInterface {
     }
 
     /**
-     * Method to select the course
+     * method to select the course to teach
      * @param courseId
+     * @return isCourseSelected
      */
     @Override
-    public void selectCourse(int courseId) {
-
+    public boolean selectCourse(int courseId) {
+        // Exception
         boolean courseAvailable = professorDaoInterface.IsCourseAvailable(courseId);
         if (courseAvailable) {
-            boolean courseSelected = professorDaoInterface.selectCourse(courseId);
-            if (courseSelected) {
-                logger.info("Course with courseId " + courseId + " selected.");
-                return;
+            boolean isCourseSelected = professorDaoInterface.selectCourse(courseId);
+            if (isCourseSelected) {
+                return true;
             }
         }
-        logger.info("Course with courseId " + courseId + " cannot be selected.");
-
+        return false;
+        //logger.info("Course with course Id: " + courseId + " cannot be selected.");
     }
 
     /**
-     * Method to deselect the course
+     * method to deselect the course
+     *
      * @param courseId
+     * @return isCourseDeselected
      */
     @Override
-    public void deselectCourse(int courseId) {
+    public boolean deselectCourse(int courseId) {
+        // Exception
         boolean isCourseSelected = professorDaoInterface.IsCourseSelected(courseId);
-        System.out.println(isCourseSelected);
         if (isCourseSelected) {
-            boolean courseDeselected = professorDaoInterface.deselectCourse(courseId);
-            if (courseDeselected) {
-                logger.info("Course with course Id: " + courseId + " deselected successfully.");
-                return;
+            boolean isCourseDeselected = professorDaoInterface.deselectCourse(courseId);
+            if (isCourseDeselected) {
+
+                return true;
             }
         }
-        logger.info("Course with course Id: " + courseId + " cannot be deselected.");
+        return false;
+        //logger.info("Course with course Id: " + courseId + " cannot be deselected.");
     }
 
     /**
-     * Method to view all available courses
+     * method to view all available courses
+     * @return list of courses.
      */
     @Override
-    public void viewAvailableCourses() {
-        List<Course> courses = professorDaoInterface.viewAvailableCourses();
-        if (courses == null || courses.size() == 0) {
-            logger.info("No Courses available");
-        } else {
-            Formatter fmt = new Formatter();
-            fmt.format("%30s %30s %30s %30s %30s\n", "CourseId", "CourseName", "CourseDescription", "CourseFee", "StudentCount");
-            for (Course c : courses) {
-                fmt.format("%30s %30s %30s %30s %30s\n", c.getCourseId(), c.getCourseName(), c.getCourseDescription(), c.getCourseFee(), c.getStudentCount());
-            }
-            System.out.println(fmt);
-        }
+    public List<Course> getAvailableCourses() {
+        return professorDaoInterface.viewAvailableCourses();
     }
 }

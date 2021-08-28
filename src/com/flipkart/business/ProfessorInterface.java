@@ -1,5 +1,9 @@
 package com.flipkart.business;
 
+import com.flipkart.bean.Course;
+
+import java.util.List;
+
 /**
  * @author JEDI-07
  * Admin Client
@@ -27,31 +31,32 @@ public interface ProfessorInterface {
      */
 
     void viewSelectedCourses();
+
     /**
-     * Method to select the course to teach
+     * method to select the course to teach
      * @param courseId
+     * @return isCourseSelected
      */
-
-    void selectCourse(int courseId);
+    boolean selectCourse(int courseId);
 
     /**
-     * Method to deselect the course
+     * method to deselect the course
+     *
      * @param courseId
+     * @return isCourseDeselected
      */
-
-    void deselectCourse(int courseId);
+    boolean deselectCourse(int courseId);
 
 
     /**
-     * Method to view all available courses
+     * method to view all available courses
+     * @return list of courses.
      */
-
-    void viewAvailableCourses();
+    List<Course> getAvailableCourses();
 
     /**
-     * Method to retrieve Professor Details
+     * method to retrieve Professor Details
      */
-
     void getProfessor();
 
 }

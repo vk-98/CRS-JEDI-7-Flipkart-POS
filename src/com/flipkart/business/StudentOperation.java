@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  * @author JEDI-07
- * Admin Client
+ * Implementation of Student Interface
  */
 public class StudentOperation implements StudentInterface {
     private static Logger logger = Logger.getLogger(StudentOperation.class);
@@ -19,6 +19,14 @@ public class StudentOperation implements StudentInterface {
     SemesterRegistrationDaoInterface semesterRegistrationDaoInterface = new SemesterRegistrationDaoOperation();
     SemesterRegistrationInterface semesterRegistrationInterface = new SemesterRegistrationOperation();
 
+    /**
+     * method for registering a student
+     * @param studentName
+     * @param studentEmailId
+     * @param studentPassword
+     * @param studentPhoneNo
+     * @return
+     */
     @Override
     public Student register(String studentName, String studentEmailId, String studentPassword, String studentPhoneNo) {
         Student student = null;

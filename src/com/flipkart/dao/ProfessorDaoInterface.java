@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  * @author JEDI-07
- * Admin Client
+ * Professor Dao Interface
  */
 public interface ProfessorDaoInterface {
     /**
@@ -54,14 +54,14 @@ public interface ProfessorDaoInterface {
     public List<Course> viewAvailableCourses();
 
     /**
-     * Method to check if given course is available or not
+     * method to check if given course is available or not
      * @param courseId
      * @return availability of the given course
      */
     public boolean IsCourseAvailable(int courseId);
 
     /**
-     * Method to select a course
+     * method to select a course
      * @param courseId
      */
     public boolean selectCourse(int courseId);

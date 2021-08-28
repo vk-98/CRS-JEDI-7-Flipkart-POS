@@ -18,7 +18,7 @@ import java.util.List;
 
 /**
  * @author JEDI-07
- * Admin Client
+ * Implementation of Professofor doa interface
  */
 public class ProfessorDaoOperation implements ProfessorDaoInterface {
     private static Logger logger = Logger.getLogger(CRSApplicationClient.class);
@@ -175,7 +175,7 @@ public class ProfessorDaoOperation implements ProfessorDaoInterface {
     }
 
     /**
-     * Method to check if given course is available or not
+     * method to check if given course is available or not
      * @param courseId
      * @return availability of the given course
      */
@@ -193,13 +193,13 @@ public class ProfessorDaoOperation implements ProfessorDaoInterface {
         }
         return false;
     }
+
     /**
-     * Method to select a course
+     * method to select a course
      * @param courseId
      */
     @Override
     public boolean selectCourse(int courseId) {
-        System.out.println("inside dao");
         try {
             PreparedStatement ps = conn.prepareStatement(SqlQueries.SELECT_COURSE_FOR_PROF);
             ps.setInt(1, ProfessorOperation.professor.getProfessorId());

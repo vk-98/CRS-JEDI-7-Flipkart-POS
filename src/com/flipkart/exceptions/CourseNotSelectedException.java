@@ -1,9 +1,9 @@
 package com.flipkart.exceptions;
 
-public class CourseNotSelectedExcpetion extends Exception{
+public class CourseNotSelectedException extends Exception{
     private int courseId;
 
-    public CourseNotSelectedExcpetion(int courseId) {
+    public CourseNotSelectedException(int courseId) {
         this.courseId = courseId;
     }
     @Override

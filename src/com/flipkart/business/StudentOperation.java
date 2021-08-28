@@ -25,6 +25,7 @@ public class StudentOperation implements StudentInterface {
      * @param studentEmailId
      * @param studentPassword
      * @param studentPhoneNo
+     * @throws StudentNotRegisteredException
      * @return
      */
     @Override
@@ -52,17 +53,19 @@ public class StudentOperation implements StudentInterface {
 
     @Override
     public List<Grade> getGrades() {
+        try{
         boolean isRegistered = semesterRegistrationDaoInterface.getRegistrationStatus();
         if(!isRegistered) {
-            logger.info("Student is not registered for the semester");
-            return null;
+           throw new StudentNotRegisteredException("");
         }
 
         boolean paymentStatus = semesterRegistrationDaoInterface.getPaymentStatus();
-        if(paymentStatus) {
-            System.out.println("yaha1");
+        if(paymentStatus) {;
             return studentDaoInterface.getGrades(StudentOperation.student.getStudentId());
+        }} catch (StudentNotRegisteredException e) {
+            logger.info(e.getMessage());
         }
+
         return null;
     }
 

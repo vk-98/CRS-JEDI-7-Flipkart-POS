@@ -55,7 +55,7 @@ public class StudentDaoOperation implements StudentDaoInterface {
 
     /**
      * Method to get student object from studentID
-     * @param studentId
+     * @param emailId
      * @return student object or null if no matching student found
      * @throws SQLException
      */

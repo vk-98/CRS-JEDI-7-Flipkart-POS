@@ -11,11 +11,8 @@ public class SeatNotAvailableException extends Exception {
         this.courseId = courseId;
     }
 
-    /**
-     * getter function for courseId
-     * @return
-     */
-    public int getCourseId() {
-        return courseId;
+    @Override
+    public String getMessage() {
+        return "Maximum limit of students for courseId " +courseId+" reached.";
     }
 }

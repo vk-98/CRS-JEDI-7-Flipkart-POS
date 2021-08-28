@@ -83,7 +83,7 @@ public class SqlQueries {
 
     public static final String GET_SEMESTER_ID = "SELECT id FROM semesterregistration WHERE studentId = ?";
 
-    public static final String CHECK_COURSE_AVAILABILITY = "SELECT studentCount FROM course where id = ?";
+   public static final String CHECK_COURSE_AVAILABILITY = "SELECT studentCount FROM course where id = ?";
 
     public static final String ALLOT_COURSE = "UPDATE optedcourse SET isAllotted = 1 WHERE courseId = ? AND studentId = ?";
 

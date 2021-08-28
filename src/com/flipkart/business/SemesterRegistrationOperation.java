@@ -22,20 +22,20 @@ import java.util.stream.Collectors;
 public class SemesterRegistrationOperation implements SemesterRegistrationInterface {
 
     SemesterRegistrationDaoInterface semesterRegistrationDaoInterface = new SemesterRegistrationDaoOperation();
-    NotificationDaoInterface notificationDaoInterface = new NotificationDaoOperation();
+    NotificationOperation notificationOperation = new NotificationOperation();
 
     private static Logger logger = Logger.getLogger(SemesterRegistrationOperation.class);
 
 
     /**
-     * Method to add a primary course for a given student
+     * method for adding course for the logged in user
      *
      * @param courseId
-     * @return boolean indicating if the primary course is added successfully
-     * @throws SQLException
+     * @param isPrimary
+     * @return isCourseAdded
      */
     @Override
-    public boolean addCourse(int courseId, int isPrimary)  {
+    public boolean addCourse(int courseId, int isPrimary) {
         // Exception
         boolean isRegistered = semesterRegistrationDaoInterface.getRegistrationStatus();
 
@@ -79,27 +79,20 @@ public class SemesterRegistrationOperation implements SemesterRegistrationInterf
                 semesterId = semesterRegistrationDaoInterface.getSemesterId();
             }
         }
-        System.out.println(semesterId);
-        boolean courseAdded = semesterRegistrationDaoInterface.addCourse(courseId, semesterId, isPrimary);
-        System.out.println(courseAdded);
-        if (courseAdded) {
-            logger.info("Successfully added course");
-            return true;
-        }
 
-        return false;
+        return semesterRegistrationDaoInterface.addCourse(courseId, semesterId, isPrimary);
     }
 
 
     /**
-     * Method to drop a course for a given student
+     * method fro dropping course
      *
      * @param courseId
-     * @return boolean indicating if the course is dropped successfully
-     * @throws SQLException
+     * @return isCourseDropped
      */
     @Override
-    public boolean dropCourse(int courseId)  {
+    public boolean dropCourse(int courseId) {
+        // Exception
         boolean isRegistered = semesterRegistrationDaoInterface.getRegistrationStatus();
 
         if (isRegistered) {
@@ -109,11 +102,7 @@ public class SemesterRegistrationOperation implements SemesterRegistrationInterf
         boolean isCourseRegistered = semesterRegistrationDaoInterface.isCourseAlreadyRegistered(courseId);
 
         if (isCourseRegistered) {
-            boolean courseDropped = semesterRegistrationDaoInterface.dropCourse(courseId);
-            if (courseDropped) {
-                logger.info("Course Dropped Successfully");
-                return true;
-            }
+            return semesterRegistrationDaoInterface.dropCourse(courseId);
         } else {
             logger.info("Course is not registered");
         }
@@ -122,56 +111,30 @@ public class SemesterRegistrationOperation implements SemesterRegistrationInterf
 
 
     /**
-     * Method to view all the courses registered by the given student
+     * method for getting registered courses
      *
-     * @return
+     * @return list of opted courses
      */
     @Override
-    public void getRegisteredCourses() {
-
-        List<OptedCourse> courses = semesterRegistrationDaoInterface.getRegisteredCourses();
-
-        if (courses == null || courses.size() == 0) {
-            logger.info("### No registered courses to show");
-            return;
-        }
-        System.out.println("** Registered courses **");
-
-        Formatter fmt = new Formatter();
-        fmt.format("%20s %20s\n", "CourseId", "IsPrimary");
-        for (OptedCourse course : courses) {
-            fmt.format("%20s %20s\n", course.getCourseId(), course.isPrimary());
-        }
-        System.out.println(fmt);
+    public List<OptedCourse> getRegisteredCourses() {
+        return semesterRegistrationDaoInterface.getRegisteredCourses();
     }
 
+    /**
+     * method for getting selected courses
+     *
+     * @return list of optedcourses
+     */
     @Override
-    public void getSelectedCourses() {
-        List<OptedCourse> courses = semesterRegistrationDaoInterface.getSelectedCourses();
-
-        if (courses == null || courses.size() == 0) {
-            logger.info("### No registered courses to show");
-            return;
-        }
-        System.out.println("** Registered courses **");
-
-        Formatter fmt = new Formatter();
-        fmt.format("%20s %20s\n", "CourseId", "IsPrimary");
-        for (OptedCourse course : courses) {
-            fmt.format("%20s %20s\n", course.getCourseId(), course.isPrimary());
-        }
-        System.out.println(fmt);
+    public List<OptedCourse> getSelectedCourses() {
+        return semesterRegistrationDaoInterface.getSelectedCourses();
     }
 
 
     /**
-     * Method to submit the choices of the course opted by the student
+     * method for submitting course choices
      *
-     * @return boolean indicating if the choices are added successfully
-     * @throws NoRegisteredCourseException
-     * @throws CourseCountException
-     * @throws SeatNotAvailableException
-     * @throws SQLException
+     * @return isChoiceSubmitted
      */
     @Override
     public boolean submitCourseChoices() {
@@ -207,11 +170,11 @@ public class SemesterRegistrationOperation implements SemesterRegistrationInterf
         int courseCount = 0;
         double courseFee = 0;
 
-        for(OptedCourse course: primaryCourse) {
+        for (OptedCourse course : primaryCourse) {
             boolean isAvailable = semesterRegistrationDaoInterface.checkAvailability(course.getCourseId());
             if (isAvailable) {
                 boolean alloted = semesterRegistrationDaoInterface.allotCourse(course.getCourseId());
-                if(alloted) {
+                if (alloted) {
                     semesterRegistrationDaoInterface.updateStudentCount(course.getCourseId());
                     courseCount += 1;
                     courseFee += course.getCourseFee();
@@ -219,12 +182,12 @@ public class SemesterRegistrationOperation implements SemesterRegistrationInterf
             }
         }
 
-        for (OptedCourse course: secondaryCourse) {
-            if (courseCount < 4){
+        for (OptedCourse course : secondaryCourse) {
+            if (courseCount < 4) {
                 boolean isAvailable = semesterRegistrationDaoInterface.checkAvailability(course.getCourseId());
                 if (isAvailable) {
                     boolean alloted = semesterRegistrationDaoInterface.allotCourse(course.getCourseId());
-                    if(alloted) {
+                    if (alloted) {
                         semesterRegistrationDaoInterface.updateStudentCount(course.getCourseId());
                         courseCount += 1;
                         courseFee += course.getCourseFee();
@@ -237,23 +200,33 @@ public class SemesterRegistrationOperation implements SemesterRegistrationInterf
         boolean submitRegistration = semesterRegistrationDaoInterface.submitRegistration(courseFee);
 
         String notificationContent = "You have Successfully Registered for the Semester. Please Pay fee $" + courseFee + " ASAP";
-        notificationDaoInterface.sendNotification(notificationContent);
+        notificationOperation.sendNotification(notificationContent);
 
         return submitRegistration;
     }
 
-
+    /**
+     * method for getting the pending fee.
+     *
+     * @return pendingFee
+     */
     @Override
     public double getPendingFee() {
         return semesterRegistrationDaoInterface.getPendingFee();
     }
 
+    /**
+     * method for paying fee
+     *
+     * @param amount
+     * @return isFeePayementDone
+     */
     @Override
     public boolean payFee(double amount) {
         boolean feePayment = semesterRegistrationDaoInterface.payFee(amount);
-        if(feePayment) {
+        if (feePayment) {
             String notificationContent = "Fee Payment Complete Welcome to the CRS.";
-            notificationDaoInterface.sendNotification(notificationContent);
+            notificationOperation.sendNotification(notificationContent);
         }
         return feePayment;
     }

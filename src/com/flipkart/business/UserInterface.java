@@ -7,6 +7,7 @@ package com.flipkart.business;
 public interface UserInterface {
     /**
      * method for validating user with email and password
+     *
      * @param emailId
      * @param password
      * @return isAutheniticated
@@ -23,6 +24,7 @@ public interface UserInterface {
 
     /**
      * method for logging out the user.
+     *
      * @return isUserLoggedOut
      */
     boolean logout();

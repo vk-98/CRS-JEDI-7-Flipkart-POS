@@ -10,7 +10,13 @@ import java.util.List;
  * Admin Client
  */
 public interface NotificationDaoInterface {
-    public boolean sendNotification(String notificationContent);
+    /**
+     * Method for sending the notification to student.
+     * @param studentId
+     * @param notificationContent
+     * @return notification sent status
+     */
+    public boolean sendNotification(int studentId, String notificationContent);
 
     public List<Notification> getNotifications(int studentId);
 

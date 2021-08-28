@@ -1,21 +1,12 @@
 package com.flipkart.bean;
 
+/**
+ * @author JEDI-07
+ * OptedCouse Bean
+ */
 public class OptedCourse extends Course{
     private int courseId;
     private boolean isPrimary;
-
-    public OptedCourse() {
-    }
-    /**
-     * Parameterized Constructor
-     * @param courseId: course id
-     * @param isPrimary: true if the course is primary, false if it is secondary
-     */
-
-    public OptedCourse(int courseId, boolean isPrimary) {
-        this.courseId = courseId;
-        this.isPrimary = isPrimary;
-    }
 
     public int getCourseId() {
         return courseId;

@@ -25,14 +25,15 @@ public class NotificationDaoOperation implements NotificationDaoInterface {
 
     /**
      * Method for sending the notification to student.
+     * @param studentId
      * @param notificationContent
      * @return notification sent status
      */
     @Override
-    public boolean sendNotification(String notificationContent){
+    public boolean sendNotification(int studentId, String notificationContent){
         try {
             PreparedStatement ps = conn.prepareStatement(SqlQueries.SEND_NOTIFICATION);
-            ps.setInt(1, StudentOperation.student.getStudentId());
+            ps.setInt(1, studentId);
             ps.setString(2,notificationContent);
             return ps.executeUpdate() == 1;
         } catch (SQLException e) {

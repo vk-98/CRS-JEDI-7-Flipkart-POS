@@ -22,7 +22,7 @@ public class StudentClient {
     SemesterRegistrationInterface semesterRegistrationInterface = new SemesterRegistrationOperation();
     UserInterface userInterface = new UserOperation();
     StudentInterface studentInterface = new StudentOperation();
-    NotificationOperation notificationOperation = new NotificationImpl();
+    NotificationInterface notificationInterface = new NotificationOperation();
     SemesterClient semesterClient = new SemesterClient();
 
 
@@ -31,7 +31,7 @@ public class StudentClient {
      */
     public void showMenu() {
 
-        studentInterface.getStudent();
+        studentInterface.getStudentByEmailId();
 
         if (!StudentOperation.student.isApproved()) {
             logger.info("Your admission request is still pending..., login later");
@@ -171,7 +171,7 @@ public class StudentClient {
      * method for displaying all notifications
      */
     private void handleShowNotification() {
-        List<Notification> notifications = notificationOperation.getNotifications();
+        List<Notification> notifications = notificationInterface.getNotifications();
         if (notifications == null || notifications.size() == 0) {
             logger.info("No Notification at the moment.");
         } else {

@@ -1,16 +1,34 @@
 package com.flipkart.business;
 
 import com.flipkart.bean.Notification;
+import com.flipkart.dao.NotificationDaoInterface;
+import com.flipkart.dao.NotificationDaoOperation;
 
 import java.util.List;
 
 /**
  * @author JEDI-07
- * Admin Client
+ * Implementation of Notification Interface
  */
-public interface NotificationOperation {
+public class NotificationOperation implements NotificationInterface {
+    NotificationDaoInterface notificationDaoInterface = new NotificationDaoOperation();
 
-    public boolean sendNotification(String notificationContent);
+    /**
+     * method for sending notification to student
+     * @param notificationContent
+     * @return
+     */
+    @Override
+    public boolean sendNotification(String notificationContent) {
+        return notificationDaoInterface.sendNotification(StudentOperation.student.getStudentId(), notificationContent);
+    }
 
-    public List<Notification> getNotifications();
+    /**
+     * method for retreiving all the notifications
+     * @return list of all the notifications
+     */
+    @Override
+    public List<Notification> getNotifications() {
+        return notificationDaoInterface.getNotifications(StudentOperation.student.getStudentId());
+    }
 }

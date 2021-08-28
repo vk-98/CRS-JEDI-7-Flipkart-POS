@@ -21,6 +21,7 @@ public class StudentOperation implements StudentInterface {
 
     /**
      * method for registering a student
+     *
      * @param studentName
      * @param studentEmailId
      * @param studentPassword
@@ -45,29 +46,32 @@ public class StudentOperation implements StudentInterface {
         return student;
     }
 
-    @Override
-    public String registerForSemester(String studentId) {
-        return null;
-    }
-
+    /**
+     * method getting all the grades
+     *
+     * @return list of grades
+     */
     @Override
     public List<Grade> getGrades() {
         boolean isRegistered = semesterRegistrationDaoInterface.getRegistrationStatus();
-        if(!isRegistered) {
+        if (!isRegistered) {
             logger.info("Student is not registered for the semester");
             return null;
         }
 
         boolean paymentStatus = semesterRegistrationDaoInterface.getPaymentStatus();
-        if(paymentStatus) {
+        if (paymentStatus) {
             System.out.println("yaha1");
             return studentDaoInterface.getGrades(StudentOperation.student.getStudentId());
         }
         return null;
     }
 
+    /**
+     * method for getting student by emailid
+     */
     @Override
-    public void getStudent() {
+    public void getStudentByEmailId() {
         student = studentDaoInterface.getStudentByEmailId(UserOperation.user.getUserEmailId());
     }
 }

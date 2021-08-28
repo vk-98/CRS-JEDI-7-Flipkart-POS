@@ -1,5 +1,9 @@
 package com.flipkart.bean;
 
+/**
+ * @author JEDI-07
+ * Course Bean
+ */
 public class Course {
     private int courseId;
     private int professorId;
@@ -7,14 +11,6 @@ public class Course {
     private String courseDescription;
     private double courseFee;
     private int studentCount;
-
-    public String getCourseDescription() {
-        return courseDescription;
-    }
-
-    public void setCourseDescription(String courseDescription) {
-        this.courseDescription = courseDescription;
-    }
 
     public Course() {
     }
@@ -34,6 +30,13 @@ public class Course {
         this.studentCount = 0;
     }
 
+    public String getCourseDescription() {
+        return courseDescription;
+    }
+
+    public void setCourseDescription(String courseDescription) {
+        this.courseDescription = courseDescription;
+    }
 
     public int getCourseId() {
         return courseId;

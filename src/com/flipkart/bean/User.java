@@ -1,5 +1,9 @@
 package com.flipkart.bean;
 
+/**
+ * @author JEDI-07
+ * User Bean
+ */
 public class User {
     private String userName;
     private String userEmailId;
@@ -18,7 +22,6 @@ public class User {
         this.role = role;
         this.phoneNo = phoneNo;
     }
-
 
     public int getId() {
         return id;

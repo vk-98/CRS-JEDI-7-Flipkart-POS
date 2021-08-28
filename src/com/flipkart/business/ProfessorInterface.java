@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * @author JEDI-07
- * Admin Client
+ * Professor Interface
  */
 public interface ProfessorInterface {
 

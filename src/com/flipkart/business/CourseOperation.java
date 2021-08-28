@@ -25,6 +25,4 @@ public class CourseOperation implements CourseInterface {
     public List<Course> getCourses() {
         return adminDaoInterface.viewCourses();
     }
-
-
 }

@@ -1,5 +1,9 @@
 package com.flipkart.bean;
 
+/**
+ * @author JEDI-07
+ * Notification Bean
+ */
 public class Notification {
     private int notificationId;
     private int studentId;
@@ -8,16 +12,10 @@ public class Notification {
     public Notification() {
     }
 
-    /**
-     * Parameterized Constructor
-     * @param content: notification content
-     * @param studentId: student id
-     */
-    public Notification( String content, int studentId) {
+    public Notification(String content, int studentId) {
         this.content = content;
         this.studentId = studentId;
     }
-
 
     public int getNotificationId() {
         return notificationId;
@@ -42,7 +40,4 @@ public class Notification {
     public void setStudentId(int studentId) {
         this.studentId = studentId;
     }
-
-
-
 }

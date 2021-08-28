@@ -2,7 +2,7 @@ package com.flipkart.constants;
 
 /**
  * @author JEDI-07
- * Admin Client
+ * Roles Client
  */
 public class Roles {
     public static final String Admin = "admin";

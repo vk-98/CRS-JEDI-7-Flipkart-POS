@@ -3,43 +3,51 @@ package com.flipkart.constants;
 
 /**
  * @author JEDI-07
- * Admin Client
+ * SQL Constant
  */
 public class SqlQueries {
 
-
-    // Queries
-
     public static final String ADD_USER_QUERY = "insert into User(name,email,password,role, phone) values (?, ?, ?, ?, ?)";
+
     public static final String ADD_SEMESTER_REGISTRATION = "insert into semesterregistration(studentId,registrationStatus,feeStatus) values (?, 0, 0)";
+
     public static final String VIEW_COURSES_QUERY = "select * from course";
+
     public static final String VIEW_OPTED_COURSE_QUERY = "select * from optedCourse where studentId=?";
+
     public static final String UPDATE_PASSWORD = "UPDATE user SET password = ? WHERE id = ?";
+
     public static final String VIEW_REGISTERED_STUDENT_COURSES = "SELECT course.id, course.courseName, course.courseFee, course.professorId, course.studentCount, optedcourse.isPrimary FROM course INNER JOIN optedcourse ON course.id=optedcourse.courseId WHERE optedcourse.studentId = ? AND optedcourse.isAllotted=1";
+
     public static final String VIEW_SELECTED_STUDENT_COURSES = "SELECT course.id, course.courseName, course.courseFee, course.professorId, course.studentCount, optedcourse.isPrimary FROM course INNER JOIN optedcourse ON course.id=optedcourse.courseId WHERE optedcourse.studentId = ?";
 
-    public static final String CALCULATE_FEES= "select SUM(courseFee) from course where id IN (select courseId from optedCourse where studentId=? AND isAllotted=1)";
+    public static final String CALCULATE_FEES = "select SUM(courseFee) from course where id IN (select courseId from optedCourse where studentId=? AND isAllotted=1)";
 
     public static final String ADD_STUDENT = "insert into student (userId,isApproved) values (?,?)";
-    public static final String GET_STUDENT_COUNT= "select count(*) from optedCourse where courseId=?";
 
-    public static final String ADD_COURSE_STUDENT="insert into optedCourse (courseId,semesterRegistrationId,isPrimary,isAllotted,studentId) values ( ?, ?, ?, 0, ? )";
-    public static final String DROP_COURSE= "delete from optedCourse where studentId=? AND courseId = ?";
-    public static final String CHECK_COURSE_STUDENT="select * from optedCourse where studentId=? AND courseId=?";
-    public static final String GET_STUDENT_GRADES= "select * from grade where studentId=?";
-    public static final String GET_STUDENT_ID= "select id from student where userId = ? ";
+    public static final String GET_STUDENT_COUNT = "select count(*) from optedCourse where courseId=?";
+
+    public static final String ADD_COURSE_STUDENT = "insert into optedCourse (courseId,semesterRegistrationId,isPrimary,isAllotted,studentId) values ( ?, ?, ?, 0, ? )";
+
+    public static final String DROP_COURSE = "delete from optedCourse where studentId=? AND courseId = ?";
+
+    public static final String CHECK_COURSE_STUDENT = "select * from optedCourse where studentId=? AND courseId=?";
+
     public static final String GET_USER_ID = "select id from user where email = ? ";
-    public static final String GET_SEM_REGISTRATION_ID= "select id from semesterregistration where studentId= ?";
-    public static final String SET_REGISTRATION_STATUS= "update semesterregistration set registrationStatus=? where studentId=?";
-    public static final String GET_REGISTRATION_STATUS= "select registrationStatus from semesterregistration where studentId=?";
-    public static final String SET_PAYMENT_STATUS= "update semesterregistration set feeStatus=? where studentId=?";
-    public static final String GET_PAYMENT_STATUS= "select feeStatus from semesterregistration where studentId=?";
+
+    public static final String SET_REGISTRATION_STATUS = "update semesterregistration set registrationStatus=? where studentId=?";
+
+    public static final String GET_REGISTRATION_STATUS = "select registrationStatus from semesterregistration where studentId=?";
+
+    public static final String SET_PAYMENT_STATUS = "update semesterregistration set feeStatus=? where studentId=?";
+
+    public static final String GET_PAYMENT_STATUS = "select feeStatus from semesterregistration where studentId=?";
+
     public static final String GET_USER_EMAIL_PASSWORD = "SELECT * FROM user WHERE email = ? AND password = ?";
 
     public static final String ADD_COURSE = "insert into Course(courseName, courseDescription, courseFee) values (?, ?, ?)";
 
-    public static final String SHOW_NOTIFICATIONS= "select * from notification where studentId=?";
-
+    public static final String SHOW_NOTIFICATIONS = "select * from notification where studentId=?";
 
     public static final String REMOVE_COURSE = "delete from Course where id = ? and studentCount = 0";
 

@@ -13,6 +13,7 @@ import java.util.List;
 public interface StudentInterface {
     /**
      * method for registering a student
+     *
      * @param studentName
      * @param studentEmailId
      * @param studentPassword
@@ -21,9 +22,15 @@ public interface StudentInterface {
      */
     Student register(String studentName, String studentEmailId, String studentPassword, String studentPhoneNo);
 
-    String registerForSemester(String studentId);
-
+    /**
+     * method getting all the grades
+     *
+     * @return list of grades
+     */
     List<Grade> getGrades();
 
-    void getStudent();
+    /**
+     * method for getting student by emailid
+     */
+    void getStudentByEmailId();
 }

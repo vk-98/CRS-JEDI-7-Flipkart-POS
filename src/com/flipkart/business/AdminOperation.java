@@ -57,6 +57,7 @@ public class AdminOperation implements AdminInterface {
 
     /**
      * method for approving students admission request.
+     *
      * @param studentId
      * @return isApproved
      */
@@ -97,6 +98,7 @@ public class AdminOperation implements AdminInterface {
 
     /**
      * method for getting all admission requests
+     *
      * @return List of students
      */
     @Override
@@ -106,6 +108,7 @@ public class AdminOperation implements AdminInterface {
 
     /**
      * method for geting all the professors
+     *
      * @return List of Professors
      */
     @Override

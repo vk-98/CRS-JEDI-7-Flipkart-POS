@@ -1,9 +1,12 @@
 package com.flipkart.application;
 
+import com.flipkart.bean.OptedCourse;
 import com.flipkart.business.SemesterRegistrationInterface;
 import com.flipkart.business.SemesterRegistrationOperation;
 import org.apache.log4j.Logger;
 
+import java.util.Formatter;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -62,17 +65,22 @@ public class SemesterClient {
 
     /**
      * method for adding course
+     *
      * @param isPrimary
      */
     private void handleAddCourse(int isPrimary) {
-        if(isPrimary == 1) {
+        boolean isCourseAdded;
+        if (isPrimary == 1) {
             System.out.print("Enter primary courseID: ");
             int courseId = sc.nextInt();
-            semesterRegistrationInterface.addCourse(courseId, 1);
-        }else {
+            isCourseAdded = semesterRegistrationInterface.addCourse(courseId, 1);
+        } else {
             System.out.println("Enter secondary courseID: ");
             int courseId = sc.nextInt();
-            semesterRegistrationInterface.addCourse(courseId, 0);
+            isCourseAdded = semesterRegistrationInterface.addCourse(courseId, 0);
+        }
+        if (isCourseAdded) {
+            logger.info("Successfully added course");
         }
     }
 
@@ -80,9 +88,12 @@ public class SemesterClient {
      * method for dropping course
      */
     private void handleDropCourse() {
-        System.out.println("Enter courseID to be dropped: ");
+        System.out.print("Enter courseID to be dropped: ");
         int courseId = sc.nextInt();
-        semesterRegistrationInterface.dropCourse(courseId);
+        boolean isCourseDropped = semesterRegistrationInterface.dropCourse(courseId);
+        if (isCourseDropped) {
+            logger.info("Course Dropped Successfully");
+        }
     }
 
     /**
@@ -104,14 +115,39 @@ public class SemesterClient {
      * method for displaying selected courses by the student.
      */
     private void handleShowSelectedCourses() {
-        semesterRegistrationInterface.getSelectedCourses();
+        List<OptedCourse> courses = semesterRegistrationInterface.getSelectedCourses();
+
+        if (courses == null || courses.size() == 0) {
+            logger.info("### No registered courses to show");
+            return;
+        }
+        System.out.println("** Registered courses **");
+
+        Formatter fmt = new Formatter();
+        fmt.format("%20s %20s\n", "CourseId", "IsPrimary");
+        for (OptedCourse course : courses) {
+            fmt.format("%20s %20s\n", course.getCourseId(), course.isPrimary());
+        }
+        System.out.println(fmt);
     }
 
     /**
      * method for displaying registered courses for the semester.
      */
     private void handleShowRegisteredCourses() {
-        semesterRegistrationInterface.getRegisteredCourses();
+        List<OptedCourse> courses = semesterRegistrationInterface.getRegisteredCourses();
+
+        if (courses == null || courses.size() == 0) {
+            logger.info("### No registered courses to show");
+            return;
+        }
+        System.out.println("** Registered courses **");
+
+        Formatter fmt = new Formatter();
+        fmt.format("%20s %20s\n", "CourseId", "IsPrimary");
+        for (OptedCourse course : courses) {
+            fmt.format("%20s %20s\n", course.getCourseId(), course.isPrimary());
+        }
     }
 
     /**

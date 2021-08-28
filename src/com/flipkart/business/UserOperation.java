@@ -18,6 +18,7 @@ public class UserOperation implements UserInterface {
 
     /**
      * method for validating user with email and password
+     *
      * @param emailId
      * @param password
      * @return isAutheniticated
@@ -41,6 +42,7 @@ public class UserOperation implements UserInterface {
 
     /**
      * method for logging out the user.
+     *
      * @return isUserLoggedOut
      */
     public boolean logout() {

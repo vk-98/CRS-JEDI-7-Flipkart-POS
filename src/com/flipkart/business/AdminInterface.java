@@ -12,6 +12,7 @@ import java.util.List;
 public interface AdminInterface {
     /**
      * method for adding course into the catalogue
+     *
      * @param courseName
      * @param courseDescription
      * @param courseFee
@@ -21,6 +22,7 @@ public interface AdminInterface {
 
     /**
      * method for removing course
+     *
      * @param courseId
      * @return isCourseRemoved
      */
@@ -28,6 +30,7 @@ public interface AdminInterface {
 
     /**
      * method for approving students admission request.
+     *
      * @param studentId
      * @return
      */
@@ -35,6 +38,7 @@ public interface AdminInterface {
 
     /**
      * method for adding professor
+     *
      * @param name
      * @param emailId
      * @param password
@@ -47,14 +51,15 @@ public interface AdminInterface {
 
     /**
      * method for getting all admission requests
+     *
      * @return List of students
      */
     List<Student> getAdmissionRequests();
 
     /**
      * method for geting all the professors
+     *
      * @return List of Professors
      */
     List<Professor> getProfessors();
-
 }

@@ -6,13 +6,9 @@ import com.flipkart.business.StudentOperation;
 import com.flipkart.business.UserInterface;
 import com.flipkart.business.UserOperation;
 import com.flipkart.constants.Roles;
-import com.flipkart.exceptions.CourseCountException;
-import com.flipkart.exceptions.NoRegisteredCourseException;
-import com.flipkart.exceptions.SeatNotAvailableException;
-import com.flipkart.exceptions.StudentNotRegisteredException;
+
 import org.apache.log4j.Logger;
 
-import java.sql.SQLException;
 import java.util.Scanner;
 
 /**
@@ -29,7 +25,7 @@ public class CRSApplicationClient {
     static StudentInterface studentInterface = new StudentOperation();
     static UserInterface userInterface = new UserOperation();
 
-    public static void main(String[] args) throws SQLException, StudentNotRegisteredException, CourseCountException, NoRegisteredCourseException, SeatNotAvailableException {
+    public static void main(String[] args) {
         System.out.println("#######################################################################################");
         System.out.println("#------------------------Welcome to Course Registration System------------------------#");
         System.out.println("#######################################################################################");
@@ -56,9 +52,7 @@ public class CRSApplicationClient {
                 default:
                     logger.warn("Invalid User Input");
             }
-
         }
-
     }
 
     /**

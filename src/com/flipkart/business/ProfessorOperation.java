@@ -53,7 +53,7 @@ public class ProfessorOperation implements ProfessorInterface {
                 return false;
             }
             return professorDaoInterface.addGrade(studentId, courseId, grade);
-        }catch (CourseNotSelectedExcpetion e) {
+        } catch (CourseNotSelectedExcpetion e) {
             logger.info(e.getMessage());
         }
         return false;
